@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
 <metadata>
-  <version>33</version>
+  <version>35</version>
   <dependencies>
     <dependency>profile-isaw.theme:default</dependency>
     <dependency>profile-isaw.facultycv:default</dependency>

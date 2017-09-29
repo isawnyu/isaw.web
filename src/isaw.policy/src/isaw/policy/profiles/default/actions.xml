@@ -236,6 +236,8 @@
    <property name="visible">True</property>
   </object>
   <object name="login" insert-after="plone_setup" meta_type="CMF Action" i18n:domain="plone">
+   <property
+      name="url_expr">string:${globals_view/navigationRootUrl}/loggedin</property>
    <property name="visible">True</property>
   </object>
   <object name="logout" insert-after="login" meta_type="CMF Action" i18n:domain="plone">

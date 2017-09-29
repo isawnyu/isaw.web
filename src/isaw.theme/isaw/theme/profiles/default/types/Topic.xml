@@ -13,6 +13,7 @@
         <element value="exhibition-checklist"/>
         <element value="exhibition-highlights"/>
         <element value="exhibition-listing"/>
+        <element value="libcollection-listing"/>
     </property>
     <property name="global_allow">False</property>
 </object>

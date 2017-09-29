@@ -9,8 +9,8 @@
       type="zope.publisher.interfaces.browser.IBrowserSkinType"
       name="NYU ISAW Theme"
       />
-  
-  <!-- For overriding templates, add z3c.jbot to the base.cfg to use -->    
+
+  <!-- For overriding templates, add z3c.jbot to the base.cfg to use -->
   <include package="z3c.jbot" file="meta.zcml" />
 
   <!-- Forms package for events request etc -->
@@ -19,7 +19,7 @@
   <browser:templateOverrides
       directory="template-overrides"
       layer=".interfaces.IThemeSpecific" />
-  
+
   <!-- Utils View -->
   <browser:page
      name="utils_view"
@@ -27,7 +27,7 @@
      class=".utilsview.UtilsView"
      permission="zope.Public"
      allowed_interface=".interfaces.IUtilsView"
-     /> 
+     />
 
   <!-- Tiled listing view -->
   <browser:page
@@ -353,5 +353,46 @@
     layer=".interfaces.IThemeSpecific"
     template="templates/libcollection.pt"
     />
+
+  <browser:page
+    name="isaw-users.json"
+    for="*"
+    permission="cmf.ModifyPortalContent"
+    layer=".interfaces.IThemeSpecific"
+    class=".json_api.UsersVocabularyView"
+    />
+
+  <!-- Library Collection listing view -->
+  <browser:page
+    name="libcollection-listing"
+    for="*"
+    permission="zope2.View"
+    layer=".interfaces.IThemeSpecific"
+    template="templates/libcollection_listing.pt"
+    />
+
+    <browser:menuItem
+        for="Products.ATContentTypes.interface.IATFolder"
+        menu="plone_displayviews"
+        title="Box Listing"
+        action="@@libcollection-listing"
+        description="List folder contents in a responsive grid of linked boxes."
+        />
+
+    <browser:menuItem
+        for="Products.ATContentTypes.interface.IATTopic"
+        menu="plone_displayviews"
+        title="Box Listing"
+        action="@@libcollection-listing"
+        description="List folder contents in a responsive grid of linked boxes."
+        />
+
+    <browser:menuItem
+        for="plone.app.collection.interfaces.ICollection"
+        menu="plone_displayviews"
+        title="Box Listing"
+        action="@@libcollection-listing"
+        description="List folder contents in a responsive grid of linked boxes."
+        />
 
 </configure>

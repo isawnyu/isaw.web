@@ -23,7 +23,9 @@ class PublicationView(BibItemView):
         return ', '.join(members)
 
     def _get_members(self, member_list):
+        profile_view = self.context.restrictedTraverse('@@member_profile')
         mt = getToolByName(self.context, 'portal_membership')
+        ut = getToolByName(self.context, 'portal_url')
         members = []
         for author in member_list:
             author = author.strip()
@@ -31,8 +33,13 @@ class PublicationView(BibItemView):
                 continue
             info = mt.getMemberInfo(author)
             if info:
-                members.append('<a href="%s">%s</a>' % (info.get('home_page'),
-                               info.get('fullname', author)))
+                fullname = info.get('fullname', author)
+                profile = profile_view.profile_for(author)
+                if profile:
+                    url = profile['url']
+                else:
+                    url = '%s/search?SearchableText=%s' % (ut(), fullname)
+                members.append('<a href="%s">%s</a>' % (url, fullname))
             else:
                 members.append(author)
         return members

@@ -14,5 +14,6 @@
         <element value="exhibition-checklist"/>
         <element value="exhibition-highlights"/>
         <element value="exhibition-listing"/>
+        <element value="libcollection-listing"/>
     </property>
 </object>

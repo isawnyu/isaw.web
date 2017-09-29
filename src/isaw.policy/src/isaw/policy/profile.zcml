@@ -295,8 +295,8 @@
 
   <genericsetup:upgradeDepends
       sortkey="10"
-      source="29"
-      destination="30"
+      source="30"
+      destination="31"
       title="Refactor Publication Type"
       description=""
       profile="isaw.policy:default"
@@ -305,8 +305,8 @@
 
   <genericsetup:upgradeDepends
       sortkey="10"
-      source="30"
-      destination="31"
+      source="31"
+      destination="32"
       title="Add Publication Type View"
       description=""
       profile="isaw.policy:default"
@@ -314,9 +314,9 @@
       />
 
   <genericsetup:upgradeDepends
-      sortkey="11"
-      source="30"
-      destination="31"
+      sortkey="10"
+      source="32"
+      destination="33"
       title="New ProfileReference memberdata property"
       description=""
       profile="isaw.policy:default"
@@ -325,8 +325,8 @@
 
   <genericsetup:upgradeDepends
       sortkey="11"
-      source="31"
-      destination="32"
+      source="33"
+      destination="34"
       title="Add Library Collection Type"
       description=""
       profile="isaw.policy:default"
@@ -335,8 +335,8 @@
 
   <genericsetup:upgradeDepends
       sortkey="11"
-      source="32"
-      destination="33"
+      source="34"
+      destination="35"
       title="Add Library Collection view"
       description=""
       profile="isaw.policy:default"
