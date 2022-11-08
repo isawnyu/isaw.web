@@ -341,12 +341,22 @@
 
   <genericsetup:upgradeDepends
       sortkey="10"
-      source="33"
+      source="32"
       destination="33"
       title="Update login action"
       description=""
       profile="isaw.theme:default"
       import_steps="actions"
+      />
+
+  <genericsetup:upgradeDepends
+      sortkey="10"
+      source="33"
+      destination="34"
+      title="simple tiled listing view"
+      description=""
+      profile="isaw.theme:default"
+      import_steps="typeinfo"
       />
 
 </configure>

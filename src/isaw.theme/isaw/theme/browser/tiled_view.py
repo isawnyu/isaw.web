@@ -101,8 +101,12 @@ class TiledListingView(BrowserView, TileDetailsMixin):
         self.page = int(self.request.get('page', 1))
 
     def _query(self, query=None, exclude=None, b_start=None, b_size=None):
+        batch = True
         if b_size is None:
             b_size = self.batch_size
+        elif b_size == 0:
+            b_size = None
+            batch = False
         if b_start is None:
             b_start = (getattr(self, 'page', 1) - 1) * b_size
 
@@ -122,14 +126,14 @@ class TiledListingView(BrowserView, TileDetailsMixin):
             query['b_start'] = b_start
             query['b_size'] = b_size
             items = self.context.getFolderContents(contentFilter=query,
-                                                   batch=True, b_size=b_size)
+                                                   batch=batch, b_size=b_size)
         elif self.context.portal_type == 'Topic':
             if b_start and not self.request.get('b_start'):
                 self.request['b_start'] = b_start
-            items = self.context.queryCatalog(self.request, True, b_size,
+            items = self.context.queryCatalog(self.request, batch, b_size,
                                               **query)
         elif self.context.portal_type == 'Collection':
-            items = self.context.results(True, b_start, b_size,
+            items = self.context.results(batch, b_start, b_size,
                                          custom_query=query)
         else:
             items = []
@@ -154,6 +158,14 @@ class TiledListingView(BrowserView, TileDetailsMixin):
         if len(items) > 0:
             featured = items[0]
         return featured
+
+
+class SimpleTiledListingView(TiledListingView):
+
+    def listings(self):
+        """get a page of listings"""
+        return self._query(exclude=self.featured_item(), b_start=0,
+                           b_size=0)
 
 
 class FeaturedItemViewlet(base.ViewletBase, TileDetailsMixin):

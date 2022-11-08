@@ -91,6 +91,39 @@
         template="templates/tiled_list_items.pt"
         />
 
+  <browser:page
+    name="simple-tiled-listing"
+    for="*"
+    permission="zope2.View"
+    class=".tiled_view.SimpleTiledListingView"
+    layer=".interfaces.IThemeSpecific"
+    template="templates/simple_tiled_view.pt"
+    />
+
+    <browser:menuItem
+        for="Products.ATContentTypes.interface.IATFolder"
+        menu="plone_displayviews"
+        title="Tiled View (alt)"
+        action="@@simple-tiled-listing"
+        description="List folder contents in a 3x3 grid of tiles"
+        />
+
+    <browser:menuItem
+        for="Products.ATContentTypes.interface.IATTopic"
+        menu="plone_displayviews"
+        title="Tiled View (alt)"
+        action="@@simple-tiled-listing"
+        description="List folder contents in a 3x3 grid of tiles"
+        />
+
+    <browser:menuItem
+        for="plone.app.collection.interfaces.ICollection"
+        menu="plone_displayviews"
+        title="Tiled View (alt)"
+        action="@@simple-tiled-listing"
+        description="List folder contents in a 3x3 grid of tiles"
+        />
+
   <!-- Event listing view -->
   <browser:page
     name="event-listing"
