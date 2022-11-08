@@ -20,7 +20,7 @@
   <h1 tal:content="context/Title|string:News">News</h1>
   <tal:block tal:define="items view/listings">
     <a name="listing-top"></a>
-    <ul class="news"
+    <ul class="news simple"
         tal:define="items view/listings">
      <tal:block tal:repeat="item items">
       <li tal:define="item_url item/getURL;

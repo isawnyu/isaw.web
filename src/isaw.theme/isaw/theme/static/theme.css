@@ -616,7 +616,7 @@ span.captioned, span.captioned * {
 #portal-columns button.view-more:hover:after, #content button.view-more:hover:after {opacity:0; visibility:hidden; }
 
 /* Simple Tiled Listing */
-.template-simple-tiled-listing #content ul.news {
+#content ul.news.simple {
     display: flex;
     flex-wrap: wrap;
     justify-content: flex-start;
@@ -624,7 +624,7 @@ span.captioned, span.captioned * {
     column-gap: 2%;
     row-gap: 20px;
 }
-.template-simple-tiled-listing #content ul.news li {
+#content ul.news.simple li {
     float: none;
     clear: none;
     width: auto;
@@ -632,13 +632,16 @@ span.captioned, span.captioned * {
     flex: 0 1 32%;
     margin: 0;
 }
+#content ul.news.simple li:active {
+    background-color: white;
+}
 
 @media screen and (max-width:767px) {
-    .template-simple-tiled-listing #content ul.news li {
+    #content ul.news.simple li {
         flex: 0 0 48%;
     }
 }
-.template-simple-tiled-listing #content a.TileLink, .template-simple-tiled-listing #content a.TileLink:link, .template-simple-tiled-listing #content a.TileLink:visited {
+#content ul.simple a.TileLink, #content ul.simple a.TileLink:link, #content ul.simple a.TileLink:visited {
     display: block;
     padding: 2px 17px 17px;
     border: 1px solid #66262d;
@@ -647,25 +650,26 @@ span.captioned, span.captioned * {
     background-color: transparent;
     box-sizing: border-box;
     height: 100%;
+    transition: none;
 }
-.template-simple-tiled-listing #content a.TileLink:hover, .template-simple-tiled-listing #content a.TileLink:active {
+#content ul.simple a.TileLink:hover, #content ul.simple a.TileLink:active {
     text-decoration: none;
     color: #000 !important;
     border: 3px solid blue;
     padding: 0 15px 15px;
 }
-.template-simple-tiled-listing #content a.TileLink h2 {
+#content ul.simple  a.TileLink h2 {
     text-decoration-line: underline;
     text-decoration-style: solid;
     text-decoration-color: #66262d;
     text-align: center;
     margin-bottom: 15px;
+    transition: all 0.5s ease;
 }
-
-.template-simple-tiled-listing #content a.TileLink:active h2 {
-    background-color: transparent;
+#content ul.simple a.TileLink:active h2 {
+    background-color: white;
 }
-.template-simple-tiled-listing #content a.TileLink:hover h2 {
+#content ul.simple a.TileLink:hover h2 {
     text-decoration-line: underline;
     text-decoration-style: dashed;
     text-decoration-color: blue;
