@@ -641,24 +641,26 @@ span.captioned, span.captioned * {
         flex: 0 0 48%;
     }
 }
-#content ul.simple a.TileLink, #content ul.simple a.TileLink:link, #content ul.simple a.TileLink:visited {
+#content ul.simple a.TileLink {
     display: block;
     padding: 2px 17px 17px;
-    border: 1px solid #66262d;
-    text-decoration: none;
-    color: #000;
-    background-color: transparent;
     box-sizing: border-box;
     height: 100%;
     transition: none;
 }
-#content ul.simple a.TileLink:hover, #content ul.simple a.TileLink:active, #content ul.simple a.TileLink:focus {
+#content ul.simple a.TileLink, #content ul.simple a.TileLink:link, #content ul.simple a.TileLink:visited {
+    border: 1px solid #66262d;
+    text-decoration: none;
+    color: #000;
+    background-color: transparent;
+}
+body #content ul.news.simple a.TileLink:hover, body #content ul.news.simple a.TileLink:active, body #content ul.news.simple a.TileLink:focus {
     text-decoration: none;
     color: #000 !important;
     border: 3px solid blue;
     padding: 0 15px 15px;
 }
-#content ul.simple  a.TileLink h2 {
+#content ul.simple a.TileLink h2 {
     text-decoration-line: underline;
     text-decoration-style: solid;
     text-decoration-color: #66262d;
@@ -674,6 +676,45 @@ span.captioned, span.captioned * {
     text-decoration-style: dashed;
     text-decoration-color: blue;
     color: blue !important;
+}
+
+/* Simple Summary Listing */
+.template-simple-summary-listing {
+    column-gap: none;
+    justify-content: stretch;
+}
+.template-simple-summary-listing #content ul.news.simple li {
+    flex: 1 1 100%;
+}
+@media screen and (max-width:767px) {
+    .template-simple-summary-listing #content ul.news.simple li {
+        flex: 1 1 100%;
+    }
+}
+.template-simple-summary-listing #content ul.simple a.TileLink {
+    border: none;
+    padding: 3px 18px 18px;
+    display: flex;
+}
+@media screen and (max-width:767px) {
+    .template-simple-summary-listing #content ul.simple a.TileLink {
+        flex-direction: column;
+        justify-content: stretch;
+    }
+}
+.template-simple-summary-listing #content ul.simple a.TileLink h2 {
+    flex: 0 0 30%;
+    text-align: left;
+    padding: 0 20px 0 0;
+}
+@media screen and (max-width:767px) {
+    .template-simple-summary-listing #content ul.simple a.TileLink h2 {
+        flex: 1 1 100%;
+        margin-bottom: 0;
+    }
+}
+.template-simple-summary-listing #content ul.simple a.TileLink .post-excerpt {
+    margin-top: 8px;
 }
 
 /* news item */
