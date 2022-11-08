@@ -652,7 +652,7 @@ span.captioned, span.captioned * {
     height: 100%;
     transition: none;
 }
-#content ul.simple a.TileLink:hover, #content ul.simple a.TileLink:active {
+#content ul.simple a.TileLink:hover, #content ul.simple a.TileLink:active, #content ul.simple a.TileLink:focus {
     text-decoration: none;
     color: #000 !important;
     border: 3px solid blue;
@@ -669,7 +669,7 @@ span.captioned, span.captioned * {
 #content ul.simple a.TileLink:active h2 {
     background-color: white;
 }
-#content ul.simple a.TileLink:hover h2 {
+#content ul.simple a.TileLink:hover h2, #content ul.simple a.TileLink:focus h2 {
     text-decoration-line: underline;
     text-decoration-style: dashed;
     text-decoration-color: blue;
