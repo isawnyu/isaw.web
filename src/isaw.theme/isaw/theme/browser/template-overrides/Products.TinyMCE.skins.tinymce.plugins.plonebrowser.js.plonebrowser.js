@@ -1097,7 +1097,7 @@ BrowserDialog.prototype.displayPanel = function(panel, upload_allowed) {
         jq('#email_panel', document).removeClass('hide');
         // move the common link fileds to appropriate location
         jq('#email_panel', document).append(jq('#common-link-fields', document).removeClass('hide'));
-        jq('#insert-selection', document).removeAttr('disabled');
+        jq('#insert-selection', document).removeAttr('disabled').show().removeAttr("style");
     } else {
         jq('#email_panel', document).addClass('hide');
     }
@@ -1106,7 +1106,7 @@ BrowserDialog.prototype.displayPanel = function(panel, upload_allowed) {
         jq('#anchor_panel', document).removeClass('hide');
         // move the common link fileds to appropriate location
         jq('#anchorlinkcontainer', document).append(jq('#common-link-fields', document).removeClass('hide'));
-        jq('#insert-selection', document).removeAttr('disabled');
+        jq('#insert-selection', document).removeAttr('disabled').show().removeAttr("style");
     } else {
         jq('#anchor_panel', document).addClass('hide');
     }
@@ -1115,8 +1115,7 @@ BrowserDialog.prototype.displayPanel = function(panel, upload_allowed) {
         jq('#external_panel', document).removeClass('hide');
         // move the common link fileds to appropriate location
         jq('#external-column', document).append(jq('#common-link-fields', document).removeClass('hide'));
-        jq('#insert-selection', document).show();
-        jq('#insert-selection', document).removeAttr('disabled');
+        jq('#insert-selection', document).show().removeAttr("style").removeAttr('disabled');
     } else {
         jq('#external_panel', document).addClass('hide');
     }
@@ -1150,8 +1149,7 @@ BrowserDialog.prototype.displayPanel = function(panel, upload_allowed) {
         if( jq('#internal_link:visible', document).length > 0) {
             jq('#details-fields', document).append(jq('#common-link-fields', document).removeClass('hide'));
         }
-        jq('#insert-selection', document).removeAttr('disabled');
-        jq('#insert-selection', document).show();
+        jq('#insert-selection', document).removeAttr('disabled').show().removeAttr("style");
     } else {
         jq('#details_panel', document).addClass('hide');
     }
@@ -1165,7 +1163,7 @@ BrowserDialog.prototype.displayPanel = function(panel, upload_allowed) {
     // handle external image
     if (panel === "externalimage") {
         jq('#externalimage_panel', document).removeClass('hide');
-        jq('#insert-selection', document).removeAttr('disabled');
+        jq('#insert-selection', document).removeAttr('disabled').show().removeAttr("style");
         jq('#imagetitle', document).parents('.field').after(jq('#classes', document).parents('.field'));
     } else {
         jq('#externalimage_panel', document).addClass('hide');
