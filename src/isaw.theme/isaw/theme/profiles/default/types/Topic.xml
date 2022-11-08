@@ -7,6 +7,7 @@
         <!-- We retrofit these new views for Folders in portal_types info -->
         <element value="tiled-listing"/>
         <element value="simple-tiled-listing"/>
+        <element value="simple-summary-listing"/>
         <element value="event-listing"/>
         <element value="title-listing"/>
         <element value="publication-listing"/>
