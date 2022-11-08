@@ -73,9 +73,10 @@
                                        item_has_leadimage item/hasContentLeadImage;
                                        item_object item/getObject;
                                        item_has_thumb exists:item_object/image_thumb;
+                                       item_has_image_field exists:item_object/Image;
                                    ">
 
-                    <a tal:condition="python:item_type != 'Link' and (item_has_leadimage or item_has_thumb)"
+                    <a tal:condition="python:item_type != 'Link' and (item_has_leadimage or item_has_thumb or item_has_image_field)"
                        tal:attributes="href python:item_type in use_view_action and item_url+'/view' or item_url">
                         <img src="" alt=""
                              tal:condition="item_has_thumb"
@@ -83,6 +84,10 @@
                         <img src="" alt=""
                              tal:condition="item_has_leadimage"
                              tal:replace="structure python:view.tag(item_object, css_class='tileImage')" />
+                        <img alt=""
+                             class="tileImage"
+                             tal:condition="item_has_image_field"
+                             tal:attributes="src string:${item_object/absolute_url}/@@images/Image/thumb" />
                     </a>
 
                     <a class="link-plain"
@@ -157,11 +162,14 @@
                     </tal:newsitem>
                     </div>
 
-                    <p class="tileBody">
+                    <p class="tileBody" tal:define="item_portal_type item/portal_type">
                         <span tal:omit-tag="" tal:condition="not:item_description">
                             &nbsp;
                         </span>
-                        <span class="description" tal:content="item_description">
+                        <span class="description" tal:condition="python: item_portal_type == 'profile'" tal:content="structure item/Titles">
+                            description
+                        </span>
+                        <span class="description" tal:condition="python: item_portal_type != 'profile'" tal:content="item_description">
                             description
                         </span>
                     </p>
