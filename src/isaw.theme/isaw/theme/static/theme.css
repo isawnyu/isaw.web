@@ -1653,3 +1653,13 @@ div.leaflet-control-geosearch.leaflet-control {
 	margin-left: 0 !important;
     }
 }
+
+/* List based portlet customization */
+li.portletItem {
+    display: block;
+    margin-bottom: 15px;
+}
+li.portletItem a.tile {
+    display: block;
+    margin-bottom: 3px;
+}
