@@ -73,7 +73,7 @@
                                        item_has_leadimage item/hasContentLeadImage;
                                        item_object item/getObject;
                                        item_has_thumb exists:item_object/image_thumb;
-                                       item_has_image_field exists:item_object/Image;
+                                       item_has_image_field nocall:item_object/Image|nothing;
                                    ">
 
                     <a tal:condition="python:item_type != 'Link' and (item_has_leadimage or item_has_thumb or item_has_image_field)"
@@ -163,7 +163,7 @@
                     </div>
 
                     <p class="tileBody" tal:define="item_portal_type item/portal_type">
-                        <span tal:omit-tag="" tal:condition="not:item_description">
+                        <span tal:omit-tag="" tal:condition="python: item_portal_type != 'profile' and not item_description">
                             &nbsp;
                         </span>
                         <span class="description" tal:condition="python: item_portal_type == 'profile'" tal:content="structure item/Titles">
