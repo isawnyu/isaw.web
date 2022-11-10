@@ -1542,7 +1542,11 @@ div.leaflet-control-geosearch.leaflet-control {
 #content h2 a:hover, #content h2 a:focus,
 #content h3 a:hover, #content h3 a:focus,
 #content h4 a:hover, #content h4 a:focus,
-#content h5 a:hover, #content h5 a:focus {
+#content h5 a:hover, #content h5 a:focus,
+.portlet.portletCollection a:hover,
+.portlet.portletCollection a:focus,
+.portlet.portletCollection h2 a:hover,
+.portlet.portletCollection h2 a:focus {
     -webkit-text-decoration-line: underline;
             text-decoration-line: underline;
     -webkit-text-decoration-style: dashed;
@@ -1672,11 +1676,11 @@ div.leaflet-control-geosearch.leaflet-control {
 }
 
 /* List based portlet customization */
-li.portletItem {
+ul.portletLinkList li {
     display: block;
-    margin-bottom: 15px;
+    margin-bottom: 28px;
 }
 li.portletItem a.tile {
     display: block;
-    margin-bottom: 3px;
+    margin-bottom: 5px;
 }
