@@ -1677,8 +1677,11 @@ div.leaflet-control-geosearch.leaflet-control {
 
 /* List based portlet customization */
 ul.portletLinkList li {
+    margin-bottom: 36px;
+}
+ul.portletLinkList li {
     display: block;
-    margin-bottom: 28px;
+    margin-bottom: 18px;
 }
 li.portletItem a.tile {
     display: block;
