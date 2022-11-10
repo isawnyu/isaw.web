@@ -200,10 +200,12 @@ class profile(folder.ATFolder):
         results = []
         fullname = self.Title()
         for link in links:
+            parsed = urlparse(link)
+            if parsed.hostname is None:
+                continue
             info = {'link': link, 'text': link}
             results.append(info)
             user = fullname
-            parsed = urlparse(link)
             host = '.'.join(parsed.hostname.split('.')[-2:])
             domain_info = DOMAIN_LINK_MAP.get(host)
             if not domain_info:
