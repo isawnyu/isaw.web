@@ -717,6 +717,23 @@ body #content ul.news.simple a.TileLink:hover, body #content ul.news.simple a.Ti
     margin-top: 8px;
 }
 
+/* Folder summary */
+body.template-folder_summary_view #content h2.tileHeadline:has(+ div + p + p) {
+    /*
+    Remove margin from <h2>s that have two paragraphs following them,
+    i.e. those that have a desription, besides a tileFooter.
+
+    */
+    margin-bottom: 0px;
+}
+body.template-folder_summary_view #content .tileFooter {
+    display: none;
+}
+
+body.template-folder_summary_view #content .tileItem a:has(img) {
+    display: none;
+}
+
 /* news item */
 body.template-newsitem_view #main-column {width: 66%;}
 body.template-newsitem_view #right-column {width: 30%; display: block; float: right;}
