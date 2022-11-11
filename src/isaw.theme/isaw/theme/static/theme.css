@@ -718,19 +718,16 @@ body #content ul.news.simple a.TileLink:hover, body #content ul.news.simple a.Ti
 }
 
 /* Folder summary */
-body.template-folder_summary_view #content h2.tileHeadline:has(+ div + p + p) {
-    /*
-    Remove margin from <h2>s that have two paragraphs following them,
-    i.e. those that have a desription, besides a tileFooter.
-
-    */
+body.template-folder_summary_view #content h2 {
+    margin-top: 28px;
     margin-bottom: 0px;
 }
-body.template-folder_summary_view #content .tileFooter {
-    display: none;
+body.template-folder_summary_view #content p.tileBody {
+    margin-bottom: 0px;
 }
 
-body.template-folder_summary_view #content .tileItem a:has(img) {
+body.template-folder_summary_view #content .tileFooter,
+body.template-folder_summary_view #content .tileItem a img {
     display: none;
 }
 
