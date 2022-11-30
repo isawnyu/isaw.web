@@ -17,7 +17,7 @@
         <h2 tal:condition="full" tal:content="full">FULL</h2>
         <h2 tal:condition="not:full" tal:content="short">SHORT</h2>
       </div>
-      <dl class="ExhibitObjectTitleDetail" tal:condition="python:detail != full"><dt>Description:</dt><dd tal:content="context/title_detail">Title Detail</dd></dl>
+      <dl class="ExhibitObjectTitleDetail" tal:condition="context/title_detail|nothing"><dt>Description:</dt><dd tal:content="context/title_detail">Title Detail</dd></dl>
       <dl class="ExhibitObjectArtist" tal:condition="context/artist|nothing"><dt>Artist:</dt><dd tal:content="context/artist">Artist</dd></dl>
       <dl class="ExhibitObjectAuthor" tal:condition="context/author|nothing"><dt>Author:</dt><dd tal:content="context/author">Author</dd></dl>
       <dl class="ExhibitObjectCopyist" tal:condition="context/copyist|nothing"><dt>Copyist:</dt><dd tal:content="context/copyist">Copyist</dd></dl>
