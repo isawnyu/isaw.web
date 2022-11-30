@@ -717,6 +717,20 @@ body #content ul.news.simple a.TileLink:hover, body #content ul.news.simple a.Ti
     margin-top: 8px;
 }
 
+/* Folder summary */
+body.template-folder_summary_view #content h2 {
+    margin-top: 28px;
+    margin-bottom: 0px;
+}
+body.template-folder_summary_view #content p.tileBody {
+    margin-bottom: 0px;
+}
+
+body.template-folder_summary_view #content .tileFooter,
+body.template-folder_summary_view #content .tileItem a img {
+    display: none;
+}
+
 /* news item */
 body.template-newsitem_view #main-column {width: 66%;}
 body.template-newsitem_view #right-column {width: 30%; display: block; float: right;}
