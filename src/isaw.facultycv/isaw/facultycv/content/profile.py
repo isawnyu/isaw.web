@@ -50,6 +50,17 @@ profileSchema = folder.ATFolderSchema.copy() + atapi.Schema((
     ),
 
     atapi.StringField(
+        name='pronouns',
+        widget=atapi.StringWidget(
+            label=u'Pronouns',
+            label_msgid='isaw.facultycv_label_Pronouns',
+            il8n_domain='isaw.facultycv',
+        ),
+        required=False,
+        searchable=False
+    ),
+
+    atapi.StringField(
         name='Phone',
         default_output_type='text/x-html-safe',
         widget=atapi.StringWidget(
