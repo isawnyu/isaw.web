@@ -32,6 +32,7 @@ src/plone.app.users
 src/isaw.bibitems
 src/plone.app.imagecropping
 src/collective.contentleadimage
+src/collective.linkcheck
 src/collective.saml2
 src/dm.zope.saml2
 
@@ -66,6 +67,6 @@ docs/_build/
 # PyBuilder
 target/
 
-# sublime text 
+# sublime text
 *.sublime-*
 op
