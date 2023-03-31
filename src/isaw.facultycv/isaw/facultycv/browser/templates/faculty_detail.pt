@@ -31,7 +31,7 @@
                 <div class="ProfileInfo">
                     <h1 class="ProfileName" tal:content="context/Title">Name</h1>
                     <div class="ProfilePronouns" tal:condition="context/getPronouns|nothing"
-                         tal:content="structure context/getPronouns" />
+                         tal:content="context/getPronouns" />
                     <div class="ProfileTitles" tal:condition="context/getTitles|nothing"
                          tal:content="structure context/getTitles" />
 
