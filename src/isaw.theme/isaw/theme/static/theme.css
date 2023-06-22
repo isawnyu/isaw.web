@@ -1684,3 +1684,6 @@ li.portletItem a.tile {
     display: block;
     margin-bottom: 5px;
 }
+.summary-body-text {
+    margin-top: 28px;
+}

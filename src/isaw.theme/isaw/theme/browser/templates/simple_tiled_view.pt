@@ -18,6 +18,13 @@
                                 getKssClasses nocall:kssClassesView/getKssClassesInlineEditable;
                                 templateId template/getId">
   <h1 tal:content="context/Title|string:News">News</h1>
+
+  <div id="parent-fieldname-text" class="summary-body-text"
+       tal:define="text context/aq_explicit/getText|context/aq_explicit/text/output|string:;"
+       tal:condition="text">
+    <div tal:replace="structure text">The body</div>
+  </div>
+
   <tal:block tal:define="items view/listings">
     <a name="listing-top"></a>
     <ul class="news simple"
