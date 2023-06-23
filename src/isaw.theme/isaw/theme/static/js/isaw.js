@@ -330,7 +330,7 @@ jQuery(function($) {
     var $breadcrumbs = $('#portal-breadcrumbs > span');
     $breadcrumbs.each(function () {
         var $breadcrumb = $(this);
-        var $link = $breadcrumb.find('a');
+        var $link = $breadcrumb.find('a, span#breadcrumbs-current');
         $breadcrumb = $link.length ? $link : $breadcrumb;
         var text = $breadcrumb.text().split(':')[0].trim();
         if (text.length > 50) {

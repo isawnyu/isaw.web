@@ -8,7 +8,7 @@ are here:</span>
     <span id="breadcrumbs-home">
         <a i18n:translate="tabs_home"
            tal:attributes="href view/navigation_root_url">Home</a>
-        <span tal:condition="breadcrumbs" class="breadcrumbSeparator">
+        <span tal:condition="breadcrumbs" class="breadcrumbSeparator" aria-hidden="true">
             <tal:ltr condition="not: is_rtl">/</tal:ltr>
             <tal:rtl condition="is_rtl">\</tal:rtl>
         </span>
@@ -26,14 +26,14 @@ are here:</span>
                tal:content="title">
                 crumb
             </a>
-            <span class="breadcrumbSeparator" tal:condition="not: is_last">
+            <span class="breadcrumbSeparator" aria-hidden="true" tal:condition="not: is_last">
                 <tal:ltr condition="not: is_rtl">/</tal:ltr>
                 <tal:rtl condition="is_rtl">\</tal:rtl>
             </span>
-            <a href="" id="breadcrumbs-current"
+            <span id="breadcrumbs-current"
                   aria-current="page"
                   tal:condition="is_last"
-                  tal:content="title">crumb</a>
+                  tal:content="title">crumb</span>
          </tal:item>
     </span>
 
