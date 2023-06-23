@@ -1,4 +1,4 @@
-<nav id="portal-breadcrumbs" role="breadcrumbs"
+<nav id="portal-breadcrumbs" aria-label="Breadcrumb"
      i18n:domain="plone"
      tal:define="breadcrumbs view/breadcrumbs;
                  is_rtl view/is_rtl">
@@ -30,9 +30,10 @@ are here:</span>
                 <tal:ltr condition="not: is_rtl">/</tal:ltr>
                 <tal:rtl condition="is_rtl">\</tal:rtl>
             </span>
-            <span id="breadcrumbs-current"
+            <a href="" id="breadcrumbs-current"
+                  aria-current="page"
                   tal:condition="is_last"
-                  tal:content="title">crumb</span>
+                  tal:content="title">crumb</a>
          </tal:item>
     </span>
 
