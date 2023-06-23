@@ -60,7 +60,7 @@
     <before css:theme-children="head" content="/html/head/comment()[contains(.,'base')]" />
 
     <replace css:content=".breadcrumbSeparator">
-      <span class="breadcrumbSeparator">&gt;</span>
+      <span class="breadcrumbSeparator" aria-hidden="true">&gt;</span>
     </replace>
 
     <!-- title -->
