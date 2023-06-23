@@ -250,6 +250,14 @@ body[class*="isaw-home"][class*="section"][class*="template-document_view"] #por
     border-color: blue;
 }
 
+#portal-breadcrumbs span a#breadcrumbs-current, #portal-breadcrumbs span a#breadcrumbs-current:hover, #portal-breadcrumbs span a#breadcrumbs-current:focus, #portal-breadcrumbs span a#breadcrumbs-current:visited {
+    color: #fff !important;
+    background: transparent;
+    border: none;
+    cursor: text;
+    pointer-events: none;
+}
+
 .section-graduate-studies #portal-breadcrumbs span,
 .section-visiting-scholars #portal-breadcrumbs span,
 .section-exhibitions #portal-breadcrumbs span,
