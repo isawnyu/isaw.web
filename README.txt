@@ -139,8 +139,23 @@ following shell environment variables before running `buildout`:
 
 This should pull down additional repositories, install python dependencies,
 and in the end create the scripts to run a local development version of the
-ISAW site.  The services (ZEO server and clients) for the site are run by a
-"supervisor" process.  To start supervisor for the first time run:
+ISAW site.
+
+
+Supervisor
+----------
+
+The services (ZEO server and clients) for the site are run by a
+"supervisor" process. On staging and production, supervisor is installed at
+the OS level via Ansible. For local development, it's installed via buildout.
+This will affect exactly how supervisorctl and supervisord commands are invoked.
+For local development, you will use `bin/supervisord` and `bin/supervisorctl`,
+whereas on staging and production you'll invoke the executables from the system
+PATH (and use sudo): `sudo supervisord` and `sudo supervisorctl`.
+
+The example below assume you're working locally.
+
+To start supervisor for the first time run:
 
     bin/supervisord
 
@@ -150,9 +165,17 @@ If you need to stop the supervisor, run:
 
     bin/supervisorctl shutdown
 
+
+Initial Admin User
+------------------
+
 You can create and/or set an Admin user password:
 
     bin/client1 adduser <name> <password>
+
+
+Startup
+-------
 
 To run the local zeo client in development mode, you can start it up in
 foreground mode:
