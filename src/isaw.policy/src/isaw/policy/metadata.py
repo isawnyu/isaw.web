@@ -1,7 +1,14 @@
+from Acquisition import aq_base
 from Acquisition import aq_inner
 
 from plone.app.layout.viewlets import ViewletBase
+from plone.memoize.instance import memoizedproperty
+from Products.CMFPlone.interfaces import IPloneSiteRoot
+from Products.CMFPlone.utils import safe_unicode
+from collective.contentleadimage.config import IMAGE_ALT_FIELD_NAME
 from collective.contentleadimage.config import IMAGE_FIELD_NAME
+from collective.contentleadimage.leadimageprefs import ILeadImagePrefsForm
+from zope.component import getUtility
 
 
 TYPE_DEFAULT = u'article'
@@ -14,7 +21,23 @@ TYPE_MAP = {
 class OpenGraphTagViewlet(ViewletBase):
     """Viewlet which renders opengraph metadata for Facebook, etc."""
 
-    image_field = 'image'
+    @memoizedproperty
+    def has_lead_image(self):
+        portal = getUtility(IPloneSiteRoot)
+        cli_prefs = ILeadImagePrefsForm(portal)
+        if cli_prefs.cli_props is not None:
+            portal_type = getattr(self.context, 'portal_type', None)
+            if portal_type in cli_prefs.allowed_types:
+                return True
+        return False
+
+    @property
+    def image_field(self):
+        if getattr(self.context, 'portal_type', None) == 'profile':
+            return 'Image'
+        if self.has_lead_image:
+            return IMAGE_FIELD_NAME
+        return 'image'
 
     def update(self):
         portal_state = self.context.restrictedTraverse(
@@ -27,6 +50,8 @@ class OpenGraphTagViewlet(ViewletBase):
         self.metatags.extend([(u'og:title', self.title),
                               (u'og:url', self.context.absolute_url()),
                               (u'og:image', self.image_url),
+                              (u'og:image:secure', self.image_url if self.image_url and 'https://' in self.image_url else None),
+                              (u'og:image:alt', self.image_alt),
                               (u'og:site_name', self.sitename),
                               (u'og:description', self.description)])
 
@@ -73,7 +98,7 @@ class OpenGraphTagViewlet(ViewletBase):
                 if tag:
                     self.metatags.append((u'article:tag', tag.decode('utf8')))
 
-    @property
+    @memoizedproperty
     def image_url(self):
         """Return an image url for the context in that order
         - context image field
@@ -81,13 +106,25 @@ class OpenGraphTagViewlet(ViewletBase):
         - portal logo
         """
         context = aq_inner(self.context)
-        obj_url = context.absolute_url()
         image_view = context.restrictedTraverse('@@images', None)
         if image_view is not None:
             scale = image_view.scale(fieldname=self.image_field, scale='social')
             if scale is not None:
                 return scale.url
-        return u"{}/isaw_logo.png".format(self.portal.absolute_url())
+        return
+
+    @property
+    def image_alt(self):
+        context = aq_inner(self.context)
+        if self.image_url is None:
+            return
+        if self.has_lead_image:
+            value = context.getField(IMAGE_ALT_FIELD_NAME).get(context)
+        # Exhibitions and publications
+        if getattr(aq_base(context), 'alt', None) is not None:
+            value = context.alt
+        if value:
+            return safe_unicode(value)
 
     @property
     def description(self):
@@ -108,13 +145,3 @@ class OpenGraphTagViewlet(ViewletBase):
         if len(path) > (len(portal_path) + 1):
             section = self.portal.unrestrictedTraverse(path[len(portal_path)])
             return section.Title().decode('utf-8')
-
-
-class LeadImageOGViewlet(OpenGraphTagViewlet):
-
-    image_field = 'leadImage'
-
-
-class ProfileOGViewlet(OpenGraphTagViewlet):
-
-    image_field = 'Image'

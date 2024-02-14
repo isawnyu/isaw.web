@@ -1,1 +1,1 @@
-<tal:metatags repeat="tag view/metatags"><meta property="" content="" tal:attributes="property python:tag[0]; content python:tag[1]"/></tal:metatags>
+<tal:metatags repeat="tag view/metatags"><meta property="" content="" tal:condition="python:tag[1] is not None" tal:attributes="property python:tag[0]; content python:tag[1]"/></tal:metatags>
