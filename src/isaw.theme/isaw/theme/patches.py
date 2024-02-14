@@ -6,6 +6,10 @@ from Products.Archetypes.Field import ImageField
 from Products.PluginIndexes.UUIDIndex.UUIDIndex import UUIDIndex
 from Products.TinyMCE.utility import TinyMCE
 from plone.namedfile.scaling import ImageScale
+from plone.app.imaging.scaling import ImageScaling
+from plone.protect.interfaces import IDisableCSRFProtection
+from zope.interface import alsoProvides
+from zope.globalrequest import getRequest
 
 
 _marker = object()
@@ -144,3 +148,14 @@ def _wcag_named_file_image_tag(self, height=_marker, width=_marker, alt=_marker,
 
 def named_file_image_tag():
     ImageScale.tag =  _wcag_named_file_image_tag
+
+
+def _fixed_image_scale_make(self, info):
+    request = getRequest()
+    alsoProvides(request, IDisableCSRFProtection)
+    return self._orig_make(info)
+
+def image_csrf_fix():
+    if getattr(ImageScaling, '_orig_make', None) is None:
+        ImageScaling._orig_make = ImageScaling.make
+        ImageScaling.make = _fixed_image_scale_make
