@@ -115,6 +115,7 @@ class OpenGraphTagViewlet(ViewletBase):
 
     @property
     def image_alt(self):
+        value = None
         context = aq_inner(self.context)
         if self.image_url is None:
             return
