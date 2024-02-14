@@ -58,7 +58,7 @@ the following commands unless specified)::
     cd /srv/isaw.web
     sudo -u plone git pull
     sudo -u bin/buildout -c production.cfg
-    bin/supervisorctl restart client1 client2 client3
+    sudo supervisorctl restart client1 client2 client3
 
 In production it may make sense to switch to a new tag instead of doing a `pull`::
 

@@ -14,6 +14,8 @@ TYPE_MAP = {
 class OpenGraphTagViewlet(ViewletBase):
     """Viewlet which renders opengraph metadata for Facebook, etc."""
 
+    image_field = 'image'
+
     def update(self):
         portal_state = self.context.restrictedTraverse(
             '@@plone_portal_state')
@@ -80,15 +82,12 @@ class OpenGraphTagViewlet(ViewletBase):
         """
         context = aq_inner(self.context)
         obj_url = context.absolute_url()
-        if hasattr(context, 'getField'):
-            field = self.context.getField('image')
-            if not field:
-                field = context.getField(IMAGE_FIELD_NAME)
-
-            if field and field.get_size(context) > 0:
-                return u'%s/%s_%s' % (obj_url, field.getName(), 'thumb')
-
-        return u"%s/isaw_logo.png" % self.portal.absolute_url()
+        image_view = context.restrictedTraverse('@@images', None)
+        if image_view is not None:
+            scale = image_view.scale(fieldname=self.image_field, scale='social')
+            if scale is not None:
+                return scale.url
+        return u"{}/isaw_logo.png".format(self.portal.absolute_url())
 
     @property
     def description(self):
@@ -109,3 +108,13 @@ class OpenGraphTagViewlet(ViewletBase):
         if len(path) > (len(portal_path) + 1):
             section = self.portal.unrestrictedTraverse(path[len(portal_path)])
             return section.Title().decode('utf-8')
+
+
+class LeadImageOGViewlet(OpenGraphTagViewlet):
+
+    image_field = 'leadImage'
+
+
+class ProfileOGViewlet(OpenGraphTagViewlet):
+
+    image_field = 'Image'

@@ -41,6 +41,26 @@
       permission="zope2.View"
       />
 
+  <browser:viewlet
+      name="isaw.opengraph.metadata"
+      template="metadata.pt"
+      for="collective.contentleadimage.interfaces.ILeadImageable"
+      manager="plone.app.layout.viewlets.interfaces.IHtmlHeadLinks"
+      class=".metadata.LeadImageOGViewlet"
+      layer=".interfaces.IISAWPolicyLayer"
+      permission="zope2.View"
+      />
+
+  <browser:viewlet
+      name="isaw.opengraph.metadata"
+      template="metadata.pt"
+      for="isaw.facultycv.interfaces.Iprofile"
+      manager="plone.app.layout.viewlets.interfaces.IHtmlHeadLinks"
+      class=".metadata.ProfileOGViewlet"
+      layer=".interfaces.IISAWPolicyLayer"
+      permission="zope2.View"
+      />
+
   <adapter
       factory=".purging.ImagePurgePaths"
       name="isaw.policy.baseimage" />

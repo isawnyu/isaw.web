@@ -74,6 +74,7 @@
     <property name="allowed_sizes" type="lines">
       <element value="header 1400:500"/>
       <element value="slider 1400:870"/>
+      <element value="social 1200:630"/>
       <element value="large 768:768"/>
       <element value="blogtile 370:170"/>
       <element value="preview 325:325"/>
