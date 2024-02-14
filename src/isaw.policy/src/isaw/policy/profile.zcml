@@ -411,10 +411,9 @@
       />
 
   <genericsetup:upgradeDepends
-      sortkey="11"
       source="39"
       destination="40"
-      title="Remove PressRoom"
+      title="Add social image scale"
       description=""
       profile="isaw.policy:default"
       import_steps="propertiestool"
