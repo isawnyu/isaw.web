@@ -8,11 +8,9 @@ the method on the view.
 """
 from DateTime import DateTime
 from plone.app.layout.viewlets import common as base
-from plone.protect.interfaces import IDisableCSRFProtection
 from Products.CMFCore.utils import getToolByName
 from Products.Five.browser import BrowserView
 from Products.Five.browser.pagetemplatefile import ViewPageTemplateFile
-from zope.interface import alsoProvides
 from zope.interface import implements
 from plone.memoize import view
 
@@ -85,9 +83,6 @@ class TileDetailsMixin(object):
             except AttributeError:
                 scale = None
             if scale is not None:
-                # If this scale was created within the past second disable CSRF protection
-                if abs(scale.bobobase_modification_time() - self.context.ZopeTime()) < 1.0/(24 * 60 * 60):
-                    alsoProvides(self.request, IDisableCSRFProtection)
                 tag = scale.tag(alt=title, title=title)
                 break
         return tag
