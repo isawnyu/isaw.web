@@ -3,12 +3,15 @@ from Acquisition import aq_inner
 
 from plone.app.layout.viewlets import ViewletBase
 from plone.memoize.instance import memoizedproperty
+from plone.protect.interfaces import IDisableCSRFProtection
+from Products.ATContentTypes.interfaces import IATNewsItem
 from Products.CMFPlone.interfaces import IPloneSiteRoot
 from Products.CMFPlone.utils import safe_unicode
 from collective.contentleadimage.config import IMAGE_ALT_FIELD_NAME
 from collective.contentleadimage.config import IMAGE_FIELD_NAME
 from collective.contentleadimage.leadimageprefs import ILeadImagePrefsForm
 from zope.component import getUtility
+from zope.interface import alsoProvides
 
 
 TYPE_DEFAULT = u'article'
@@ -110,6 +113,9 @@ class OpenGraphTagViewlet(ViewletBase):
         if image_view is not None:
             scale = image_view.scale(fieldname=self.image_field, scale='social')
             if scale is not None:
+                # If this scale was created within the past second disable CSRF protection
+                if abs(scale.bobobase_modification_time() - context.ZopeTime()) < 1.0/(24 * 60 * 60):
+                    alsoProvides(self.request, IDisableCSRFProtection)
                 return scale.url
         return
 
@@ -121,8 +127,13 @@ class OpenGraphTagViewlet(ViewletBase):
             return
         if self.has_lead_image:
             value = context.getField(IMAGE_ALT_FIELD_NAME).get(context)
-        # Exhibitions and publications
-        if getattr(aq_base(context), 'alt', None) is not None:
+        # News Items
+        elif IATNewsItem.providedBy(context):
+            field = context.getField('image_alt')
+            if field:
+                value = field.get(context)
+        # Exhibitions and Publications
+        elif getattr(aq_base(context), 'alt', None) is not None:
             value = context.alt
         if value:
             return safe_unicode(value)
