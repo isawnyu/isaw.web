@@ -114,13 +114,13 @@ def migrate_default_types():
 
     migration.migrate_blobfiles(portal)
     migration.migrate_blobimages(portal)
-    transaction.commit()
+
     migration.migrate_documents(portal)
     migration.migrate_collections(portal)
     migration.migrate_events(portal)
     migration.migrate_links(portal)
     topics.migrate_topics(portal)
-
+    logger.info('Starting a catalog reindex...')
     catalog.clearFindAndRebuild()
     transaction.commit()
     # we must commit and reindex before migrating folders (God knows why)
@@ -143,7 +143,7 @@ same_name_fields = [
 
 
 def enable_ILeadeImageBehavior():
-    types_to_enable = ['Document', 'Event', 'Folder', 'File']
+    types_to_enable = ['Document', 'Event', 'Folder', 'File', 'Collection', 'Topic']
     behavior = "plone.app.contenttypes.behaviors.leadimage.ILeadImage"
     pt_tool = portal.portal_types
     for _type in types_to_enable:
@@ -204,7 +204,7 @@ def update_registry():
 if __name__ == "__main__":
     install_dexterity(portal)
     enable_ILeadeImageBehavior()
-    uninstall_collectiveleadImage()
+
     toggleCachePurging(status='disabled')
     toggleContentRules(status='disabled')
     toggleLinkIntegrity(status='disabled')
@@ -213,6 +213,12 @@ if __name__ == "__main__":
 
     migrate_default_types()
     logger.info('End migration default content type')
+
     toggleContentRules(status='enabled')
-    toggleCaching(status='enabled')
+    toggleCachePurging(status='enabled')
     toggleLinkIntegrity(status='enabled')
+
+    uninstall_collectiveleadImage()
+
+    transaction.commit()
+
