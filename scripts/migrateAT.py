@@ -5,18 +5,18 @@ from plone.app.contenttypes.migration import migration
 from plone.app.contenttypes.migration import topics
 from plone.app.contenttypes.migration.field_migrators import FIELDS_MAPPING
 from plone.app.contenttypes.migration.migration import migrateCustomAT
+from plone.dexterity.interfaces import IDexterityFTI
+from plone.registry.interfaces import IRegistry
 from transaction import commit
 from z3c.relationfield.relation import RelationValue
 from zope.component import getUtility
 from zope.component.hooks import setSite
-from zope.component.hooks import setSite
 from zope.intid.interfaces import IIntIds
 import logging
 import transaction
-from plone.dexterity.interfaces import IDexterityFTI
 
 
-portal = app.Plone
+portal = app.isaw
 
 logging.getLogger().setLevel(logging.INFO)
 for handler in logging.getLogger().handlers:
@@ -33,7 +33,6 @@ setSite(portal)
 
 def fix_registry(context=None):
     """Remove registry-records where the interface is no longer there."""
-    from plone.registry.interfaces import IRegistry
     registry = getUtility(IRegistry)
     keys = [i for i in registry.records.keys()]
     for key in keys:
@@ -113,10 +112,6 @@ def migrate_default_types():
     catalog = portal.portal_catalog
     patch_ATEvent()
 
-    (link_integrity,
-     queue_indexing,
-     patch_searchabletext) = migration.patch_before_migration(patch_searchabletext=True)
-
     migration.migrate_blobfiles(portal)
     migration.migrate_blobimages(portal)
     migration.migrate_documents(portal)
@@ -167,7 +162,28 @@ def enable_ILeadeImageBehavior():
 
 def uninstall_collectiveleadImage():
     # XXX
+
+    # remove OLD c.leadeimage adapter from portal
+    # uninstall c.leadeimage
+    pqi = portal.portal_quickinstaller
     pass
+
+def toggleContentRules(status='disabled'):
+    from plone.contentrules.engine.interfaces import IRuleStorage
+
+    crules = getUtility(IRuleStorage)
+    crules.active = False if status == 'disabled' else True
+    transaction.commit()
+
+def toggleCachePurging(status='disabled'):
+    from plone.cachepurging.interfaces import ICachePurgingSettings
+
+    registry = getUtility(IRegistry)
+    settings = registry.forInterface(ICachePurgingSettings, check=False)
+
+    settings.enabled = False if status == 'disabled' else True
+
+    transaction.commit()
 
 def update_registry():
     default_profile = 'SOME PROFILE'
@@ -179,7 +195,12 @@ if __name__ == "__main__":
     install_dexterity(portal)
     enable_ILeadeImageBehavior()
     uninstall_collectiveleadImage()
+    toggleCachePurging(status='disabled')
+    toggleContentRules(status='disabled')
 
     # update_registry()
+
     migrate_default_types()
     logger.info('End migration default content type')
+    toggleContentRules(status='enabled')
+    toggleCaching(status='enabled')
