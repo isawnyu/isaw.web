@@ -142,7 +142,7 @@ same_name_fields = [
 
 
 def enable_ILeadeImageBehavior():
-    types_to_enable = ['Page', 'Event', 'Folder']
+    types_to_enable = ['Page', 'Event', 'Folder', 'File']
     behavior = "plone.app.contenttypes.behaviors.leadimage.ILeadImage"
     pt_tool = portal.portal_types
     for _type in types_to_enable:
@@ -175,6 +175,15 @@ def toggleContentRules(status='disabled'):
     crules.active = False if status == 'disabled' else True
     transaction.commit()
 
+def toggleLinkIntegrity(status='disabled'):
+    site_properties = portal.portal_properties.site_properties
+    value = False if status == 'disabled' else True
+    props = {'enable_link_integrity_checks': value}
+
+    site_properties.manage_changeProperties(**props)
+
+    transaction.commit()
+
 def toggleCachePurging(status='disabled'):
     from plone.cachepurging.interfaces import ICachePurgingSettings
 
@@ -197,6 +206,7 @@ if __name__ == "__main__":
     uninstall_collectiveleadImage()
     toggleCachePurging(status='disabled')
     toggleContentRules(status='disabled')
+    toggleLinkIntegrity(status='disabled')
 
     # update_registry()
 
@@ -204,3 +214,4 @@ if __name__ == "__main__":
     logger.info('End migration default content type')
     toggleContentRules(status='enabled')
     toggleCaching(status='enabled')
+    toggleLinkIntegrity(status='enabled')
