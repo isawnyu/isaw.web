@@ -114,6 +114,7 @@ def migrate_default_types():
 
     migration.migrate_blobfiles(portal)
     migration.migrate_blobimages(portal)
+    transaction.commit()
     migration.migrate_documents(portal)
     migration.migrate_collections(portal)
     migration.migrate_events(portal)
@@ -142,7 +143,7 @@ same_name_fields = [
 
 
 def enable_ILeadeImageBehavior():
-    types_to_enable = ['Page', 'Event', 'Folder', 'File']
+    types_to_enable = ['Document', 'Event', 'Folder', 'File']
     behavior = "plone.app.contenttypes.behaviors.leadimage.ILeadImage"
     pt_tool = portal.portal_types
     for _type in types_to_enable:
