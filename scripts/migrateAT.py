@@ -108,8 +108,84 @@ def install_dexterity(portal):
 
     transaction.commit()
 
+
+def migrate_folders(portal):
+
+    weirdeness = [
+        '/isaw/research/io-figures/images/',
+        '/isaw/research/io-figures/objects/'
+    ]
+
+    folders = [
+      '/isaw/about',
+      '/isaw/academics',
+      '/isaw/etaw/',
+      '/isaw/events/',
+      '/isaw/exhibitions/',
+      '/isaw/graduate-studies/',
+      '/isaw/guide/',
+      '/isaw/help/',
+      '/isaw/home-slides/',
+      '/isaw/images/',
+      '/isaw/jobs/',
+      '/isaw/library/',
+      '/isaw/members/',
+      '/isaw/modify/',
+      '/isaw/news/',
+      '/isaw/people/',
+      '/isaw/publications',
+      '/isaw/rsvp',
+      '/isaw/skunkworks',
+      '/isaw/support-isaw',
+      '/isaw/visiting-scholars',
+      '/isaw/research/io-figures/images/',
+      '/isaw/research',
+    ]
+
+
+    for w in weirdeness:
+        logger.info("migrating weirdness {}".format(w))
+        w = portal.unrestrictedTraverse(w)
+        migrate_wierdness(w)
+        transaction.commit()
+
+    for f in folders:
+        logger.info("migrating {}".format(f))
+        f = portal.unrestrictedTraverse(f)
+        migration.migrate_folders(f)
+        transaction.commit()
+
+
+def migrate_wierdness(folder):
+    # create a backup like container
+    if folder.meta_type != 'ATFolder':
+        return
+
+    parent = folder.aq_parent
+    folder_id = folder.getId()
+    bak_dir_id = folder.getId() + "_bak"
+    bak_dir = api.content.create(container=parent,
+                       type='Folder',
+                       id=bak_dir_id,
+                       title="TEMP for {}".format(bak_dir_id))
+
+    #move all folder contents to back dir
+    for obj in folder.objectValues():
+        api.content.move(source=obj, target=bak_dir)
+
+    # migrate folder
+    migration.migrate_folders(folder)
+    folder =  getattr(parent, folder_id)
+
+    # move back contents into new DX Folder
+    for obj in bak_dir.objectValues():
+        api.content.move(source=obj, target=folder)
+
+    # delete backup dir
+    api.content.delete(obj=bak_dir)
+
+
 def migrate_default_types():
-    catalog = portal.portal_catalog
     patch_ATEvent()
 
     migration.migrate_blobfiles(portal)
@@ -120,18 +196,17 @@ def migrate_default_types():
     migration.migrate_events(portal)
     migration.migrate_links(portal)
     topics.migrate_topics(portal)
+    migration.migrate_newsitems(portal)
     logger.info('Starting a catalog reindex...')
-    catalog.clearFindAndRebuild()
-    transaction.commit()
+    #catalog.clearFindAndRebuild()
     # we must commit and reindex before migrating folders (God knows why)
     # otherwise bad things will happens
 
-    migration.migrate_folders(portal)
-    transaction.commit()
+    #catalog.clearFindAndRebuild()
 
-    catalog.clearFindAndRebuild()
+    migrate_folders(portal)
 
-    commit()
+
 
     unpatch_ATEvent()
 
@@ -209,7 +284,7 @@ if __name__ == "__main__":
     toggleContentRules(status='disabled')
     toggleLinkIntegrity(status='disabled')
 
-    # update_registry()
+    #update_registry()
 
     migrate_default_types()
     logger.info('End migration default content type')
