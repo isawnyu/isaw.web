@@ -275,6 +275,66 @@ def update_registry():
     setup = api.portal.get_tool('portal_setup')
     setup.runImportStepFromProfile(default_profile, 'plone.app.registry')
 
+def patch_transform():
+    from plone.app.textfield.transform import PortalTransformsTransformer
+    from plone.app.textfield.transform import getSite
+    from plone.app.textfield.transform import getToolByName
+    from plone.app.textfield.transform import TransformError
+    from plone.app.textfield.transform import LOG
+    from plone.app.textfield.transform import ConflictError
+
+    PortalTransformsTransformer.old__call__ = PortalTransformsTransformer.__call__
+
+    def new_call(self, value, mimeType):
+        # shortcut it we have no data
+        if value.raw is None:
+            return u''
+
+        # shortcut if we already have the right value
+        if mimeType is value.mimeType:
+            return value.output
+
+        site = getSite()
+
+        transforms = getToolByName(site, 'portal_transforms', None)
+        if transforms is None:
+            raise TransformError("Cannot find portal_transforms tool")
+
+        try:
+            data = transforms.convertTo(mimeType,
+                                        value.raw_encoded,
+                                        mimetype=value.mimeType,
+                                        context=self.context,
+                                        # portal_transforms caches on this
+                                        object=value._raw_holder,
+                                        encoding=value.encoding)
+            if data is None:
+                # TODO: i18n
+                msg = (u'No transform path found from "%s" to "%s".' %
+                       (value.mimeType, mimeType))
+                LOG.error(msg)
+                # TODO: memoize?
+                # plone_utils = getToolByName(self.context, 'plone_utils')
+                # plone_utils.addPortalMessage(msg, type='error')
+                # FIXME: message not always rendered, or rendered later on
+                # other page.
+                # The following might work better, but how to get the request?
+                # IStatusMessage(request).add(msg, type='error')
+                return u''
+
+            else:
+                output = data.getData()
+                return output.decode(value.encoding)
+        except ConflictError:
+            raise
+        except Exception as e:
+            # log the traceback of the original exception
+            LOG.error("Transform exception", exc_info=True)
+
+            logger.info("### PATCH plone.app.textfield.transform... swallow any transform error during migration")
+            #raise TransformError('Error during transformation', e)
+
+        PortalTransformsTransformer.__call__ = new_call
 
 if __name__ == "__main__":
     install_dexterity(portal)
@@ -283,6 +343,8 @@ if __name__ == "__main__":
     toggleCachePurging(status='disabled')
     toggleContentRules(status='disabled')
     toggleLinkIntegrity(status='disabled')
+
+    patch_transform()
 
     #update_registry()
 
