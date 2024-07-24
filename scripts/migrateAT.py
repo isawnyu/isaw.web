@@ -7,11 +7,10 @@ from plone.app.contenttypes.migration.field_migrators import FIELDS_MAPPING
 from plone.app.contenttypes.migration.migration import migrateCustomAT
 from plone.dexterity.interfaces import IDexterityFTI
 from plone.registry.interfaces import IRegistry
-from transaction import commit
 from z3c.relationfield.relation import RelationValue
 from zope.component import getUtility
 from zope.component.hooks import setSite
-from zope.intid.interfaces import IIntIds
+
 import logging
 import transaction
 
@@ -185,9 +184,18 @@ def migrate_wierdness(folder):
     api.content.delete(obj=bak_dir)
 
 
+def unlockDavLocks():
+    logger.info("Looking for DavLocked objects")
+    davmanager = app.Control_Panel.get('DavLocks')
+    locked_objs = davmanager.findLockedObjects(frompath='/isaw')
+    logger.info("found {} locked objects".format(len(locked_objs)))
+    davmanager.unlockObjects(paths=[path for path, info in locked_objs])
+    logger.info("...unlocked")
+    transaction.commit()
+
 def migrate_default_types():
     patch_ATEvent()
-
+    unlockDavLocks()
     migration.migrate_blobfiles(portal)
     migration.migrate_blobimages(portal)
 
@@ -331,8 +339,9 @@ def patch_transform():
             # log the traceback of the original exception
             LOG.error("Transform exception", exc_info=True)
 
-            logger.info("### PATCH plone.app.textfield.transform... swallow any transform error during migration")
             #raise TransformError('Error during transformation', e)
+
+        logger.info("### PATCH plone.app.textfield.transform... swallow any transform error during migration")
 
         PortalTransformsTransformer.__call__ = new_call
 
@@ -358,4 +367,3 @@ if __name__ == "__main__":
     uninstall_collectiveleadImage()
 
     transaction.commit()
-
