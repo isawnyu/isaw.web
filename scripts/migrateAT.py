@@ -205,18 +205,23 @@ def migrate_default_types():
     migration.migrate_links(portal)
     topics.migrate_topics(portal)
     migration.migrate_newsitems(portal)
-    logger.info('Starting a catalog reindex...')
-    #catalog.clearFindAndRebuild()
+
     # we must commit and reindex before migrating folders (God knows why)
     # otherwise bad things will happens
+    logger.info('Starting a catalog reindex...')
+    portal.portal_catalog.clearFindAndRebuild()
+    transaction.commit()
 
-    #catalog.clearFindAndRebuild()
+    migrate_folders(portal)
+    transaction.commit()
 
+    # some members folder did not get migrated in the first run
+    # so we rerun the migration folders (only those still AT will go through the process)
     migrate_folders(portal)
 
 
-
     unpatch_ATEvent()
+    logger.info("End migration default ATCT to Dexterity")
 
 
 same_name_fields = [
