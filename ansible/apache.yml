@@ -1,0 +1,117 @@
+- hosts: all
+  become: yes
+  become_method: sudo
+  gather_facts: yes
+
+  pre-tasks:
+    - name: Install apache
+      apt:
+        pkg:
+          - apache2
+        install_recommends: yes
+        update_cache: yes
+      tags:
+        - webserver
+        - certbot
+
+    - name: Define primary SSL name
+      set_fact:
+        ssl_primary: '{{ ssl_hostnames[0] }}'
+      when: certbot_ssl and ssl_hostnames
+      tags:
+        - webserver
+        - certbot
+
+    - name: Ensure certbot package
+      when: certbot_ssl
+      package:
+        name: certbot
+        state: present
+      tags:
+        - webserver
+        - certbot
+
+    - name: Ensure certbot-apache plugin
+      when: certbot_ssl
+      package:
+        name: python3-certbot-apache
+        state: present
+      ignore_errors: yes
+      tags:
+        - webserver
+        - certbot
+
+    - name: Ensure apache is started
+      service:
+        name: apache2
+        state: started
+        enabled: yes
+      when: certbot_ssl
+      tags:
+        - webserver
+        - certbot
+
+    - name: primary webserver definition
+      set_fact:
+        primary_webserver: "{{ webserver_virtualhosts[0] }}"
+      tags:
+        - webserver
+        - certbot
+
+  roles:
+
+    - role: geerlingguy.apache
+      apache_remove_default_vhost: true
+      apache_create_vhosts: false
+      apache_mods_enabled: "{{ apache_mod_list }}"
+      apache_packages: "{{ apache_package_list }}"
+      apache_ignore_missing_ssl_certificate: true
+      when: install_webserver|default(True)
+      tags: webserver
+
+  tasks:
+
+    - name: Create zope-style virtual hosts
+      template:
+        src: templates/isaw-apache.conf.j2
+        dest: /etc/apache2/sites-available/{{ item.hostname|replace('.', '_') }}.conf
+        mode: 0644
+      with_items: "{{ playbook_plones|map(attribute='webserver_virtualhosts')|list }}"
+      notify: restart apache2
+      tags: webserver
+
+    - name: Static virtual hosts
+      copy:
+        dest: /etc/apache2/sites-available/static-hosts.conf
+        src: files/static-web.conf
+        mode: 0644
+      notify: restart apache2
+      tags: webserver
+
+    - name: Link zope-style virtual hosts
+      file:
+        src: /etc/apache2/sites-available/{{ item.hostname|replace('.', '_') }}.conf
+        dest: /etc/apache2/sites-enabled/{{ item.hostname|replace('.', '_') }}.conf
+        state: link
+      with_items: "{{ playbook_plones|map(attribute='webserver_virtualhosts')|list }}"
+      notify: restart apache2
+      tags: webserver
+
+    - name: Link static virtual hosts
+      file:
+        src: /etc/apache2/sites-available/static-hosts.conf
+        dest: /etc/apache2/sites-enabled/static-hosts.conf
+        state: link
+      notify: restart apache2
+      tags: webserver
+
+    - name: ensure saml2 .pem certificate is present
+      copy:
+        src: keys/{{saml_key_name}}.pem
+        dest: "{{ instance_config.plone_target_path }}/{{ playbook_plones[0].plone_instance_name }}/conf/{{saml_key_name}}.pem"
+
+    - name: ensure saml2 .der certificate is present
+      copy:
+        src: keys/{{saml_key_name}}.der
+        dest: "{{ instance_config.plone_target_path }}/{{ playbook_plones[0].plone_instance_name }}/conf/{{saml_key_name}}.der"
+

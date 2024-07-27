@@ -1,0 +1,10 @@
+---
+
+plone_backup_at:
+plone_pack_at:
+plone_buildout_cfg: staging.cfg
+plone_buildout_git_version: staging
+plone_client_count: 4
+plone_client_max_memory: 1250MB
+
+proxycache_size: 750m

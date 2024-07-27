@@ -1,0 +1,134 @@
+---
+
+- hosts: all
+  become: yes
+  gather_facts: no
+
+  vars:
+    users:
+      - name: plone_buildout
+        sudoer: no
+        auth_key:
+        group:  plone_group
+        keyfiles: plone_user_keys
+        umask: "0007"
+      - name: plone_daemon
+        sudoer: no
+        auth_key:
+        keyfiles:
+        group:  plone_group
+        umask: "0007"
+      - name: alecpm
+        sudoer: yes
+        auth_key: ssh-rsa AAAAB3NzaC1yc2EAAAABIwAAAIEA1Wp63G60D9rNG+iu301OEjYcBIGcPzwA6eGCmQoizAhc8eHx27YOxlkNPlZ6pdensAft9A2Gd/0bdg5rNtf9XmxPbWmY3LMyat0UafJNX/r4z4x5zqdlnEVdXykXbhmfZta4/ESNMwF4i03wjy+9+EOcdfRswBg1Hc1jXrLlJy0= alec@alec
+        keyfiles:
+        group: plone_group
+      - name: marco
+        sudoer: yes
+        auth_key: ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQDav16s5/3VniqxCy0VE4w6l64zQ96+4/CKEuIsP88svNO+0uuHp2m4Q5Xy0JTZYmImHfThtXEHjFpbHmBV5HCcDMQAEZW+AIveeKGkzkjZZNV+bsf96NSyxG8aZG3iRjxfoDryFNuKjKnRtJ9zzJsaGVr3Dq+4xsvvxl1mOWp9RO6YL2/yEaAz8GWQ+ypdF5/38S+rTHNibdhRMuCVFEiwOTAnRCTwV+nqRHEc5UcO2EhkUzzK+2OZMEucjH6k3mmLbpmhSmfK2A24+ahvLjD2Iw64DD8bsxbvZumUFzHoYkQJ41XdPhs2s/QoxntVdLgLisj6Ss/iVz7UKrxUYS+v
+        keyfiles:
+        group: plone_group
+      - name: sauzher
+        sudoer: yes
+        auth_key: ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQC5KWG+Ron3Tw8zC7XOPlzC7q63oawXUu9MiPVrKRvx7w0OHpzGg5vktQnz2u/vR5voKnz4kJwpZEHJSJRF260gBj3QJGxZ79tvJvel64y4ZRDHsLciibYrhA4HA8J4oWTgyzEzOztdVudzFPPnTTWUXrLq19f9bZHeFAbl7NNJpeN2/t8MkYbIZJ/w6ixurJAuAJIydLXOjf5iXZlgOggiZcOAyYNiC0MU6ESQYDAoPQu5qcCqt26jFjQQybYj2tQsuDPq4wxsCbMy3llNCGuZ3yHafXt5XUfM7fPkmcX2AFa5sQKUhRvGi/JUIERtHxMJGN+CkR1rMjrq/+6ZxrCl sauzher@sauzher-Mint
+        keyfiles:
+        group: plone_group
+      - name: telliott
+        sudoer: yes
+        auth_key: ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIOkBB0Ds76keMMcvGjeDTT4s6YS8m7TXOmEjVdIeTLAg ipse@paregorios.org
+        keyfiles:
+        group: plone_group
+
+  tasks:
+
+    - name: Ensure plone_group
+      group: name=plone_group
+
+    - name: Add users
+      user:
+        name={{ item.name }}
+        system={{ item.sudoer }}
+        shell=/bin/bash
+        group="{{ item.group  }}"
+      when: item.group
+      with_items: "{{ users }}"
+
+    - name: Add users
+      user:
+        name={{ item.name }}
+        system={{ item.sudoer }}
+        shell=/bin/bash
+      when: not item.group
+      with_items: "{{ users }}"
+
+    - name: Add .ssh directories
+      file:
+        path=/home/{{ item.name }}/.ssh
+        state=directory
+        owner="{{ item.name }}"
+      with_items: "{{ users }}"
+      tags:
+        - ssh
+
+    - name: Add keys
+      lineinfile:
+        dest=/home/{{ item.name }}/.ssh/authorized_keys
+        state=present
+        create=yes
+        line="{{ item.auth_key }}"
+        owner="{{ item.name }}"
+      with_items: "{{ users }}"
+      tags:
+        - ssh
+
+    - name: Add to sudoers
+      lineinfile:
+        dest=/etc/sudoers.d/{{ item.name }}
+        state=present
+        create=yes
+        line="{{ item.name }}  ALL=(ALL) NOPASSWD:ALL"
+        mode=440
+      when: item.sudoer
+      with_items: "{{ users }}"
+      tags:
+        - sudo
+
+    - name: SSH keys
+      copy:
+        src={{ item.keyfiles }}/
+        dest=/home/{{ item.name }}/.ssh/
+        owner={{ item.name }}
+        mode=0600
+      when: item.keyfiles
+      with_items: "{{ users }}"
+      tags:
+        - ssh
+
+    - name: Set user umask in .bashrc
+      ansible.builtin.lineinfile:
+        path: /home/{{ item.name }}/.bashrc
+        regexp: ^umask
+        line: "umask {{ item.umask }}"
+        create: no
+      when: item.get('umask')
+      with_items: "{{ users }}"
+      tags:
+        - umask
+
+    - name: Set plone_daemon ulimit for open files
+      community.general.pam_limits:
+        domain: plone_daemon
+        limit_type: soft
+        limit_item: nofile
+        value: 39693561
+      tags:
+        - ulimit
+
+    - name: Set plone_daemon ulimit for processes
+      community.general.pam_limits:
+        domain: plone_daemon
+        limit_type: '-'
+        limit_item: nproc
+        value: 65000
+      tags:
+        - ulimit

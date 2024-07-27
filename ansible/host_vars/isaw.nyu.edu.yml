@@ -1,0 +1,16 @@
+---
+
+saml_key_name: isaw-production
+
+plone_skip_supervisor_update: on
+plone_restart_after_buildout: off
+
+certbot_ssl: on
+ssl_hostnames:
+  - isaw.nyu.edu
+  - www.isaw.nyu.edu
+  - amheida.org
+  - www.amheida.org
+  - isaw-new.jazkarta.com
+  - kinikhoyuk.org
+  - www.kinikhoyuk.org

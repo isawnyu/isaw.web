@@ -1,0 +1,138 @@
+---
+
+install_webserver: off # We use apache not nginx
+certbot_plugin: apache
+plone_python_version: '3.8'
+plone_debian_packages:
+  - build-essential
+  - cron
+  - curl
+  - git
+  - libffi-dev
+  - libjpeg-dev
+  - libssl-dev
+  - libxslt1-dev
+  - libz-dev
+  - libtiff5-dev
+  - libwebp-dev
+  - libheif-dev
+  - libx265-dev
+  - libaom-dev
+  - libde265-dev
+  - lynx
+  - poppler-utils
+  - python3-pip
+  - socat
+  - supervisor
+  - virtualenv
+  - unzip
+  - wv
+
+plone_debian_python2_packages:
+  - python2-dev
+  - python2-setuptools-whl
+  - python2-pip-whl
+
+admin_email: alecpm@gmail.com
+
+install_muninnode: no
+additional_packages:
+    - acl
+    - libxmlsec1
+    - libxmlsec1-dev
+    - openjdk-17-jre-headless
+    - ghostscript
+    - bibutils
+    - webp
+    - redis-server
+    - npm
+    - memcached
+    - libmemcached-dev
+
+timezone: America/New_York
+
+plone_buildout_git_repo: git@github.com:isawnyu/isaw.web.git
+plone_zeo_port: 8001
+plone_create_site: false
+
+additional_supervisor_tasks:
+  - name: linkchecker
+    command: client_linkchecker -O isaw linkcheck console
+    params:
+      autostart: false
+      autorestart: false
+      startretries: 3
+      stopwaitsecs: 60
+      user: "{{ plone_daemon_user }}"
+
+webserver_virtualhosts:
+  - hostname: "{{inventory_hostname}}"
+    default_server: yes
+    aliases:
+      - "www.{{inventory_hostname}}"
+      - default
+    zodb_path: /isaw
+
+# with multiple clients, the "cron" hot monitor does a better job of avoiding downtime.
+plone_hot_monitor: cron
+
+# Don't prematurely kill zeo server/clients to allow indexes/caches to be saved
+plone_stopwaitsecs: 60
+
+# zc.monitor is not Python 3.8 compatible
+plone_client_tcpcheck: off
+loadbalancer_options: maxconn 1 rise 1 fall 4 inter 20s fastinter 2s downinter 5s slowstart 40s
+loadbalancer_backend_config: balance leastconn
+
+client_max_body_size: 48M
+
+# Minimize Varnish RAM
+proxycache_method: file
+proxycache_opts:  "-p nuke_limit=500"
+proxy_cache_grace: 60s
+proxy_cache_anon_ttl: 300s
+
+proxy_cache_backend_extra: |
+        .connect_timeout = 300s;
+        .first_byte_timeout = 100s;
+        .between_bytes_timeout = 5s;
+
+ufw_allowed_cidrs:
+  - '216.240.59.58/32'
+
+# Login/session support
+cache_sanitize_cookie_exceptions: (statusmessages|__ac|_ZopeId|__cp|sid|beaker\.session|authomatic|_saml2_session|_saml2_attributes|idp_id|plone.app.drafts.\w+)
+nonanonymous_cookies: (_saml2_session|__ac|__ac_name|__ac_password|__ac_persistent)
+
+install_fail2ban: off
+fail2ban_debian_packages:
+  - python3-pyinotify
+  - fail2ban
+
+fail2ban_extra: |
+  [apache-overflows]
+  enabled  = true
+  filter   = apache-overflows
+  logpath  = /var/log/apache*/*error.log
+  port     = http,https
+  maxretry = 2
+
+  [apache-noscript]
+  filter   = apache-noscript
+  enabled  = true
+  logpath  = /var/log/apache*/*error.log
+  port     = http,https
+  maxretry = 2
+
+  [apache-badbots]
+  filter   = apache-badbots
+  enabled  = true
+  logpath  = /var/log/apache*/*access.log
+  port     = http,https
+  maxretry = 4
+
+apache_mods_disabled:
+  - mpm_prefork.conf
+  - mpm_prefork.load
+  - php7.2.conf
+  - php7.2.load
