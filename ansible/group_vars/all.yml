@@ -1,5 +1,8 @@
 ---
 
+certbot_ssl: off
+ssl_hostnames: []
+saml_key_name: isaw-staging
 install_webserver: off # We use apache not nginx
 certbot_plugin: apache
 plone_python_version: '3.8'
@@ -52,6 +55,7 @@ additional_packages:
 timezone: America/New_York
 
 plone_buildout_git_repo: git@github.com:isawnyu/isaw.web.git
+plone_buildout_cfg: buildout.cfg
 plone_zeo_port: 8001
 plone_create_site: false
 
@@ -131,8 +135,47 @@ fail2ban_extra: |
   port     = http,https
   maxretry = 4
 
+apache_mod_list:
+  - access_compat.load
+  - alias.conf
+  - alias.load
+  - auth_basic.load
+  - authz_core.load
+  - authn_file.load
+  - authz_user.load
+  - autoindex.conf
+  - autoindex.load
+  - cgi.load
+  - deflate.conf
+  - deflate.load
+  - dir.conf
+  - dir.load
+  - env.load
+  - filter.load
+  - headers.load
+  - mime.conf
+  - mime.load
+  - mpm_event.conf
+  - mpm_event.load
+  - negotiation.load
+  - negotiation.conf
+  - proxy.conf
+  - proxy.load
+  - proxy_http.load
+  - rewrite.load
+  - setenvif.conf
+  - setenvif.load
+  - socache_shmcb.load
+  - status.conf
+  - status.load
+apache_package_list:
+  - apache2
+  - apache2-utils
+  - apache2-dev
 apache_mods_disabled:
   - mpm_prefork.conf
   - mpm_prefork.load
+  - mpm_worker.conf
+  - mpm_worker.load
   - php7.2.conf
   - php7.2.load

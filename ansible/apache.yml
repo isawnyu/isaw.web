@@ -3,7 +3,15 @@
   become_method: sudo
   gather_facts: yes
 
-  pre-tasks:
+
+  pre_tasks:
+
+    - name: Include vars from plone playbooks
+      include_vars: "{{ item }}"
+      with_items:
+        - roles/plone.plone_server/defaults/main.yml
+        - roles/default_config/defaults/main.yml
+
     - name: Install apache
       apt:
         pkg:
@@ -18,6 +26,26 @@
       set_fact:
         ssl_primary: '{{ ssl_hostnames[0] }}'
       when: certbot_ssl and ssl_hostnames
+      tags:
+        - webserver
+        - certbot
+
+    - name: enable ssl in apache if enabled
+      set_fact:
+        apache_mod_list: >-
+          {%- set results = vars['apache_mod_list'] + ["ssl.conf", "ssl.load"] -%}
+          {{ results }}
+      when: certbot_ssl and ssl_hostnames
+      tags:
+        - webserver
+        - certbot
+
+    - name: disable ssl in apache if disabled
+      set_fact:
+        apache_mods_disabled: >-
+          {%- set results = vars['apache_mods_disabled'] + ["ssl.conf", "ssl.load"] -%}
+          {{ results }}
+      when: not (certbot_ssl and ssl_hostnames)
       tags:
         - webserver
         - certbot
@@ -57,6 +85,23 @@
       tags:
         - webserver
         - certbot
+
+    - name: Set ownership of static web data
+      file:
+        path: /srv/www-data
+        state: directory
+        owner: plone_buildout
+        group: plone_group
+
+    - name: Setup static kinik hoyuk site
+      git:
+        repo: git@github.com:paregorios/kinik-hoyuk-website.git
+        force: no
+        depth: 1
+        dest: /srv/www-data/kinik-hoyuk
+        version: master
+        accept_hostkey: yes
+      become_user: plone_buildout
 
   roles:
 
@@ -107,11 +152,16 @@
 
     - name: ensure saml2 .pem certificate is present
       copy:
-        src: keys/{{saml_key_name}}.pem
-        dest: "{{ instance_config.plone_target_path }}/{{ playbook_plones[0].plone_instance_name }}/conf/{{saml_key_name}}.pem"
+        src: saml_keys/{{saml_key_name}}.pem
+        dest: "{{ instance_config.plone_target_path }}/{{ plone_instance_name }}/conf/{{saml_key_name}}.pem"
 
     - name: ensure saml2 .der certificate is present
       copy:
-        src: keys/{{saml_key_name}}.der
-        dest: "{{ instance_config.plone_target_path }}/{{ playbook_plones[0].plone_instance_name }}/conf/{{saml_key_name}}.der"
+        src: saml_keys/{{saml_key_name}}.der
+        dest: "{{ instance_config.plone_target_path }}/{{ plone_instance_name }}/conf/{{saml_key_name}}.der"
 
+  handlers:
+
+    - name: restart apache2
+      service: name=apache2 state=restarted
+      tags: webserver

@@ -3,9 +3,14 @@
   become_method: sudo
   gather_facts: yes
 
+  pre_tasks:
+    - name: should install
+      set_fact:
+        should_install: install_fail2ban|default(True)
+
   roles:
     - role: fail2ban
-      when: install_fail2ban|default(True)
+      when: should_install
       tags: fail2ban
 
   tasks:
@@ -13,6 +18,7 @@
       copy:
         src: "{{ item }}"
         dest: /etc/fail2ban/filter.d/
+      when: should_install
       with_fileglob:
         - ../files/filter.d/*
 
@@ -21,3 +27,4 @@
         name: fail2ban
         state: restarted
         enabled: yes
+      when: should_install
