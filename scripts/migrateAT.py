@@ -1,19 +1,16 @@
 from AccessControl.SecurityManagement import newSecurityManager
 from plone import api
-from plone.app.contenttypes.migration import field_migrators
 from plone.app.contenttypes.migration import migration
 from plone.app.contenttypes.migration import topics
-from plone.app.contenttypes.migration.field_migrators import FIELDS_MAPPING
-from plone.app.contenttypes.migration.migration import migrateCustomAT
+from plone.app.contenttypes.migration.utils import restore_references
+from plone.app.contenttypes.migration.utils import store_references
 from plone.dexterity.interfaces import IDexterityFTI
 from plone.registry.interfaces import IRegistry
-from z3c.relationfield.relation import RelationValue
 from zope.component import getUtility
 from zope.component.hooks import setSite
 
 import logging
 import transaction
-
 
 portal = app.isaw
 
@@ -196,6 +193,8 @@ def unlockDavLocks():
 def migrate_default_types():
     patch_ATEvent()
     unlockDavLocks()
+    store_references(portal)
+
     migration.migrate_blobfiles(portal)
     migration.migrate_blobimages(portal)
 
@@ -221,6 +220,7 @@ def migrate_default_types():
 
 
     unpatch_ATEvent()
+    restore_references(portal)
     logger.info("End migration default ATCT to Dexterity")
 
 
@@ -360,9 +360,8 @@ if __name__ == "__main__":
 
     patch_transform()
 
-    #update_registry()
-
     migrate_default_types()
+
     logger.info('End migration default content type')
 
     toggleContentRules(status='enabled')
