@@ -254,8 +254,11 @@ def uninstall_collectiveleadImage():
 
     # remove OLD c.leadeimage adapter from portal
     # uninstall c.leadeimage
+    PRODUCT = 'collective.contentleadimage'
     pqi = portal.portal_quickinstaller
-    pass
+    if pqi.isProductInstalled(PRODUCT):
+        pqi.uninstallProducts([PRODUCT])
+
 
 def toggleContentRules(status='disabled'):
     from plone.contentrules.engine.interfaces import IRuleStorage
@@ -283,10 +286,6 @@ def toggleCachePurging(status='disabled'):
 
     transaction.commit()
 
-def update_registry():
-    default_profile = 'SOME PROFILE'
-    setup = api.portal.get_tool('portal_setup')
-    setup.runImportStepFromProfile(default_profile, 'plone.app.registry')
 
 def patch_transform():
     from plone.app.textfield.transform import PortalTransformsTransformer
@@ -362,8 +361,6 @@ if __name__ == "__main__":
 
     migrate_default_types()
 
-    logger.info('End migration default content type')
-
     toggleContentRules(status='enabled')
     toggleCachePurging(status='enabled')
     toggleLinkIntegrity(status='enabled')
@@ -371,3 +368,5 @@ if __name__ == "__main__":
     uninstall_collectiveleadImage()
 
     transaction.commit()
+
+    logger.info('End migration default content types')
