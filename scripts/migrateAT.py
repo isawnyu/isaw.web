@@ -8,6 +8,9 @@ from plone.dexterity.interfaces import IDexterityFTI
 from plone.registry.interfaces import IRegistry
 from zope.component import getUtility
 from zope.component.hooks import setSite
+from plone.app.contenttypes.migration.migration import EventMigrator
+from plone.app.contenttypes.migration.migration import migrate
+
 
 import logging
 import transaction
@@ -181,6 +184,38 @@ def migrate_wierdness(folder):
     api.content.delete(obj=bak_dir)
 
 
+from plone.app.contenttypes.migration.migration import migrate_simplefield
+from plone.app.contenttypes.migration.migration import migrate_datetimefield
+from plone.app.contenttypes.migration.migration import migrate_richtextfield
+
+class ISAWEventMigrator(EventMigrator):
+    """Migrate both Products.ContentTypes & plone.app.event.at Events"""
+
+    def migrate_schema_fields(self):
+        migrate_datetimefield(self.old, self.new, 'startDate', 'start')
+        migrate_datetimefield(self.old, self.new, 'endDate', 'end')
+
+        migrate_richtextfield(self.old, self.new, 'text', 'text')
+        migrate_simplefield(self.old, self.new, 'location', 'location')
+        migrate_simplefield(self.old, self.new, 'attendees', 'attendees')
+        migrate_simplefield(self.old, self.new, 'eventUrl', 'event_url')
+        migrate_simplefield(self.old, self.new, 'contactName', 'contact_name')
+        migrate_simplefield(
+            self.old, self.new, 'contactEmail', 'contact_email')
+        migrate_simplefield(
+            self.old, self.new, 'contactPhone', 'contact_phone')
+        migrate_simplefield(self.old, self.new, 'wholeDay', 'whole_day')
+        migrate_simplefield(self.old, self.new, 'openEnd', 'open_end')
+        migrate_simplefield(self.old, self.new, 'recurrence', 'recurrence')
+
+        # custom ATSchemaExtendendFields
+        migrate_simplefield(self.old, self.new, 'subtitle', 'subtitle')
+        migrate_simplefield(self.old, self.new, 'eventType', 'eventType')
+        migrate_simplefield(self.old, self.new, 'speaker', 'speaker')
+        migrate_simplefield(self.old, self.new, 'speakerAffiliation', 'speakerAffiliation')
+        migrate_simplefield(self.old, self.new, 'rsvpRequired', 'rsvpRequired')
+
+
 def unlockDavLocks():
     logger.info("Looking for DavLocked objects")
     davmanager = app.Control_Panel.get('DavLocks')
@@ -192,7 +227,7 @@ def unlockDavLocks():
 
 def migrate_default_types():
     patch_ATEvent()
-    unlockDavLocks()
+#    unlockDavLocks()
     store_references(portal)
 
     migration.migrate_blobfiles(portal)
@@ -200,7 +235,9 @@ def migrate_default_types():
 
     migration.migrate_documents(portal)
     migration.migrate_collections(portal)
-    migration.migrate_events(portal)
+
+    migrate(portal, ISAWEventMigrator)
+
     migration.migrate_links(portal)
     topics.migrate_topics(portal)
     migration.migrate_newsitems(portal)
@@ -208,7 +245,7 @@ def migrate_default_types():
     # we must commit and reindex before migrating folders (God knows why)
     # otherwise bad things will happens
     logger.info('Starting a catalog reindex...')
-    portal.portal_catalog.clearFindAndRebuild()
+    #portal.portal_catalog.clearFindAndRebuild()
     transaction.commit()
 
     migrate_folders(portal)

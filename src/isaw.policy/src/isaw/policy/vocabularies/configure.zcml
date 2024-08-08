@@ -1,0 +1,11 @@
+<configure
+    xmlns="http://namespaces.zope.org/zope"
+    xmlns:plone="http://namespaces.plone.org/plone"
+    i18n_domain="your.package">
+
+    <utility
+        component="isaw.policy.vocabularies.event_vocabulary.EventTypesVocabulary"
+        name="isaw.vocabulary.eventTypes"
+    />
+
+</configure>

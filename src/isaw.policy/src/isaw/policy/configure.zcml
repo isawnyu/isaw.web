@@ -17,6 +17,8 @@
   <include package="plone.app.iterate" />
 
   <include file="profile.zcml" />
+  <include package=".vocabularies" />
+
   <!-- -*- extra stuff goes here -*- -->
 
   <adapter
@@ -212,5 +214,13 @@
       />
 
   </configure>
+
+
+  <plone:behavior
+        name="isaw.policy.IEventIsawBehavior"
+        title="Event ISAW Behavior"
+        description="Adds event-isaw-related fields to content types"
+        provides="isaw.policy.behaviors.IEventISAWBehavior"
+    />
 
 </configure>
