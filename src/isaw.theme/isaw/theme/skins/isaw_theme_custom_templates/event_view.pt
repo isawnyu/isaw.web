@@ -18,9 +18,9 @@
 
         <span class="visualClear"><!-- --></span>
 
-        <metal:field use-macro="python:context.widget('text', mode='view')">
+        <tal:field replace="structure context/text/output">
         Body text
-        </metal:field>
+        </tal:field>
 
         <div tal:condition="context/contactName|nothing">
           <h3>Contact</h3>
