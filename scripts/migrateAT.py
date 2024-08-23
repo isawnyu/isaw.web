@@ -11,7 +11,7 @@ from zope.component.hooks import setSite
 from plone.app.contenttypes.migration.migration import EventMigrator
 from plone.app.contenttypes.migration.migration import migrate
 
-
+from plone.app.event import browser
 import logging
 import transaction
 
@@ -100,10 +100,15 @@ def install_dexterity(portal):
     pqi = portal.portal_quickinstaller
 
     # replace default plone types with dexterity ones
+
     if not pqi.isProductInstalled('plone.app.dexterity'):
         pqi.installProduct('plone.app.dexterity')
     if not pqi.isProductInstalled('plone.app.contenttypes'):
         pqi.installProduct('plone.app.contenttypes')
+
+    if pqi.isProductInstalled():
+        pqi.uninstallProducts(['plone.app.event'])
+
 
     transaction.commit()
 
@@ -227,7 +232,7 @@ def unlockDavLocks():
 
 def migrate_default_types():
     patch_ATEvent()
-#    unlockDavLocks()
+    unlockDavLocks()
     store_references(portal)
 
     migration.migrate_blobfiles(portal)
@@ -245,7 +250,7 @@ def migrate_default_types():
     # we must commit and reindex before migrating folders (God knows why)
     # otherwise bad things will happens
     logger.info('Starting a catalog reindex...')
-    #portal.portal_catalog.clearFindAndRebuild()
+    portal.portal_catalog.clearFindAndRebuild()
     transaction.commit()
 
     migrate_folders(portal)
