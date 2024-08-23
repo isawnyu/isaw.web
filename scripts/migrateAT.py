@@ -2,6 +2,7 @@ from AccessControl.SecurityManagement import newSecurityManager
 from plone import api
 from plone.app.contenttypes.migration import migration
 from plone.app.contenttypes.migration import topics
+from plone.app.contenttypes.migration.migration import DocumentMigrator
 from plone.app.contenttypes.migration.migration import EventMigrator
 from plone.app.contenttypes.migration.migration import migrate
 from plone.app.contenttypes.migration.utils import restore_references
@@ -10,8 +11,10 @@ from plone.app.event import browser
 from plone.dexterity.interfaces import IDexterityFTI
 from plone.event.utils import default_timezone
 from plone.registry.interfaces import IRegistry
+from zope.annotation.interfaces import IAnnotations
 from zope.component import getUtility
 from zope.component.hooks import setSite
+from zope.interface import alsoProvides
 import logging
 import transaction
 
@@ -193,18 +196,40 @@ from plone.app.contenttypes.migration.migration import migrate_simplefield
 from plone.app.contenttypes.migration.migration import migrate_datetimefield
 from plone.app.contenttypes.migration.migration import migrate_richtextfield
 
+
+def migrate_easy_slider(old, new):
+    from collective.easyslider.interfaces import ISliderPage
+    KEY = 'collective.easyslider'
+    if IAnnotations(old).get(KEY, {}):
+        logger.info('migrating collective.slider for {}'.format(old))
+        IAnnotations(new)[KEY] = IAnnotations(old).get(KEY)
+        alsoProvides(new, ISliderPage)
+
+
+def migrate_timezone(old, new):
+    timezone = str(old.start_date.tzinfo) \
+    if old.start_date.tzinfo \
+        else default_timezone(fallback='UTC')
+
+    if timezone == 'GMT-4':
+        timezone = 'Etc/GMT-4'
+
+    new.timezone = timezone
+
+
+class ISAWDocumentMigrator(DocumentMigrator):
+
+    def migrate_schema_fields(self):
+        migrate_easy_slider(self.old, self.new)
+        migrate_richtextfield(self.old, self.new, 'text', 'text')
+
+
 class ISAWEventMigrator(EventMigrator):
     """Migrate both Products.ContentTypes & plone.app.event.at Events"""
 
     def migrate_schema_fields(self):
-        timezone = str(self.old.start_date.tzinfo) \
-        if self.old.start_date.tzinfo \
-            else default_timezone(fallback='UTC')
 
-        if timezone == 'GMT-4':
-            timezone = 'Etc/GMT-4'
-
-        self.new.timezone = timezone
+        migrate_timezone(self.old, self.new)
 
         migrate_datetimefield(self.old, self.new, 'startDate', 'start')
         migrate_datetimefield(self.old, self.new, 'endDate', 'end')
@@ -240,6 +265,7 @@ def unlockDavLocks():
     logger.info("...unlocked")
     transaction.commit()
 
+
 def migrate_default_types():
     patch_ATEvent()
     unlockDavLocks()
@@ -247,9 +273,10 @@ def migrate_default_types():
 
     migration.migrate_blobfiles(portal)
     migration.migrate_blobimages(portal)
-    migrate(portal, ISAWEventMigrator)
 
-    migration.migrate_documents(portal)
+    migrate(portal, ISAWEventMigrator)
+    migrate(portal, ISAWDocumentMigrator)
+
     migration.migrate_collections(portal)
 
 
