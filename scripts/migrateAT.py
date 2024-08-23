@@ -2,16 +2,16 @@ from AccessControl.SecurityManagement import newSecurityManager
 from plone import api
 from plone.app.contenttypes.migration import migration
 from plone.app.contenttypes.migration import topics
+from plone.app.contenttypes.migration.migration import EventMigrator
+from plone.app.contenttypes.migration.migration import migrate
 from plone.app.contenttypes.migration.utils import restore_references
 from plone.app.contenttypes.migration.utils import store_references
+from plone.app.event import browser
 from plone.dexterity.interfaces import IDexterityFTI
+from plone.event.utils import default_timezone
 from plone.registry.interfaces import IRegistry
 from zope.component import getUtility
 from zope.component.hooks import setSite
-from plone.app.contenttypes.migration.migration import EventMigrator
-from plone.app.contenttypes.migration.migration import migrate
-
-from plone.app.event import browser
 import logging
 import transaction
 
@@ -106,7 +106,7 @@ def install_dexterity(portal):
     if not pqi.isProductInstalled('plone.app.contenttypes'):
         pqi.installProduct('plone.app.contenttypes')
 
-    if pqi.isProductInstalled():
+    if pqi.isProductInstalled('plone.app.event'):
         pqi.uninstallProducts(['plone.app.event'])
 
 
@@ -197,11 +197,21 @@ class ISAWEventMigrator(EventMigrator):
     """Migrate both Products.ContentTypes & plone.app.event.at Events"""
 
     def migrate_schema_fields(self):
+        timezone = str(self.old.start_date.tzinfo) \
+        if self.old.start_date.tzinfo \
+            else default_timezone(fallback='UTC')
+
+        if timezone == 'GMT-4':
+            timezone = 'Etc/GMT-4'
+
+        self.new.timezone = timezone
+
         migrate_datetimefield(self.old, self.new, 'startDate', 'start')
         migrate_datetimefield(self.old, self.new, 'endDate', 'end')
 
         migrate_richtextfield(self.old, self.new, 'text', 'text')
         migrate_simplefield(self.old, self.new, 'location', 'location')
+
         migrate_simplefield(self.old, self.new, 'attendees', 'attendees')
         migrate_simplefield(self.old, self.new, 'eventUrl', 'event_url')
         migrate_simplefield(self.old, self.new, 'contactName', 'contact_name')
@@ -237,15 +247,16 @@ def migrate_default_types():
 
     migration.migrate_blobfiles(portal)
     migration.migrate_blobimages(portal)
+    migrate(portal, ISAWEventMigrator)
 
     migration.migrate_documents(portal)
     migration.migrate_collections(portal)
 
-    migrate(portal, ISAWEventMigrator)
 
     migration.migrate_links(portal)
     topics.migrate_topics(portal)
     migration.migrate_newsitems(portal)
+    transaction.commit()
 
     # we must commit and reindex before migrating folders (God knows why)
     # otherwise bad things will happens
@@ -391,6 +402,27 @@ def patch_transform():
 
         PortalTransformsTransformer.__call__ = new_call
 
+def fix_timezones(portal):
+    logger.info("fixing Timezones on Events objects...")
+    from pytz import timezone
+    catalog = portal.portal_catalog
+
+    brains = catalog(portal_type=("Event",))
+    tz =  timezone('US/Eastern')
+    for b in brains:
+        obj = b.getObject()
+        if obj.meta_type == 'Dexterity Item':
+            continue
+        if obj.start_date.tzinfo is None:
+            obj.start_date = obj.start_date.replace(tzinfo=tz)
+            logger.info("fixing start")
+        if obj.end_date.tzinfo is None:
+            obj.end_date = obj.end_date.replace(tzinfo=tz)
+            logger.info("fixing end")
+
+    transaction.commit()
+
+
 if __name__ == "__main__":
     install_dexterity(portal)
     enable_ILeadeImageBehavior()
@@ -400,6 +432,7 @@ if __name__ == "__main__":
     toggleLinkIntegrity(status='disabled')
 
     patch_transform()
+    fix_timezones(portal)
 
     migrate_default_types()
 
