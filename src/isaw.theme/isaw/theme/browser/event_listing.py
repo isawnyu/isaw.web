@@ -9,7 +9,7 @@ the method on the view.
 from DateTime import DateTime
 
 from zope.component import queryUtility
-from zope.interface import implements
+from zope.interface import implementer
 
 from Products.CMFCore.utils import getToolByName
 from plone.batching import Batch
@@ -20,9 +20,9 @@ from isaw.theme.browser.interfaces import IISAWSettings
 from isaw.theme.browser.tiled_view import TiledListingView
 
 
+@implementer(IEventListingView)
 class EventListingView(TiledListingView):
     """view class"""
-    implements(IEventListingView)
     image_scale = 'blogtile'
     image_placeholder = '<div class="blogtile_placeholder">&nbsp;</div>'
     batch_size = 12

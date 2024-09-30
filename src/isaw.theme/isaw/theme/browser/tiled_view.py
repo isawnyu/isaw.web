@@ -11,7 +11,7 @@ from plone.app.layout.viewlets import common as base
 from Products.CMFCore.utils import getToolByName
 from Products.Five.browser import BrowserView
 from Products.Five.browser.pagetemplatefile import ViewPageTemplateFile
-from zope.interface import implements
+from zope.interface import implementer
 from plone.memoize import view
 
 from isaw.theme.browser.interfaces import ITiledListingView
@@ -88,9 +88,9 @@ class TileDetailsMixin(object):
         return tag
 
 
+@implementer(ITiledListingView)
 class TiledListingView(BrowserView, TileDetailsMixin):
     """view class"""
-    implements(ITiledListingView)
     image_scale = 'blogtile'
     image_placeholder = '<div class="blogtile_placeholder">&nbsp;</div>'
     batch_size = 9

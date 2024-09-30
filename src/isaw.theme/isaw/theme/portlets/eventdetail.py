@@ -3,7 +3,7 @@
 from plone.app.portlets.portlets import base
 from plone.portlets.interfaces import IPortletDataProvider
 from Products.Five.browser.pagetemplatefile import ViewPageTemplateFile
-from zope.interface import implements
+from zope.interface import implementer
 
 
 class IEventDetailPortlet(IPortletDataProvider):
@@ -11,9 +11,9 @@ class IEventDetailPortlet(IPortletDataProvider):
     pass
 
 
+@implementer(IEventDetailPortlet)
 class Assignment(base.Assignment):
     """simple portlet assignment"""
-    implements(IEventDetailPortlet)
 
     @property
     def title(self):

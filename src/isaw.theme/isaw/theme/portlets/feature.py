@@ -1,7 +1,7 @@
 from zope import schema
 from zope.component import getMultiAdapter
 from zope.formlib import form
-from zope.interface import implements
+from zope.interface import implementer
 from plone.app.portlets.portlets import base
 from plone.portlets.interfaces import IPortletDataProvider
 from Products.Five.browser.pagetemplatefile import ViewPageTemplateFile
@@ -19,7 +19,7 @@ class IFeaturedPortlet(IPortletDataProvider):
             title=_(u'Title of Current Feature'),
             description=_(u'Title to appear on the front page about current feature.'),
             required=False)
-            
+
     featured_description = schema.Text(
             title=_(u'Description of Current Feature'),
             description=_(u'Description of current feature as it will appear on the front page.'),
@@ -30,15 +30,16 @@ class IFeaturedPortlet(IPortletDataProvider):
             description=_(u'Text to appear on the left'),
             required=False)
 
+
+@implementer(IFeaturedPortlet)
 class Assignment(base.Assignment):
-    implements(IFeaturedPortlet)
 
     header = u''
     image = None
     assignment_context_path = None
 
     def __init__(self,
-                 image=None, 
+                 image=None,
                  featured_title=None,
                  featured_description=None,
                  featured_lefttext=None,
@@ -101,7 +102,7 @@ class AddForm(base.AddForm):
         return Assignment(assignment_context_path=assignment_context_path, **data)
 
 class EditForm(base.EditForm):
-    
+
     form_fields = form.Fields(IFeaturedPortlet)
     form_fields['image'].custom_widget = ImageWidget
     description = _(u"This portlet displays featured front page copy.")
