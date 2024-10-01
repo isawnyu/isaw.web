@@ -1,0 +1,119 @@
+- hosts: all
+  become: yes
+  become_method: sudo
+  gather_facts: yes
+
+  pre_tasks:
+
+    - name: Include vars from local-configure.yml if found
+      include_vars: "{{ item }}"
+      with_first_found:
+       - local-configure.yml
+       - null.yml
+
+    - name: Define buldout user
+      set_fact:
+        buildout_user: "{{plone_buildout_user|default('plone_buildout')}}"
+
+    - name: Update packages via apt
+      when: ansible_os_family == 'Debian'
+      apt: upgrade=dist update_cache=yes
+      tags:
+        - update_packages
+
+    - name: Ensure optional packages via apt
+      when: ansible_os_family == 'Debian'
+      apt: pkg="{{ additional_packages|default([]) }}" state=present
+      tags:
+        - update_packages
+
+    - name: Fail if requested python version is installed
+      command: python{{ plone_python_version }} --version
+      register: result
+      failed_when: result.rc == 0
+      become_user: "{{ buildout_user }}"
+
+    # - name: Install packages required for compile via apt
+    #   when: ansible_os_family == 'Debian'
+    #   apt:
+    #     pkg:
+    #       - libncurses-dev
+    #       - build-essential
+    #       - lcov
+    #       - pkg-config
+    #       - libbz2-dev
+    #       - libffi-dev
+    #       - libgdbm-dev
+    #       - libgdbm-compat-dev
+    #       - liblzma-dev
+    #       - libreadline-dev
+    #       - libsqlite3-dev
+    #       - libssl-dev
+    #       - lzma
+    #       - lzma-dev
+    #       - uuid-dev
+    #       - tk-dev
+    #       - zlib1g-dev
+    #   tags:
+    #     - update_packages
+
+    # - name: Download PyEnv
+    #   get_url:
+    #     url: https://pyenv.run
+    #     dest: /tmp/install-pyenv.sh
+    #     mode: 0555
+
+    # - name: Run the installer
+    #   command: bash /tmp/install-pyenv.sh
+    #   args:
+    #     creates: "/home/{{ buildout_user }}/.pyenv"
+    #   become_user: "{{ buildout_user }}"
+
+    # - name: Remove the installer
+    #   file:
+    #     state: absent
+    #     path: /tmp/install-pyenv.sh
+
+    # - name: Add path etc to .bashrc.
+    #   lineinfile:
+    #     dest: "/home/{{ buildout_user }}/.bashrc"
+    #     state: present
+    #     create: yes
+    #     line: "{{ item }}"
+    #   with_items:
+    #     - 'export PYENV_ROOT="$HOME/.pyenv"'
+    #     - 'export PATH="$PYENV_ROOT/bin:$PATH"'
+    #     - 'eval "$(pyenv init -)"'
+
+    # - name: Compile optmized python
+    #   ansible.builtin.shell: "PYTHON_CFLAGS='-march=native -O3 -pipe' CONFIGURE_OPTS='--enable-optimizations --with-lto' /home/{{ buildout_user }}/.pyenv/bin/pyenv install -s -v {{ plone_python_version }}"
+    #   args:
+    #     executable: /bin/bash
+    #   become_user: "{{ buildout_user }}"
+    #   register: compile
+    #   failed_when:
+    #     - compile.rc == 0
+
+
+    # - name: Set default python
+    #   ansible.builtin.shell: pyenv global {{ plone_python_version }}
+    #   become_user: "{{ buildout_user }}"
+
+    - name: Add deadsnakes repo
+      apt_repository: repo="ppa:deadsnakes/ppa"
+      become: true
+
+    - name: Update packages via apt
+      when: ansible_os_family == 'Debian'
+      apt: upgrade=dist update_cache=yes
+      tags:
+        - update_packages
+
+    - name: Install python
+      apt:
+        name:
+          - "python{{ plone_python_version }}-dev"
+          - "python{{ plone_python_version }}-distutils"
+          - "python{{ plone_python_version }}-venv"
+        state: present
+      become: true

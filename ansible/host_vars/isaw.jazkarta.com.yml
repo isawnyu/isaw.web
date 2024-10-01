@@ -1,0 +1,9 @@
+---
+
+plone_skip_supervisor_update: off
+plone_restart_after_buildout: on
+
+certbot_ssl: on
+ssl_hostnames:
+  - isaw.jazkarta.com
+  - www.isaw.jazkarta.com

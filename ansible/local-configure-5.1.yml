@@ -1,0 +1,10 @@
+---
+
+plone_instance_name: migration
+plone_python_version: '2.7'
+plone_client_count: 4
+plone_version: '5.1.7'  # This is used for the directory name, but not reflective of the version
+plone_buildout_cfg: buildout.cfg
+plone_buildout_git_version: updated-ansible
+plone_setuptools_version: '42.0.2'
+plone_zc_buildout_version: '2.13.8'

@@ -3,7 +3,7 @@ from zope.browserpage.viewpagetemplatefile import ViewPageTemplateFile
 from Products.CMFCore.utils import getToolByName
 
 # facultycv requires the pisa module for pdf view
-import ho.pisa as pisa
+from xhtml2pdf import pisa
 
 
 class CvView(BrowserView):

@@ -1,0 +1,213 @@
+- hosts: all
+  become: yes
+  become_method: sudo
+  gather_facts: yes
+
+  vars:
+    certbot_ssl: on
+    ssl_hostnames:
+      - "{{ inventory_hostname }}"
+
+  pre_tasks:
+
+    - name: Include vars from plone playbooks
+      include_vars: "{{ item }}"
+      with_items:
+        - roles/plone.plone_server/defaults/main.yml
+        - roles/default_config/defaults/main.yml
+
+    - name: set plone vars
+      set_fact:
+        zodb_path: /isaw
+        playbook_plones:
+          - plone_version: "{{ plone_version }}"
+            plone_instance_name: "{{ plone_instance_name }}"
+            webserver_virtualhosts:
+              - hostname: "{{ inventory_hostname }}"
+                zodb_path: "{{ zodb_path | default('/Plone') }}"
+
+    - name: Install apache
+      apt:
+        pkg:
+          - apache2
+        install_recommends: yes
+        update_cache: yes
+      tags:
+        - webserver
+        - certbot
+
+    - name: Define primary SSL name
+      set_fact:
+        ssl_primary: '{{ ssl_hostnames[0] }}'
+      when: certbot_ssl and ssl_hostnames
+      tags:
+        - webserver
+        - certbot
+
+    - name: enable ssl in apache if enabled
+      set_fact:
+        apache_mod_list: >-
+          {%- set results = vars['apache_mod_list'] + ["ssl.conf", "ssl.load"] -%}
+          {{ results }}
+      when: certbot_ssl and ssl_hostnames
+      tags:
+        - webserver
+        - certbot
+
+    - name: disable ssl in apache if disabled
+      set_fact:
+        apache_mods_disabled: >-
+          {%- set results = vars['apache_mods_disabled'] + ["ssl.conf", "ssl.load"] -%}
+          {{ results }}
+      when: not (certbot_ssl and ssl_hostnames)
+      tags:
+        - webserver
+        - certbot
+
+    - name: Ensure certbot package
+      when: certbot_ssl
+      package:
+        name: certbot
+        state: present
+      tags:
+        - webserver
+        - certbot
+
+    - name: Ensure certbot-apache plugin
+      when: certbot_ssl
+      package:
+        name: python3-certbot-apache
+        state: present
+      ignore_errors: yes
+      tags:
+        - webserver
+        - certbot
+
+    - name: Ensure apache is started
+      service:
+        name: apache2
+        state: started
+        enabled: yes
+      when: certbot_ssl
+      tags:
+        - webserver
+        - certbot
+
+
+    - name: Create certbot certs
+      command:
+        cmd: "certbot certonly --apache --noninteractive --agree-tos --email {{ admin_email }} -d {{ ssl_hostnames | join(' -d ') }}"
+        creates: "/etc/letsencrypt/live/{{ ssl_primary }}/privkey.pem"
+      when: certbot_ssl and ssl_hostnames
+      tags:
+        - webserver
+        - certbot
+
+    - name: check if ssl key exists
+      stat:
+        path: "/etc/letsencrypt/live/{{ ssl_primary }}/privkey.pem"
+      when: certbot_ssl
+      register: ssl_key
+      tags:
+        - webserver
+        - certbot
+
+    - name: key_config
+      set_fact:
+        ssl_config:
+          default_server: yes
+          certificate:
+            crt: "/etc/letsencrypt/live/{{ ssl_primary }}/fullchain.pem"
+            key: "/etc/letsencrypt/live/{{ ssl_primary }}/privkey.pem"
+          protocol: https
+      when: certbot_ssl and ssl_key.stat.exists == True
+      tags:
+        - webserver
+        - certbot
+
+    - name: primary webserver definition
+      set_fact:
+        primary_webserver: "{{ webserver_virtualhosts[0] }}"
+      tags:
+        - webserver
+        - certbot
+
+    - name: Set ownership of static web data
+      file:
+        path: /srv/www-data
+        state: directory
+        owner: plone_buildout
+        group: plone_group
+
+    - name: Setup static kinik hoyuk site
+      git:
+        repo: git@github.com:paregorios/kinik-hoyuk-website.git
+        force: no
+        depth: 1
+        dest: /srv/www-data/kinik-hoyuk
+        version: master
+        accept_hostkey: yes
+      become_user: plone_buildout
+
+  roles:
+
+    - role: geerlingguy.apache
+      apache_remove_default_vhost: true
+      apache_create_vhosts: false
+      apache_mods_enabled: "{{ apache_mod_list }}"
+      apache_packages: "{{ apache_package_list }}"
+      apache_ignore_missing_ssl_certificate: true
+      when: install_webserver|default(True)
+      tags: webserver
+
+  tasks:
+
+    - name: Create zope-style virtual hosts
+      template:
+        src: templates/isaw-apache.conf.j2
+        dest: /etc/apache2/sites-available/{{ item.hostname|replace('.', '_') }}.conf
+        mode: 0644
+      with_items: "{{ playbook_plones|map(attribute='webserver_virtualhosts')|list }}"
+      notify: restart apache2
+      tags: webserver
+
+    - name: Static virtual hosts
+      copy:
+        dest: /etc/apache2/sites-available/static-hosts.conf
+        src: files/static-web.conf
+        mode: 0644
+      notify: restart apache2
+      tags: webserver
+
+    - name: Link zope-style virtual hosts
+      file:
+        src: /etc/apache2/sites-available/{{ item.hostname|replace('.', '_') }}.conf
+        dest: /etc/apache2/sites-enabled/{{ item.hostname|replace('.', '_') }}.conf
+        state: link
+      with_items: "{{ playbook_plones|map(attribute='webserver_virtualhosts')|list }}"
+      notify: restart apache2
+      tags: webserver
+
+    - name: Link static virtual hosts
+      file:
+        src: /etc/apache2/sites-available/static-hosts.conf
+        dest: /etc/apache2/sites-enabled/static-hosts.conf
+        state: link
+      notify: restart apache2
+      tags: webserver
+
+    - name: ensure saml2 .pem certificate is present
+      copy:
+        src: saml_keys/{{saml_key_name}}.pem
+        dest: "{{ instance_config.plone_target_path }}/{{ plone_instance_name }}/conf/{{saml_key_name}}.pem"
+
+    - name: ensure saml2 .der certificate is present
+      copy:
+        src: saml_keys/{{saml_key_name}}.der
+        dest: "{{ instance_config.plone_target_path }}/{{ plone_instance_name }}/conf/{{saml_key_name}}.der"
+
+  handlers:
+
+    - name: restart apache2
+      service: name=apache2 state=restarted
+      tags: webserver

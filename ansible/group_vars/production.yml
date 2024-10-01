@@ -1,0 +1,28 @@
+---
+
+admin_email: tom.elliott@nyu.edu
+saml_key_name: isaw-production
+certbot_email: tom.elliott@nyu.edu
+auto_upgrades: no
+
+plone_client_count: 14
+plone_client_max_memory: 3600MB
+plone_buildout_cfg: production.cfg
+plone_buildout_git_version: master
+
+proxy_cache_extra: |
+  sub vcl_backend_fetch {
+    # Long timeouts for XML sitemaps
+    if (bereq.method == "GET" && bereq.url ~ "/sitemap.xml") {
+      set bereq.first_byte_timeout = 300s;
+      set bereq.between_bytes_timeout = 300s;
+    }
+    # Long timeouts for "manage-empty-payments" view
+    if (bereq.url ~ "/manage-empty-payments") {
+      set bereq.first_byte_timeout = 900s;
+      set bereq.between_bytes_timeout = 900s;
+    }
+    return (fetch);
+  }
+
+install_fail2ban: on

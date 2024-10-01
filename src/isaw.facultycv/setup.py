@@ -60,7 +60,7 @@ setup(name='isaw.facultycv',
       zip_safe=False,
       install_requires=[
         'setuptools',
-        'Pisa >= 3.0.33',
+        'xhtml2pdf',
         'Reportlab >= 2.4',
         'html5lib >= 0.90',
         'pyPdf >= 1.12',

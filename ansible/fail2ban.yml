@@ -1,0 +1,30 @@
+- hosts: all
+  become: yes
+  become_method: sudo
+  gather_facts: yes
+
+  pre_tasks:
+    - name: should install
+      set_fact:
+        should_install: install_fail2ban|default(True)
+
+  roles:
+    - role: fail2ban
+      when: should_install
+      tags: fail2ban
+
+  tasks:
+    - name: setup custom fail2ban filters
+      copy:
+        src: "{{ item }}"
+        dest: /etc/fail2ban/filter.d/
+      when: should_install
+      with_fileglob:
+        - ../files/filter.d/*
+
+    - name: enable fail2ban
+      service:
+        name: fail2ban
+        state: restarted
+        enabled: yes
+      when: should_install
