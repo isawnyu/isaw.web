@@ -1,6 +1,7 @@
 ---
 
 certbot_ssl: off
+zodb_path: /isaw
 ssl_hostnames: []
 saml_key_name: isaw-staging
 install_webserver: off # We use apache not nginx

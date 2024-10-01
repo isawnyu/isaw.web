@@ -3,6 +3,10 @@
   become_method: sudo
   gather_facts: yes
 
+  vars:
+    certbot_ssl: on
+    ssl_hostnames:
+      - "{{ inventory_hostname }}"
 
   pre_tasks:
 
@@ -11,6 +15,16 @@
       with_items:
         - roles/plone.plone_server/defaults/main.yml
         - roles/default_config/defaults/main.yml
+
+    - name: set plone vars
+      set_fact:
+        zodb_path: /isaw
+        playbook_plones:
+          - plone_version: "{{ plone_version }}"
+            plone_instance_name: "{{ plone_instance_name }}"
+            webserver_virtualhosts:
+              - hostname: "{{ inventory_hostname }}"
+                zodb_path: "{{ zodb_path | default('/Plone') }}"
 
     - name: Install apache
       apt:
@@ -75,6 +89,38 @@
         state: started
         enabled: yes
       when: certbot_ssl
+      tags:
+        - webserver
+        - certbot
+
+
+    - name: Create certbot certs
+      command:
+        cmd: "certbot certonly --apache --noninteractive --agree-tos --email {{ admin_email }} -d {{ ssl_hostnames | join(' -d ') }}"
+        creates: "/etc/letsencrypt/live/{{ ssl_primary }}/privkey.pem"
+      when: certbot_ssl and ssl_hostnames
+      tags:
+        - webserver
+        - certbot
+
+    - name: check if ssl key exists
+      stat:
+        path: "/etc/letsencrypt/live/{{ ssl_primary }}/privkey.pem"
+      when: certbot_ssl
+      register: ssl_key
+      tags:
+        - webserver
+        - certbot
+
+    - name: key_config
+      set_fact:
+        ssl_config:
+          default_server: yes
+          certificate:
+            crt: "/etc/letsencrypt/live/{{ ssl_primary }}/fullchain.pem"
+            key: "/etc/letsencrypt/live/{{ ssl_primary }}/privkey.pem"
+          protocol: https
+      when: certbot_ssl and ssl_key.stat.exists == True
       tags:
         - webserver
         - certbot

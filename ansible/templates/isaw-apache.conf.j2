@@ -5,22 +5,28 @@
 {% if item.get('certificate') %}
     SSLCertificateFile  {{ item.certificate.crt }}
     SSLCertificateKeyFile {{ item.certificate.key }}
+    {% if ssl_config.certificate.chain is defined %}
     SSLCertificateChainFile {{ item.certificate.chain }}
+    {% endif %}
 {% elif ssl_config is defined %}
     SSLCertificateFile  {{ ssl_config.certificate.crt }}
     SSLCertificateKeyFile {{ ssl_config.certificate.key }}
+    {% if ssl_config.certificate.chain is defined %}
     SSLCertificateChainFile {{ ssl_config.certificate.chain }}
+    {% endif %}
 {% endif %}
     SSLProtocol all -SSLv2 -SSLv3
 </IfModule>
 
-<VirtualHost _default_:443>
+<VirtualHost _default_:{{'443' if ssl_config is defined else '80'}}>
     ServerAdmin isaw.it-group@nyu.edu
     ServerName {{ item.hostname }}
+    {% if ssl_config is defined %}
     <IfModule mod_ssl.c>
         SSLEngine On
         SSLProxyEngine on
     </IfModule>
+    {% endif %}
     UseCanonicalName On
     UseCanonicalPhysicalPort  On
 
@@ -109,7 +115,7 @@
     RewriteCond %{HTTP_USER_AGENT} (RU_Bot|crawler4j|BLEXBot|DataForSeoBot|TVersity|PetalBot|MJ12bot|DotBot|SeznamBot|SeznamBot|Nimbostratus-Bot|Semrush|Ahrefs|AspiegelBot|AhrefsBot|MauiBot|Sogou) [NC]
     RewriteRule (.*) - [F,L]
     RewriteCond %{REQUEST_URI} !^/(shibboleth-(sp|idp)|Shibboleth.sso|SAML|WAYF|server-(status|info)|exhibitions/vani|exhibitions/oldeurope|exhibitions/before-pythagoras|exhibitions/nubia|exhibitions/space|google.+\.html|kinik-hoyuk|kinikhoyuk|amheida|publications/inscriptions/campa|publications/awol-index)
-    RewriteRule ^/(.*)$ http://127.0.0.1:6081/VirtualHostBase/https/%{HTTP_HOST}:%{SERVER_PORT}{{ item.zodb_path }}/VirtualHostRoot/$1 [L,P]
+    RewriteRule ^/(.*)$ http://127.0.0.1:6081/VirtualHostBase/http{{'s' if ssl_config is defined else ''}}/%{HTTP_HOST}:%{SERVER_PORT}{{ item.zodb_path }}/VirtualHostRoot/$1 [L,P]
 
     Alias /google18ab215e4f134b4a.html /srv/www-data/google18ab215e4f134b4a.html
     <Directory "/srv/www-data">
