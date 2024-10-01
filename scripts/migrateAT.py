@@ -152,13 +152,23 @@ def migrate_folders(portal):
 
     for w in weirdeness:
         logger.info("migrating weirdness {}".format(w))
-        w = portal.unrestrictedTraverse(w)
+        try:
+            w = portal.unrestrictedTraverse(w)
+        except KeyError:
+            logger.error("{} not found. skipping".format(f))
+            continue
+
         migrate_wierdness(w)
         transaction.commit()
 
     for f in folders:
         logger.info("migrating {}".format(f))
-        f = portal.unrestrictedTraverse(f)
+        try:
+            f = portal.unrestrictedTraverse(f)
+        except KeyError:
+            logger.error("{} not found. skipping".format(f))
+            continue
+
         migration.migrate_folders(f)
         transaction.commit()
 
