@@ -435,9 +435,9 @@ def patch_transform():
 
             #raise TransformError('Error during transformation', e)
 
-        logger.info("### PATCH plone.app.textfield.transform... swallow any transform error during migration")
+    logger.info("### PATCH plone.app.textfield.transform... swallow any transform error during migration")
+    PortalTransformsTransformer.__call__ = new_call
 
-        PortalTransformsTransformer.__call__ = new_call
 
 def fix_timezones(portal):
     logger.info("fixing Timezones on Events objects...")
