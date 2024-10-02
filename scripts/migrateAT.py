@@ -147,6 +147,7 @@ def migrate_folders(portal):
       '/isaw/visiting-scholars',
       '/isaw/research/io-figures/images/',
       '/isaw/research',
+      '/isaw/outreach',
     ]
 
 
@@ -349,6 +350,16 @@ def uninstall_collectiveleadImage():
     if pqi.isProductInstalled(PRODUCT):
         pqi.uninstallProducts([PRODUCT])
 
+    # cleanup portal_properties.cli_properties
+    cli_props = getattr(portal.portal_properties, 'cli_properties', None)
+    if not cli_props:
+        return
+    allowed_types =  cli_props.getProperty('allowed_types')
+    if not allowed_types:
+        return
+
+    cli_props._updateProperty('allowed_types', ())
+    logger.info("cleaned portal_properties.cli_properties.allowed_types")
 
 def toggleContentRules(status='disabled'):
     from plone.contentrules.engine.interfaces import IRuleStorage
@@ -462,6 +473,7 @@ def fix_timezones(portal):
 
 if __name__ == "__main__":
     install_dexterity(portal)
+    uninstall_collectiveleadImage()
     enable_ILeadeImageBehavior()
 
     toggleCachePurging(status='disabled')
