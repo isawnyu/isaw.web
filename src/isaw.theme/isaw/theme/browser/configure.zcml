@@ -9,8 +9,8 @@
       type="zope.publisher.interfaces.browser.IBrowserSkinType"
       name="NYU ISAW Theme"
       />
-  
-  <!-- For overriding templates, add z3c.jbot to the base.cfg to use -->    
+
+  <!-- For overriding templates, add z3c.jbot to the base.cfg to use -->
   <include package="z3c.jbot" file="meta.zcml" />
 
   <!-- Forms package for events request etc -->
@@ -19,7 +19,7 @@
   <browser:templateOverrides
       directory="template-overrides"
       layer=".interfaces.IThemeSpecific" />
-  
+
   <!-- Utils View -->
   <browser:page
      name="utils_view"
@@ -27,7 +27,7 @@
      class=".utilsview.UtilsView"
      permission="zope.Public"
      allowed_interface=".interfaces.IUtilsView"
-     /> 
+     />
 
   <!-- NYU SSO View -->
   <browser:page
@@ -49,7 +49,7 @@
     />
 
     <browser:menuItem
-        for="Products.ATContentTypes.interface.IATFolder"
+        for="plone.app.contenttypes.interfaces.IFolder"
         menu="plone_displayviews"
         title="Tiled Listing"
         action="@@tiled-listing"
@@ -101,7 +101,7 @@
     />
 
     <browser:menuItem
-        for="Products.ATContentTypes.interface.IATFolder"
+        for="plone.app.contenttypes.interfaces.IFolder"
         menu="plone_displayviews"
         title="Tiled View (alt)"
         action="@@simple-tiled-listing"
@@ -134,7 +134,7 @@
     />
 
     <browser:menuItem
-        for="Products.ATContentTypes.interface.IATFolder"
+        for="plone.app.contenttypes.interfaces.IFolder"
         menu="plone_displayviews"
         title="Summary View (alt)"
         action="@@simple-summary-listing"
@@ -169,7 +169,7 @@
     />
 
     <browser:menuItem
-        for="Products.ATContentTypes.interface.IATFolder"
+        for="plone.app.contenttypes.interfaces.IFolder"
         menu="plone_displayviews"
         title="Event Listing"
         action="@@event-listing"
@@ -212,7 +212,7 @@
     />
 
     <browser:menuItem
-        for="Products.ATContentTypes.interface.IATFolder"
+        for="plone.app.contenttypes.interfaces.IFolder"
         menu="plone_displayviews"
         title="Title-Only Listing"
         action="@@title-listing"
@@ -246,7 +246,7 @@
     />
 
     <browser:menuItem
-        for="Products.ATContentTypes.interface.IATFolder"
+        for="plone.app.contenttypes.interfaces.IFolder"
         menu="plone_displayviews"
         title="Publication Listing"
         action="@@publication-listing"
@@ -290,7 +290,7 @@
 
   <browser:page
       name="people-listing"
-      for="Products.ATContentTypes.interfaces.IATFolder"
+      for="plone.app.contenttypes.interfaces.IFolder"
       class=".people.PeopleViewFolder"
       template="templates/people_listing.pt"
       layer=".interfaces.IThemeSpecific"
@@ -307,7 +307,7 @@
       />
 
     <browser:menuItem
-        for="Products.ATContentTypes.interfaces.IATFolder"
+        for="plone.app.contenttypes.interfaces.IFolder"
         menu="plone_displayviews"
         title="People Listing"
         action="@@people-listing"
@@ -342,7 +342,7 @@
 
   <!-- Custom Maps -->
   <browser:page
-      for="Products.ATContentTypes.interface.IATFolder"
+      for="plone.app.contenttypes.interfaces.IFolder"
       name="maps_map"
       template="templates/maps_map.pt"
       layer=".interfaces.IThemeSpecific"
@@ -374,7 +374,7 @@
     />
 
     <browser:menuItem
-        for="Products.ATContentTypes.interface.IATFolder"
+        for="plone.app.contenttypes.interfaces.IFolder"
         menu="plone_displayviews"
         title="Bibliographic List"
         action="@@bibliographic-list"
