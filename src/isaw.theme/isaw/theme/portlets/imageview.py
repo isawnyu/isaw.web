@@ -1,11 +1,12 @@
 from Acquisition import aq_inner
-from zope.interface import implements
+from zope.interface import implementer
 
 from Products.Five.browser import BrowserView
 
 from isaw.theme.portlets.interfaces import IFeaturePortletImageView
 
 
+@implementer(IFeaturePortletImageView)
 class ImageView(BrowserView):
     '''
     View the image field of the image portlet. We steal header details
@@ -13,7 +14,6 @@ class ImageView(BrowserView):
     core implementation that the Image object here has.
     '''
 
-    implements(IFeaturePortletImageView)
 
     def __call__(self):
         context = aq_inner(self.context)

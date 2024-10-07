@@ -1,12 +1,12 @@
 from Products.Five.browser import BrowserView
-from zope.interface import implements
+from zope.interface import implementer
 
 from isaw.theme.browser.interfaces import ITitleListingView
 
 
+@implementer(ITitleListingView)
 class TitleListingView(BrowserView):
     """view class"""
-    implements(ITitleListingView)
     batch_size = 0
     page = 1
 

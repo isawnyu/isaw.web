@@ -5,7 +5,7 @@ from Products.CMFPlone import PloneMessageFactory as _
 from Products.Five.browser.pagetemplatefile import ViewPageTemplateFile
 from zope import schema
 from zope.formlib import form
-from zope.interface import implements
+from zope.interface import implementer
 
 
 class IButtonPortlet(IPortletDataProvider):
@@ -21,9 +21,9 @@ class IButtonPortlet(IPortletDataProvider):
     )
 
 
+@implementer(IButtonPortlet)
 class Assignment(base.Assignment):
     """simple portlet assignment"""
-    implements(IButtonPortlet)
 
     @property
     def title(self):

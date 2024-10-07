@@ -1,6 +1,6 @@
 from DateTime import DateTime
 
-from zope.interface import implements
+from zope.interface import implementer
 
 from Products.CMFCore.utils import getToolByName
 from Products.Five import BrowserView
@@ -10,10 +10,10 @@ from isaw.theme.browser.interfaces import ISSOView
 from isaw.policy.config import IS_PRODUCTION
 
 
+@implementer(IUtilsView)
 class UtilsView(BrowserView):
     """See `IUtilsView` for documentation
     """
-    implements(IUtilsView)
 
     def __init__(self, context, request=None):
         self.context = context
@@ -84,10 +84,10 @@ class UtilsView(BrowserView):
         return code
 
 
+@implementer(ISSOView)
 class SSOView(BrowserView):
     """Makes URLs for SSO login/logout accible from restricted python.
     """
-    implements(ISSOView)
 
     dev_logout_url = 'https://shibbolethqa.es.its.nyu.edu/idp/profile/Logout'
     prod_logout_url = 'https://shibboleth.nyu.edu/idp/profile/Logout'

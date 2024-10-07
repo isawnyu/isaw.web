@@ -1,0 +1,78 @@
+- hosts: all
+  become: yes
+  become_method: sudo
+  gather_facts: yes
+
+  pre_tasks:
+    - name: Include vars from local-configure-5.1.yml
+      include_vars: "../local-configure-5.1.yml"
+      tags:
+        - always
+
+    - name: Update packages via apt
+      when: ansible_os_family == 'Debian'
+      apt: upgrade=dist update_cache=yes
+      tags:
+        - update_packages
+
+    - name: Ensure optional packages via apt
+      when: ansible_os_family == 'Debian'
+      apt: pkg="{{ additional_packages|default([]) }}" state=present
+      tags:
+        - update_packages
+
+    - name: Define primary SSL name
+      set_fact:
+        plone_backup_at: []
+        plone_pack_at: []
+      tags:
+        - always
+
+  roles:
+    - role: plone.plone_server
+      tags: plone
+
+    - role: restart_script
+      vars:
+        playbook_plones:
+            - plone_version: "{{ plone_version }}"
+              plone_instance_name: "{{ plone_instance_name }}"
+              webserver_virtualhosts:
+                - hostname: "{{ inventory_hostname }}"
+                  zodb_path: "{{ zodb_path | default('/Plone') }}"
+        install_loadbalancer: yes
+        install_proxycache: yes
+      tags: restart_script
+
+  tasks:
+    - name: Instance var directory
+      file:
+        path=/usr/local/plone-5.1/migration/{{ item }}
+        state=directory
+        owner={{ instance_config.plone_daemon_user }}
+        group={{ instance_config.plone_group }}
+        mode=g+rwX
+      with_items:
+        - var
+        - var/filestorage
+        - var/blobstorage
+        - var/log
+        - var/tmp
+      tags:
+        - plone
+        - permissions
+
+    - name: Buildout parts/src/eggs permissions
+      file:
+        path=/usr/local/plone-5.1/migration/{{ item }}
+        state=directory
+        recurse=yes
+        owner={{ instance_config.plone_buildout_user }}
+        group={{ instance_config.plone_group }}
+        mode=g+rwX
+      with_items:
+        - parts
+        - eggs
+      tags:
+        - plone
+        - permissions

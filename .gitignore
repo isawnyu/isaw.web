@@ -7,6 +7,9 @@ __pycache__/
 
 # Distribution / packaging
 .Python
+Pipfile
+.python-version
+.vaultpass
 bin/
 lib/
 setup-base/
@@ -23,6 +26,7 @@ develop-eggs/
 lib64/
 parts/
 sdist/
+ansible/ansible-playbook
 var/*
 *.egg-info/
 *.egg

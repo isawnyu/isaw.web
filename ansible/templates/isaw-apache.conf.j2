@@ -1,0 +1,163 @@
+<IfModule mpm_worker_module>
+    ThreadStackSize          524288
+</IfModule>
+<IfModule mod_ssl.c>
+{% if item.get('certificate') %}
+    SSLCertificateFile  {{ item.certificate.crt }}
+    SSLCertificateKeyFile {{ item.certificate.key }}
+    {% if ssl_config.certificate.chain is defined %}
+    SSLCertificateChainFile {{ item.certificate.chain }}
+    {% endif %}
+{% elif ssl_config is defined %}
+    SSLCertificateFile  {{ ssl_config.certificate.crt }}
+    SSLCertificateKeyFile {{ ssl_config.certificate.key }}
+    {% if ssl_config.certificate.chain is defined %}
+    SSLCertificateChainFile {{ ssl_config.certificate.chain }}
+    {% endif %}
+{% endif %}
+    SSLProtocol all -SSLv2 -SSLv3
+</IfModule>
+
+<VirtualHost _default_:{{'443' if ssl_config is defined else '80'}}>
+    ServerAdmin isaw.it-group@nyu.edu
+    ServerName {{ item.hostname }}
+    {% if ssl_config is defined %}
+    <IfModule mod_ssl.c>
+        SSLEngine On
+        SSLProxyEngine on
+    </IfModule>
+    {% endif %}
+    UseCanonicalName On
+    UseCanonicalPhysicalPort  On
+
+    # Possible values include: debug, info, notice, warn, error, crit,
+    # alert, emerg.
+    LogLevel warn
+
+    ErrorLog /var/log/apache2/{{ item.hostname }}-error.log
+    CustomLog /var/log/apache2/{{ item.hostname }}-access.log combined
+
+    ErrorDocument 500 /srv/www-data/errors/50x.html
+    ErrorDocument 501 /srv/www-data/errors/50x.html
+    ErrorDocument 502 /srv/www-data/errors/50x.html
+    ErrorDocument 503 /srv/www-data/errors/50x.html
+    ErrorDocument 504 /srv/www-data/errors/50x.html
+
+    <IfModule mod_deflate.c>
+        # Insert filter
+        SetOutputFilter DEFLATE
+        AddOutputFilterByType DEFLATE application/atom+xml \
+                                    application/javascript \
+                                    application/json \
+                                    application/rss+xml \
+                                    application/vnd.ms-fontobject \
+                                    application/x-font-ttf \
+                                    application/xhtml+xml \
+                                    application/xml \
+                                    font/opentype \
+                                    image/svg+xml \
+                                    image/x-icon \
+                                    text/css \
+                                    text/html \
+                                    text/plain \
+                                    text/x-component \
+                                    text/xml
+
+        # Netscape 4.x has some problems...
+        BrowserMatch ^Mozilla/4 gzip-only-text/html
+
+        # Netscape 4.06-4.08 have some more problems
+        BrowserMatch ^Mozilla/4\.0[678] no-gzip
+
+        # MSIE masquerades as Netscape, but it is fine
+        # BrowserMatch \bMSIE !no-gzip !gzip-only-text/html
+
+        # NOTE: Due to a bug in mod_setenvif up to Apache 2.0.48
+        # the above regex won't work. You can use the following
+        # workaround to get the desired effect:
+        BrowserMatch \bMSI[E] !no-gzip !gzip-only-text/html
+
+        # Don't compress images
+        SetEnvIfNoCase Request_URI \
+        \.(?:gif|jpe?g|png)$ no-gzip dont-vary
+
+        # Make sure proxies don't deliver the wrong content
+        Header append Vary User-Agent env=!dont-vary
+
+        #exclude the following file types
+        SetEnvIfNoCase Request_URI \.(?:exe|t?gz|zip|iso|tar|bz2|sit|rar|png|jpg|gif|jpeg|flv|swf|mp3)$ no-gzip dont-vary
+
+        #set compression level
+        DeflateCompressionLevel 9
+    </IfModule>
+
+    BrowserMatch "MSIE [2-6]" \
+            nokeepalive ssl-unclean-shutdown \
+            downgrade-1.0 force-response-1.0
+    # MSIE 7 and newer should be able to use keepalive
+    BrowserMatch "MSIE [17-9]" ssl-unclean-shutdown
+
+    <Proxy *>
+        Order deny,allow
+        Allow from all
+    </Proxy>
+
+    <Proxy proxy:http://127.0.0.1:6081/>
+        Require all granted
+    </Proxy>
+
+    ProxyVia On
+    ProxyTimeout 600
+    RewriteEngine On
+    RewriteCond %{HTTP_USER_AGENT}  (?i)^.*feedburner.*$
+    RewriteRule . - [R=403,L]
+    # Reject bad bots
+    RewriteCond %{HTTP_USER_AGENT} (RU_Bot|crawler4j|BLEXBot|DataForSeoBot|TVersity|PetalBot|MJ12bot|DotBot|SeznamBot|SeznamBot|Nimbostratus-Bot|Semrush|Ahrefs|AspiegelBot|AhrefsBot|MauiBot|Sogou) [NC]
+    RewriteRule (.*) - [F,L]
+    RewriteCond %{REQUEST_URI} !^/(shibboleth-(sp|idp)|Shibboleth.sso|SAML|WAYF|server-(status|info)|exhibitions/vani|exhibitions/oldeurope|exhibitions/before-pythagoras|exhibitions/nubia|exhibitions/space|google.+\.html|kinik-hoyuk|kinikhoyuk|amheida|publications/inscriptions/campa|publications/awol-index)
+    RewriteRule ^/(.*)$ http://127.0.0.1:6081/VirtualHostBase/http{{'s' if ssl_config is defined else ''}}/%{HTTP_HOST}:%{SERVER_PORT}{{ item.zodb_path }}/VirtualHostRoot/$1 [L,P]
+
+    Alias /google18ab215e4f134b4a.html /srv/www-data/google18ab215e4f134b4a.html
+    <Directory "/srv/www-data">
+        Options FollowSymLinks
+        AllowOverride None
+        Require all granted
+    </Directory>
+
+    Alias /exhibitions "/srv/www-data/exhibitions"
+    <Directory "/srv/www-data/exhibitions">
+        Options FollowSymLinks
+        AllowOverride All
+        Require all granted
+    </Directory>
+
+    Alias /kinikhoyuk "/srv/www-data/kinik-hoyuk"
+    Alias /kinik-hoyuk "/srv/www-data/kinik-hoyuk"
+    <Directory /srv/www-data/kinik-hoyuk>
+        Options FollowSymLinks
+        AllowOverride All
+        Require all granted
+    </Directory>
+
+    Redirect permanent "/amheida" "/research/amheida"
+
+    Alias /publications "/srv/www-data/publications"
+    <Directory /srv/www-data/publications>
+        Options FollowSymLinks Indexes
+        IndexIgnore ..
+        IndexOptions Charset=UTF-8
+        AllowOverride All
+        Require all granted
+    </Directory>
+</VirtualHost>
+
+{% for alias in item.get('aliases', []) %}
+<VirtualHost *:443>
+    ServerName {{ alias }}
+    <IfModule mod_ssl.c>
+        SSLEngine On
+    </IfModule>
+
+    RedirectMatch permanent ^(.*)$ https://{{ item.hostname }}$1
+</VirtualHost>
+{% endfor %}

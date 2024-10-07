@@ -1,5 +1,5 @@
 from Acquisition import aq_acquire, aq_parent
-from zope.interface import implements
+from zope.interface import implementer
 
 from cgi import escape
 from urlparse import urljoin
@@ -12,9 +12,9 @@ from plone.outputfilters.filters.resolveuid_and_caption import (
 )
 
 
+@implementer(IFilter)
 class WCAGResolveUIDAndCaptionFilter(ResolveUIDAndCaptionFilter):
     """ Parser to convert UUID links and captioned images """
-    implements(IFilter)
 
     def unknown_starttag(self, tag, attrs):
         """Get rid of title attribute, and use caption attribute instead

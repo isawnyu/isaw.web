@@ -13,10 +13,10 @@
   <dd class="portletItem"
       tal:define="context  nocall:view/context">
     <ul class="details">
-        <li tal:content="python:toLocalizedTime(context.start())">May 21, 2015</li>
-        <li tal:content="python:toLocalizedTime(context.start(), time_only=1)">6:00PM - 7:00PM</li>
+        <li tal:content="python:toLocalizedTime(context.start)">May 21, 2015</li>
+        <li tal:content="python:toLocalizedTime(context.start, time_only=1)">6:00PM - 7:00PM</li>
         <li tal:content="context/location">2nd Floor Lecture Hall, ISAW</li>
-        <li tal:condition="python:context.ZopeTime() > toLocalizedTime(context.end()) and context/rsvpRequired">RSVP Required</li>
+        <li tal:condition="python:context.ZopeTime() > toLocalizedTime(context.end) and context/rsvpRequired">RSVP Required</li>
     </ul>
     <div class="add-to-cal">
         <h2>Add Event to Calendar</h2>
