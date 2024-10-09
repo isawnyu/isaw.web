@@ -7,6 +7,8 @@ from plone.app.contenttypes.migration.migration import EventMigrator
 from plone.app.contenttypes.migration.migration import migrate
 from plone.app.contenttypes.migration.utils import restore_references
 from plone.app.contenttypes.migration.utils import store_references
+from plone.app.contenttypes.migration.utils import link_items
+from plone.app.contenttypes.migration.utils import uuidToObject
 from plone.app.event import browser
 from plone.dexterity.interfaces import IDexterityFTI
 from plone.event.utils import default_timezone
@@ -17,6 +19,12 @@ from zope.component.hooks import setSite
 from zope.interface import alsoProvides
 import logging
 import transaction
+from json import dump
+from json import load
+from zope.intid.interfaces import IIntIds
+from z3c.relationfield import RelationValue
+
+relation_fname = './migration_references.json'
 
 portal = app.isaw
 
@@ -277,10 +285,60 @@ def unlockDavLocks():
     transaction.commit()
 
 
+def save_references(portal):
+    """save refrences to json"""
+    import os.path
+    key = 'ALL_REFERENCES'
+    refs = IAnnotations(portal)[key]
+
+    if os.path.isfile(relation_fname):
+        with file("./migration_references.json", 'r') as fp:
+            out_refs = load(fp)
+    else:
+        out_refs = []
+
+    out_refs += refs
+
+    with file(relation_fname, 'w') as fp:
+        dump(out_refs, fp, indent=4)
+
+def restore_json_references(portal):
+    intids = getUtility(IIntIds)
+    with file(relation_fname, 'r') as fp:
+        refs = load(fp)
+    for ref in refs:
+        source_obj = uuidToObject(ref['from_uuid'])
+        target_obj = uuidToObject(ref['to_uuid'])
+        if source_obj and target_obj:
+            relationship = ref['relationship']
+            if relationship == u"relatesTo":
+                to_id = intids.getId(target_obj)
+                found = False
+                relations =  source_obj.relatedItems
+                for related in relations:
+                    if related.to_id == to_id:
+                        found = True
+                        break
+                if not found:
+                    relations.append(RelationValue(to_id))
+                    source_obj.relatedItems = relations
+
+            link_items(portal, source_obj, target_obj, relationship)
+        else:
+            logger.warn(
+                'Could not restore reference from uid '
+                '"%s" to uid "%s" on the context: %s' % (
+                    ref['from_uuid'], ref['to_uuid'],
+                    '/'.join(portal.getPhysicalPath())))
+
+
+
+
 def migrate_default_types():
     patch_ATEvent()
     unlockDavLocks()
     store_references(portal)
+    save_references(portal)
 
     migration.migrate_blobfiles(portal)
     migration.migrate_blobimages(portal)
@@ -312,6 +370,7 @@ def migrate_default_types():
 
     unpatch_ATEvent()
     restore_references(portal)
+    restore_json_references(portal)
     logger.info("End migration default ATCT to Dexterity")
 
 
@@ -472,6 +531,7 @@ def fix_timezones(portal):
 
 
 if __name__ == "__main__":
+
     install_dexterity(portal)
     uninstall_collectiveleadImage()
     enable_ILeadeImageBehavior()
