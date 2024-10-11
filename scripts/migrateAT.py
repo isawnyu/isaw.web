@@ -40,6 +40,16 @@ newSecurityManager(None, user.__of__(app.acl_users))
 
 setSite(portal)
 
+def disable_resolve_uid_captioning_adapter(portal):
+    from zope.component import getGlobalSiteManager
+    from plone.outputfilters.interfaces import IFilter
+
+    gsm = getGlobalSiteManager()
+    gsm.unregisterAdapter(factory="isaw.theme.resolveuid_and_caption.WCAGResolveUIDAndCaptionFilter",
+                          required=(None, None),
+                          provided=IFilter,
+                          name="resolveuid_and_caption")
+
 
 def fix_registry(context=None):
     """Remove registry-records where the interface is no longer there."""
@@ -539,6 +549,8 @@ if __name__ == "__main__":
     toggleCachePurging(status='disabled')
     toggleContentRules(status='disabled')
     toggleLinkIntegrity(status='disabled')
+
+    disable_resolve_uid_captioning_adapter(portal)
 
     patch_transform()
     fix_timezones(portal)
