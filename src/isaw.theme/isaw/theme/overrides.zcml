@@ -5,12 +5,12 @@
     xmlns:five="http://namespaces.zope.org/five"
     i18n_domain="isaw.theme">
 
-  <!--<adapter
+  <adapter
     provides="plone.outputfilters.interfaces.IFilter"
     name="resolveuid_and_caption"
     for="* *"
     factory=".resolveuid_and_caption.WCAGResolveUIDAndCaptionFilter"
-    />-->
+    />
 
   <browser:resource name="easySlider.js" file="./browser/easySlider.js" />
   <browser:resource name="easySlider.css" file="./browser/easySlider.css" />

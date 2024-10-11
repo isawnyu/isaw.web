@@ -26,7 +26,7 @@ from z3c.relationfield import RelationValue
 
 relation_fname = './migration_references.json'
 
-portal = app.isaw
+portal = app.Plone
 
 logging.getLogger().setLevel(logging.INFO)
 for handler in logging.getLogger().handlers:
@@ -164,7 +164,7 @@ def migrate_folders(portal):
         try:
             w = portal.unrestrictedTraverse(w)
         except KeyError:
-            logger.error("{} not found. skipping".format(f))
+            logger.error("{} not found. skipping".format(w))
             continue
 
         migrate_wierdness(w)
@@ -278,7 +278,7 @@ class ISAWEventMigrator(EventMigrator):
 def unlockDavLocks():
     logger.info("Looking for DavLocked objects")
     davmanager = app.Control_Panel.get('DavLocks')
-    locked_objs = davmanager.findLockedObjects(frompath='/isaw')
+    locked_objs = davmanager.findLockedObjects(frompath='/')
     logger.info("found {} locked objects".format(len(locked_objs)))
     davmanager.unlockObjects(paths=[path for path, info in locked_objs])
     logger.info("...unlocked")
