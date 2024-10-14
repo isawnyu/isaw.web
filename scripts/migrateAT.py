@@ -45,8 +45,7 @@ def disable_resolve_uid_captioning_adapter(portal):
     from plone.outputfilters.interfaces import IFilter
 
     gsm = getGlobalSiteManager()
-    gsm.unregisterAdapter(factory="isaw.theme.resolveuid_and_caption.WCAGResolveUIDAndCaptionFilter",
-                          required=(None, None),
+    gsm.unregisterAdapter(required=(None, None),
                           provided=IFilter,
                           name="resolveuid_and_caption")
 
