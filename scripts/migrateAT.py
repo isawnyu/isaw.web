@@ -26,7 +26,7 @@ from z3c.relationfield import RelationValue
 
 relation_fname = './migration_references.json'
 
-portal = app.Plone
+portal = app.isaw
 
 logging.getLogger().setLevel(logging.INFO)
 for handler in logging.getLogger().handlers:
@@ -542,7 +542,6 @@ def fix_timezones(portal):
 if __name__ == "__main__":
 
     install_dexterity(portal)
-    uninstall_collectiveleadImage()
     enable_ILeadeImageBehavior()
 
     toggleCachePurging(status='disabled')
