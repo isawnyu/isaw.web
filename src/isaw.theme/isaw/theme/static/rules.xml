@@ -66,13 +66,13 @@
     <!-- title -->
     <after theme-children='/html/head'
            content='/html/head/title' />
-    
+
     <!-- Copy meta style, script and link tags in the order they appear in the content -->
     <after
         content="/html/head/meta | /html/head/style | /html/head/link | /html/head/comment()[contains(., 'link')] | /html/head/script"
         theme-children="/html/head"
         />
-    
+
     <!-- Body -->
     <merge attributes="class" css:theme="body" css:content="body" />
     <copy css:theme="body" css:content="body" attributes="*" />
@@ -122,7 +122,7 @@
              css:content="#portal-footer" />
 
     <!-- Global nav -->
-            
+
     <!-- Edit bar and portal messages -->
     <replace css:theme="#viewlet-above-content"
              css:content="#viewlet-above-content" />
@@ -132,33 +132,33 @@
              css:content="#kssPortalMessage" />
     <after css:theme="#kssPortalMessage"
              css:content=".portalMessage" />
-            
+
     <!-- hide descriptions -->
     <drop css:if-content="body.portaltype-document"
-          css:content="#parent-fieldname-description"/>
+          css:content=".documentDescription"/>
     <drop css:if-content="body.portaltype-topic"
-          css:content="#parent-fieldname-description"/>
+          css:content=".documentDescription"/>
     <drop css:if-content="body.portaltype-news-item"
-          css:content="#parent-fieldname-description"/>
+          css:content=".documentDescription"/>
     <drop css:if-content="body.portaltype-event"
-          css:content="#parent-fieldname-description"/>
+          css:content=".documentDescription"/>
     <drop css:if-content="body.portaltype-pressrelease"
-          css:content="#parent-fieldname-description"/>
+          css:content=".documentDescription"/>
     <drop css:if-content="body.portaltype-pressclip"
-          css:content="#parent-fieldname-description"/>
+          css:content=".documentDescription"/>
     <drop css:if-content="body.portaltype-formfolder"
 	        css:content=".documentDescription"/>
     <drop css:if-content="body.portaltype-isaw-exhibitions-object"
           css:content=".documentDescription"/>
     <drop css:if-content="body.portaltype-isaw-bibitems-bibitem"
           css:content=".documentDescription"/>
-      
+
     <!-- content area -->
     <replace css:theme-children="#content"
              css:content-children="#content" />
     <after css:theme="#content"
            css:content="#viewlet-below-content"/>
-    
+
     <!-- right column -->
     <drop css:theme="#portal-column-second"
           css:if-not-content="#portal-column-two" />
@@ -168,7 +168,7 @@
 
     <!-- strip navigation portlet header sitemap links -->
     <strip css:content="dl.portletNavigationTree dt.portletHeader a" />
-    
+
     <!-- left column -->
     <drop css:theme="#portal-column-first"
           css:if-not-content="#portal-column-one" />
