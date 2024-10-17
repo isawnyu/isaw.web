@@ -718,16 +718,17 @@ body #content ul.news.simple a.TileLink:hover, body #content ul.news.simple a.Ti
 }
 
 /* Folder summary */
-body.template-folder_summary_view #content h2 {
+body.template-summary_view #content h2
+{
     margin-top: 28px;
     margin-bottom: 0px;
 }
-body.template-folder_summary_view #content p.tileBody {
+body.template-summary_view #content p.tileBody {
     margin-bottom: 0px;
 }
 
-body.template-folder_summary_view #content .tileFooter,
-body.template-folder_summary_view #content .tileItem a img {
+body.template-summary_view #content .tileFooter,
+body.template-summary_view #content .tileItem a img {
     display: none;
 }
 
@@ -1336,7 +1337,7 @@ h2.CVSectionTitle:before {
 	#portal-columns ul.news li:nth-child(2n), #content ul.news li:nth-child(2n) {margin-right:0; }
 	#portal-columns ul.news li:nth-child(2n+1), #content ul.news li:nth-child(2n+1) {clear:left; }
 
-    #content #slider .slide .slideroverlay { background-color: transparent;}  
+    #content #slider .slide .slideroverlay { background-color: transparent;}
     #slider-container, #slider { height: auto !important; }
 
 	#viewlet-above-content .post.featured .post-image,
