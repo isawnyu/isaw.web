@@ -69,19 +69,22 @@ $(document).ready(function () {
           <span tal:content="python:view.format_date(item.start)"></span>
           <span tal:content="item/location"></span>
         </div>
-        <div class="event-result-detail" tal:define="item_url item/getURL;
-                    image_tag python:view.get_image(item);
-                    image_url string:${item_url}/@@images/image/blogtile;
-                    title item/Title;
-                    exerpt item/Description">
+        <div class="event-result-detail"
+             tal:define="item_url item/getURL;
+                        item_obj item/getObject;
+                        image_tag python:view.get_image(item);
+                        image_url string:${item_url}/@@images/image/blogtile;
+                        title item/Title;
+                        exerpt item/Description">
           <a href="#" tal:attributes="href item_url"
-             tal:condition="item/hasContentLeadImage">
-            <img tal:attributes="src string:${item_url}/leadImage_mini;
-                                 alt item/contentLeadImageAltText" />
+             tal:condition="item/image">
+
+            <img tal:attributes="src string:${item_url}/@@images/image/mini;
+                                 alt item_obj/image_caption" />
             <h2 class="event-title" tal:content="item/Title">[title]</h2>
           </a>
           <a href="#" tal:attributes="href item_url"
-                      tal:condition="not:item/hasContentLeadImage"><h2 class="event-title" tal:content="item/Title">[title]</h2></a>
+                      tal:condition="not:item/image|nothing"><h2 class="event-title" tal:content="item/Title">[title]</h2></a>
           <p class="event-subtitle" tal:condition="item/subtitle" tal:content="item/subtitle">Subtitle</p>
           <p class="event-speaker" tal:condition="item/speaker" tal:content="item/speaker">Speaker</p>
           <div class="post-excerpt" tal:content="exerpt">[exerpt]</div>

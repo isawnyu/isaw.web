@@ -558,10 +558,8 @@ def fix_events_calendar_portlet_configuration(portal):
     calendar_portlet = assignment_mapping[u"calendar"]
 
     state =  ('external', 'internally_published', 'published')
-    search_base = '/events'
 
     calendar_portlet.state = state
-    calendar_portlet.search_base = search_base
     logger.info("...fixed")
 
 
