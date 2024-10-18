@@ -18,6 +18,9 @@ from plone.registry.interfaces import IRegistry
 from isaw.theme.browser.interfaces import IEventListingView
 from isaw.theme.browser.interfaces import IISAWSettings
 from isaw.theme.browser.tiled_view import TiledListingView
+from plone.app.event.browser.event_listing import EventListing
+from plone.app.event.base import start_end_from_mode
+from plone.app.event.base import guess_date_from
 
 
 @implementer(IEventListingView)
@@ -35,8 +38,27 @@ class EventListingView(TiledListingView):
                 DateTime(date), True, False, self.context)
         return date
 
+    @property
+    def date(self):
+        dt = None
+        if self._date:
+            try:
+                dt = guess_date_from(self._date)
+            except TypeError:
+                pass
+        return dt
+
+    @property
+    def _start_end(self):
+        start, end = start_end_from_mode(self.mode, self.date, self.context)
+        return start, end
+
     def listings(self, b_start=None, b_size=None):
         """get a page of listings"""
+        req = self.request.form
+        self._date = 'date' in req and req['date'] or None
+        self.mode = 'mode' in req and req['mode'] or None
+
         if b_size is None:
             b_size = self.batch_size
         if b_start is None:
@@ -62,11 +84,15 @@ class EventListingView(TiledListingView):
             content_filter['start'] = {'query': DateTime(), 'range': 'min'}
 
         start = self.request.get('start')
-        if start:
-            content_filter['start'] = start
         end = self.request.get('end')
+
+        start, end = self._start_end
+
+        if start:
+            content_filter['start'] = {'query': start, 'range': 'min'}
         if end:
-            content_filter['end'] = end
+            content_filter['end'] = {'query': end, 'range': 'max'}
+
         if is_collection:
             batch = self.context.results(batch=True, b_start=b_start,
                                          b_size=b_size, brains=True,
