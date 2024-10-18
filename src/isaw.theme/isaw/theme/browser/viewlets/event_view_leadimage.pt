@@ -1,0 +1,9 @@
+<div class="leadImage newsImageContainer" tal:condition="view/available">
+    <img tal:define="has_img context/image|nothing;
+                    scales context/@@images|nothing"
+        tal:condition="python:has_img and scales"
+        tal:replace="structure python: scales.scale('image', scale='mini').tag(css_class='newsImage')" />
+    <p class="discreet">
+    <span tal:content="context/image_caption" tal:condition="context/image_caption"></span>
+    </p>
+</div>
