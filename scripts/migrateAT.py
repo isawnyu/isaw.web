@@ -1,28 +1,30 @@
 from AccessControl.SecurityManagement import newSecurityManager
+from json import dump
+from json import load
 from plone import api
 from plone.app.contenttypes.migration import migration
 from plone.app.contenttypes.migration import topics
 from plone.app.contenttypes.migration.migration import DocumentMigrator
 from plone.app.contenttypes.migration.migration import EventMigrator
 from plone.app.contenttypes.migration.migration import migrate
+from plone.app.contenttypes.migration.utils import link_items
 from plone.app.contenttypes.migration.utils import restore_references
 from plone.app.contenttypes.migration.utils import store_references
-from plone.app.contenttypes.migration.utils import link_items
 from plone.app.contenttypes.migration.utils import uuidToObject
 from plone.app.event import browser
 from plone.dexterity.interfaces import IDexterityFTI
 from plone.event.utils import default_timezone
 from plone.registry.interfaces import IRegistry
+from z3c.relationfield import RelationValue
 from zope.annotation.interfaces import IAnnotations
+from zope.component import getMultiAdapter
 from zope.component import getUtility
 from zope.component.hooks import setSite
 from zope.interface import alsoProvides
+from zope.intid.interfaces import IIntIds
 import logging
 import transaction
-from json import dump
-from json import load
-from zope.intid.interfaces import IIntIds
-from z3c.relationfield import RelationValue
+
 
 relation_fname = './migration_references.json'
 
@@ -366,7 +368,7 @@ def migrate_default_types():
     # we must commit and reindex before migrating folders (God knows why)
     # otherwise bad things will happens
     logger.info('Starting a catalog reindex...')
-    portal.portal_catalog.clearFindAndRebuild()
+    #portal.portal_catalog.clearFindAndRebuild()
     transaction.commit()
 
     migrate_folders(portal)
@@ -539,6 +541,30 @@ def fix_timezones(portal):
     transaction.commit()
 
 
+def fix_events_calendar_portlet_configuration(portal):
+    from plone.portlets.interfaces import IPortletAssignmentMapping
+    from plone.portlets.interfaces import IPortletManager
+
+    try:
+        context = portal.unrestrictedTraverse('/isaw/events/event-home')
+    except KeyError:
+        logger.error ('missing context for fix_events_calendar_portlet_configuration')
+        return
+
+    logger.info("fix_events_calendar_portlet_configuration...")
+
+    manager = getUtility(IPortletManager, name=u"plone.rightcolumn")
+    assignment_mapping = getMultiAdapter((context, manager), IPortletAssignmentMapping)
+    calendar_portlet = assignment_mapping[u"calendar"]
+
+    state =  ('external', 'internally_published', 'published')
+    search_base = '/events'
+
+    calendar_portlet.state = state
+    calendar_portlet.search_base = search_base
+    logger.info("...fixed")
+
+
 if __name__ == "__main__":
 
     install_dexterity(portal)
@@ -560,6 +586,7 @@ if __name__ == "__main__":
     toggleLinkIntegrity(status='enabled')
 
     uninstall_collectiveleadImage()
+    fix_events_calendar_portlet_configuration(portal)
 
     transaction.commit()
 
