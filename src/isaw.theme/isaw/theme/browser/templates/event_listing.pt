@@ -72,8 +72,9 @@ $(document).ready(function () {
         <div class="event-result-detail" tal:define="item_url item/getURL;
                     title item/Title;
                     exerpt item/Description;
-                    image python: item.getObject().image;
-                    image_caption python: item.getObject().image_caption;">
+                    item_obj: item.getObject()
+                    image python: item_obj.image;
+                    image_caption python: item_obj.image_caption;">
           <a href="#" tal:attributes="href item_url"
              tal:condition="image">
             <img tal:attributes="src string:${item_url}/@@images/image/mini;
