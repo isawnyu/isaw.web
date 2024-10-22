@@ -369,23 +369,39 @@ same_name_fields = [
     ]
 
 
-def enable_ILeadeImageBehavior():
+def enable_behaviors():
     types_to_enable = ['Document', 'Event', 'Folder', 'File', 'Collection', 'Topic']
     behavior = "plone.app.contenttypes.behaviors.leadimage.ILeadImage"
     pt_tool = portal.portal_types
+
     for _type in types_to_enable:
         p_type = pt_tool.get(_type)
 
-        if IDexterityFTI.providedBy(p_type):
-            behaviors_list = list(p_type.getProperty('behaviors'))
+        if not IDexterityFTI.providedBy(p_type):
+            continue
 
-            if behavior in behaviors_list and behaviors_list.index(behavior) != 0:
-                behaviors_list.remove(behavior)
+        behaviors_list = list(p_type.getProperty('behaviors'))
 
-            if behavior not in behaviors_list:
-                behaviors_list.insert(0, behavior)
+        if behavior in behaviors_list and behaviors_list.index(behavior) != 0:
+            behaviors_list.remove(behavior)
 
-            p_type._updateProperty('behaviors', tuple(behaviors_list))
+        if behavior not in behaviors_list:
+            behaviors_list.insert(0, behavior)
+
+        p_type._updateProperty('behaviors', tuple(behaviors_list))
+
+    # enable behaviors of old ATSchemaExtended fields on Event
+    behavior = 'isaw.policy.IEventIsawBehavior'
+    p_type = pt_tool.get('Event')
+    behaviors_list = list(p_type.getProperty('behaviors'))
+    if behavior in behaviors_list and behaviors_list.index(behavior) != 1:
+        behaviors_list.remove(behavior)
+
+    if behavior not in behaviors_list:
+        behaviors_list.insert(1, behavior)
+    p_type._updateProperty('behaviors', tuple(behaviors_list))
+
+
 
 
 def uninstall_collectiveleadImage():
@@ -544,7 +560,7 @@ def fix_events_calendar_portlet_configuration(portal):
 if __name__ == "__main__":
 
     install_dexterity(portal)
-    enable_ILeadeImageBehavior()
+    enable_behaviors()
 
     toggleCachePurging(status='disabled')
     toggleContentRules(status='disabled')

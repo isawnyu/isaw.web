@@ -2,4 +2,20 @@
 <object name="Event" meta_type="Dexterity FTI" i18n:domain="plone"
    xmlns:i18n="http://xml.zope.org/namespaces/i18n">
   <property name="icon_expr">string:${portal_url}/calendar-day.png</property>
+  <property name="behaviors" purge="False">
+    <element value="plone.app.contenttypes.behaviors.leadimage.ILeadImage" />
+    <element value="isaw.policy.IEventIsawBehavior" />
+    <element value="plone.app.event.dx.behaviors.IEventBasic" />
+    <element value="plone.app.event.dx.behaviors.IEventRecurrence" />
+    <element value="plone.app.event.dx.behaviors.IEventLocation" />
+    <element value="plone.app.event.dx.behaviors.IEventAttendees" />
+    <element value="plone.app.event.dx.behaviors.IEventContact" />
+    <element value="plone.app.dexterity.behaviors.metadata.IDublinCore" />
+    <element value="plone.app.content.interfaces.INameFromTitle" />
+    <element value="plone.app.contenttypes.behaviors.richtext.IRichText" />
+    <element value="plone.app.dexterity.behaviors.discussion.IAllowDiscussion" />
+    <element value="plone.app.dexterity.behaviors.exclfromnav.IExcludeFromNavigation" />
+    <element value="plone.app.relationfield.behavior.IRelatedItems" />
+    <element value="plone.app.versioningbehavior.behaviors.IVersionable" />
+  </property>
 </object>
