@@ -157,6 +157,16 @@
         description="List folder contents in a simple list"
         />
 
+  <!-- Event detail view -->
+  <browser:viewlet
+    name="contentleadimage"
+    for="plone.app.contenttypes.behaviors.leadimage.ILeadImage"
+    manager="plone.app.layout.viewlets.interfaces.IAboveContentTitle"
+    class=".viewlets.events.LeadImageWithCaptionViewlet"
+    template="viewlets/event_view_leadimage.pt"
+    layer=".interfaces.IThemeSpecific"
+    permission="zope2.View"
+    />
 
   <!-- Event listing view -->
   <browser:page
