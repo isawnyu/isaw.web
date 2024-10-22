@@ -14,3 +14,10 @@
       <span tal:content="context/image_caption" tal:condition="context/image_caption"></span>
     </p>
 </div>
+<script>
+$(document).ready(function() {
+        $('.leadImage.newsImageContainer a.link-overlay').prepOverlay({
+          subtype: 'image',
+        });
+});
+</script>
