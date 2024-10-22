@@ -14,8 +14,8 @@
            tal:repeat="image view/images">
          <a class="publication-image-preview"
             href="">
-           <img tal:attributes="src string:${image/absolute_url}/image_thumb;
-                                ref string:${image/absolute_url}/image;
+           <img tal:attributes="src string:${image/absolute_url}/@@images/image/thumb;
+                                ref string:${image/absolute_url};
                                 caption image/Description;
                                 alt image/Description" />
          </a>
@@ -24,7 +24,7 @@
 
     <div class="PublicationBody" tal:define="first_image python:view.images[0]">
       <img class="publication-image-view"
-           tal:attributes="src string:${first_image/absolute_url}/image;
+           tal:attributes="src string:${first_image/absolute_url};
                            alt first_image/Description" />
       <h2 class="publication-image-caption"
           tal:content="first_image/Description" />

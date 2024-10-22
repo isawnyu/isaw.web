@@ -24,7 +24,7 @@
             class="publication-images">
          <img style="width: 32%;height: auto"
               tal:repeat="image python:images[:3]"
-              tal:attributes="src string:${image/absolute_url}/image_thumb;
+              tal:attributes="src string:${image/absolute_url}/@@images/image/thumb;
                               alt image/Description|string:" />
          <br />
          See all <span tal:content="python:len(images)">3</span> images.
