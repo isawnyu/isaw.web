@@ -1,9 +1,16 @@
-<div class="leadImage newsImageContainer" tal:condition="view/available">
-    <img tal:define="has_img context/image|nothing;
-                    scales context/@@images|nothing"
-        tal:condition="python:has_img and scales"
-        tal:replace="structure python: scales.scale('image', scale='mini').tag(css_class='newsImage')" />
+<div class="leadImage newsImageContainer"
+     tal:condition="view/available">
+    <a href=""
+       class="link-overlay pat-plone-modal"
+       tal:define="has_img context/image|nothing;"
+       tal:condition="has_img"
+       tal:attributes="href string:${context/absolute_url}/@@images/image/large">
+
+        <img tal:define="scales context/@@images|nothing"
+            tal:condition="python:has_img and scales"
+            tal:replace="structure python: scales.scale('image', scale='mini').tag(css_class='newsImage')" />
+    </a>
     <p class="discreet">
-    <span tal:content="context/image_caption" tal:condition="context/image_caption"></span>
+      <span tal:content="context/image_caption" tal:condition="context/image_caption"></span>
     </p>
 </div>
