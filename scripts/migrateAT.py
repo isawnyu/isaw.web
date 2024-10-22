@@ -1,8 +1,12 @@
 from AccessControl.SecurityManagement import newSecurityManager
 from json import dump
+
 from json import load
+
 from plone import api
+
 from plone.app.contenttypes.migration import migration
+
 from plone.app.contenttypes.migration import topics
 from plone.app.contenttypes.migration.migration import DocumentMigrator
 from plone.app.contenttypes.migration.migration import EventMigrator
@@ -142,34 +146,10 @@ def migrate_folders(portal):
         '/isaw/research/io-figures/objects/'
     ]
 
-    folders = [
-      '/isaw/about',
-      '/isaw/academics',
-      '/isaw/etaw/',
-      '/isaw/events/',
-      '/isaw/exhibitions/',
-      '/isaw/graduate-studies/',
-      '/isaw/guide/',
-      '/isaw/help/',
-      '/isaw/home-slides/',
-      '/isaw/images/',
-      '/isaw/jobs/',
-      '/isaw/library/',
-      '/isaw/members/',
-      '/isaw/modify/',
-      '/isaw/news/',
-      '/isaw/people/',
-      '/isaw/publications',
-      '/isaw/rsvp',
-      '/isaw/skunkworks',
-      '/isaw/support-isaw',
-      '/isaw/visiting-scholars',
-      '/isaw/research/io-figures/images/',
-      '/isaw/research',
-      '/isaw/outreach',
-    ]
+    folders = portal.objectIds('ATFolder')
 
-
+    # first we migrate folders that needs to be migrated
+    # outside the recursion of atct_migrator
     for w in weirdeness:
         logger.info("migrating weirdness {}".format(w))
         try:
@@ -181,6 +161,7 @@ def migrate_folders(portal):
         migrate_wierdness(w)
         transaction.commit()
 
+    # then we migrate all others folders
     for f in folders:
         logger.info("migrating {}".format(f))
         try:
@@ -237,15 +218,8 @@ def migrate_easy_slider(old, new):
 
 
 def migrate_timezone(old, new):
-    timezone = str(old.start_date.tzinfo) \
-    if old.start_date.tzinfo \
-        else default_timezone(fallback='UTC')
 
-    if timezone == 'GMT-4':
-        timezone = 'Etc/GMT-4'
-
-    new.timezone = timezone
-
+    new.timezone = 'US/Eastern'
 
 class ISAWDocumentMigrator(DocumentMigrator):
 
@@ -259,10 +233,11 @@ class ISAWEventMigrator(EventMigrator):
 
     def migrate_schema_fields(self):
 
-        migrate_timezone(self.old, self.new)
 
         migrate_datetimefield(self.old, self.new, 'startDate', 'start')
         migrate_datetimefield(self.old, self.new, 'endDate', 'end')
+        migrate_timezone(self.old, self.new)
+
 
         migrate_richtextfield(self.old, self.new, 'text', 'text')
         migrate_simplefield(self.old, self.new, 'location', 'location')
@@ -353,8 +328,10 @@ def migrate_default_types():
 
     migration.migrate_blobfiles(portal)
     migration.migrate_blobimages(portal)
+    transaction.commit()
 
     migrate(portal, ISAWEventMigrator)
+
     migrate(portal, ISAWDocumentMigrator)
 
     migration.migrate_collections(portal)
@@ -368,7 +345,7 @@ def migrate_default_types():
     # we must commit and reindex before migrating folders (God knows why)
     # otherwise bad things will happens
     logger.info('Starting a catalog reindex...')
-    #portal.portal_catalog.clearFindAndRebuild()
+    portal.portal_catalog.clearFindAndRebuild()
     transaction.commit()
 
     migrate_folders(portal)
@@ -382,6 +359,7 @@ def migrate_default_types():
     unpatch_ATEvent()
     restore_references(portal)
     restore_json_references(portal)
+
     logger.info("End migration default ATCT to Dexterity")
 
 
