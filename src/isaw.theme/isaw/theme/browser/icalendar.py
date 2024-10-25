@@ -24,8 +24,8 @@ def get_ical(result):
         'uid': result.UID(),
         'modified': rfc2445dt(DateTime(result.ModificationDate())),
         'summary': vformat(result.Title()),
-        'startdate': rfc2445dt(result.start()),
-        'enddate': rfc2445dt(result.end()),
+        'startdate': rfc2445dt(DateTime(result.start)),
+        'enddate': rfc2445dt(DateTime(result.end)),
         }
     out.write(ICS_EVENT_START % map)
 
