@@ -557,6 +557,15 @@ def fix_events_calendar_portlet_configuration(portal):
     logger.info("...fixed")
 
 
+def install_postmigration_products(portal):
+    to_be_installed = ['plone.app.event']
+    pqi = portal.portal_quickinstaller
+
+    for prod in to_be_installed:
+        if not pqi.isProductInstalled(prod):
+            pqi.installProduct(prod)
+
+
 if __name__ == "__main__":
 
     install_dexterity(portal)
@@ -578,6 +587,7 @@ if __name__ == "__main__":
     toggleLinkIntegrity(status='enabled')
 
     uninstall_collectiveleadImage()
+    install_postmigration_products(portal)
     fix_events_calendar_portlet_configuration(portal)
 
     transaction.commit()
