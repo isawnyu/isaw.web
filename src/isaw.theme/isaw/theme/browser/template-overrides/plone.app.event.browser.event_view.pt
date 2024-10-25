@@ -8,7 +8,9 @@
 <body>
 
 <metal:content-core fill-slot="content-core">
-        <div class="documentDescription" tal:condition="context/subtitle|nothing" tal:content="context/subtitle">subtitle</div>
+        <div class="documentDescription"
+        tal:condition="context/subtitle|nothing"
+        tal:content="context/subtitle">subtitle</div>
 
         <div class="bio" tal:define="speaker context/speaker|nothing;
                                      affiliation context/speakerAffiliation|nothing;">
