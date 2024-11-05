@@ -3,12 +3,9 @@ from Acquisition import aq_inner
 
 from plone.app.layout.viewlets import ViewletBase
 from plone.memoize.instance import memoizedproperty
-from Products.ATContentTypes.interfaces import IATNewsItem
 from Products.CMFPlone.interfaces import IPloneSiteRoot
 from Products.CMFPlone.utils import safe_unicode
-from collective.contentleadimage.config import IMAGE_ALT_FIELD_NAME
-from collective.contentleadimage.config import IMAGE_FIELD_NAME
-from collective.contentleadimage.leadimageprefs import ILeadImagePrefsForm
+
 from zope.component import getUtility
 
 
@@ -22,22 +19,10 @@ TYPE_MAP = {
 class OpenGraphTagViewlet(ViewletBase):
     """Viewlet which renders opengraph metadata for Facebook, etc."""
 
-    @memoizedproperty
-    def has_lead_image(self):
-        portal = getUtility(IPloneSiteRoot)
-        cli_prefs = ILeadImagePrefsForm(portal)
-        if cli_prefs.cli_props is not None:
-            portal_type = getattr(self.context, 'portal_type', None)
-            if portal_type in cli_prefs.allowed_types:
-                return True
-        return False
-
     @property
     def image_field(self):
         if getattr(self.context, 'portal_type', None) == 'profile':
             return 'Image'
-        if self.has_lead_image:
-            return IMAGE_FIELD_NAME
         return 'image'
 
     def update(self):
@@ -103,7 +88,7 @@ class OpenGraphTagViewlet(ViewletBase):
     def image_url(self):
         """Return an image url for the context in that order
         - context image field
-        - context lead image field
+        - context behavior lead image field
         - portal logo
         """
         context = aq_inner(self.context)
@@ -120,16 +105,11 @@ class OpenGraphTagViewlet(ViewletBase):
         context = aq_inner(self.context)
         if self.image_url is None:
             return
-        if self.has_lead_image:
-            value = context.getField(IMAGE_ALT_FIELD_NAME).get(context)
-        # News Items
-        elif IATNewsItem.providedBy(context):
-            field = context.getField('image_alt')
-            if field:
-                value = field.get(context)
         # Exhibitions and Publications
         elif getattr(aq_base(context), 'alt', None) is not None:
             value = context.alt
+        elif getattr(aq_base(context), 'image_caption', None) is not None:
+            value = context.image_caption
         if value:
             return safe_unicode(value)
 
