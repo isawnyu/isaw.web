@@ -127,16 +127,6 @@
       provides=".map_extender.IGeolocationBehavior"
       for="plone.dexterity.interfaces.IDexterityContent" />
 
-    <class class="Products.ATContentTypes.content.document.ATDocument">
-      <implements interface=".map_extender.IGeolocatable" />
-    </class>
-    <class class="Products.ATContentTypes.content.event.ATEvent">
-      <implements interface=".map_extender.IGeolocatable" />
-    </class>
-    <class class="Products.ATContentTypes.content.newsitem.ATNewsItem">
-      <implements interface=".map_extender.IGeolocatable" />
-    </class>
-
     <adapter factory=".map_extender.LocationMarker"
              provides="Products.Maps.interfaces.marker.IRichMarker" />
     <adapter factory=".map_extender.LocationMarker"
@@ -153,11 +143,6 @@
       provides="Products.Maps.interfaces.map.IMap"
       factory="Products.Maps.adapters.ContextMap"
       />
-    <adapter
-      name="isaw.policy.maps"
-      for=".map_extender.IGeolocatable"
-      factory=".map_extender.MapSchemaExtender"
-      provides="archetypes.schemaextender.interfaces.ISchemaExtender" />
 
     <browser:page
       for=".map_extender.IGeolocatable"

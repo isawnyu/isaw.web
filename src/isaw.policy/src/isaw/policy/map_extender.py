@@ -1,5 +1,5 @@
 from Acquisition import aq_base
-from zope.interface import Interface, implements, alsoProvides
+from zope.interface import Interface, implementer, alsoProvides
 from zope.component import adapts
 from zope import schema
 
@@ -15,8 +15,6 @@ from plone.supermodel.directives import fieldset
 from z3c.form.interfaces import IAddForm
 from z3c.form.interfaces import IEditForm
 
-from Products.Archetypes import atapi
-from Products.Maps.field import LocationField, LocationWidget
 from Products.Maps.content.Location import LocationMarker as BaseMarker
 from Products.Maps.interfaces import IRichMarker
 
@@ -25,48 +23,6 @@ class IGeolocatable(Interface):
     """ Marker interface for content that should get the extra
     geolocation schemata.
     """
-
-
-class ExtendedLocationField(ExtensionField, LocationField):
-    pass
-
-
-class ExtendedStringField(ExtensionField, atapi.StringField):
-    pass
-
-
-class MapSchemaExtender(object):
-    implements(ISchemaExtender)
-
-    _fields = [
-        ExtendedLocationField(
-            'geolocation',
-            languageIndependent=1,
-            required=False,
-            default=(0, 0),
-            validators=('isGeoLocation',),
-            widget=LocationWidget(
-                label='Geolocation',
-                description="Enter a latitude and longitude in signed decimal degrees. Geodetic model is assumed to be WGS-1984."),
-            schemata='Geolocation',
-        ),
-        ExtendedStringField(
-            'pleiadesUrl',
-            languageIndependent=1,
-            required=False,
-            validators=('isURL',),
-            widget=atapi.StringWidget(
-                label='Fetch coordinates from Pleiades ',
-                description="Enter a pleiades place url to use to lookup place location data"),
-            schemata='Geolocation',
-        ),
-    ]
-
-    def __init__(self, context):
-        self.context = context
-
-    def getFields(self):
-        return self._fields
 
 
 class IGeolocationBehavior(model.Schema):
@@ -101,9 +57,8 @@ class ILocation(model.Schema):
         default=u""
     )
 
-
+@implementer(IRichMarker)
 class LocationMarker(BaseMarker):
-    implements(IRichMarker)
     adapts(IGeolocatable)
 
     @property
