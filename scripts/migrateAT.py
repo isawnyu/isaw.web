@@ -233,7 +233,6 @@ class ISAWEventMigrator(EventMigrator):
 
     def migrate_schema_fields(self):
 
-
         migrate_datetimefield(self.old, self.new, 'startDate', 'start')
         migrate_datetimefield(self.old, self.new, 'endDate', 'end')
         migrate_timezone(self.old, self.new)
@@ -401,7 +400,22 @@ def enable_behaviors():
         behaviors_list.insert(1, behavior)
     p_type._updateProperty('behaviors', tuple(behaviors_list))
 
+    # enable behaviors of old ATSchemaExtended fields on News Item replacing ILeadImage
+    # it enables ALT text and its invariant
+    p_type = pt_tool.get('News item')
+    behavior = 'isaw.policy.behaviors.INewsLeadImageISAWBehavior'
+    behavior_remove = "plone.app.contenttypes.behaviors.leadimage.ILeadImage"
+    behaviors_list = list(p_type.getProperty('behaviors'))
+    if behavior_remove in behaviors_list:
+        behaviors_list.remove(behavior_remove)
 
+    if behavior in behaviors_list:
+        behaviors_list.remove(behavior)
+
+    if behavior not in behaviors_list:
+        behaviors_list.append(behavior)
+
+    p_type._updateProperty('behaviors', tuple(behaviors_list))
 
 
 def uninstall_collectiveleadImage():

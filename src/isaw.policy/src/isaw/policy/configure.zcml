@@ -21,17 +21,6 @@
 
   <!-- -*- extra stuff goes here -*- -->
 
-  <adapter
-      name="isaw.policy.event_extender"
-      factory=".events.ISAWEventExtender"
-      provides="archetypes.schemaextender.interfaces.ISchemaExtender"
-      />
-
-  <adapter
-      name="isaw.policy.news_extender"
-      factory=".news_extender.NewsItemExtender"
-      provides="archetypes.schemaextender.interfaces.ISchemaExtender"
-      />
 
   <browser:viewlet
       name="isaw.opengraph.metadata"
@@ -221,6 +210,12 @@
         title="Event ISAW Behavior"
         description="Adds event-isaw-related fields to content types"
         provides="isaw.policy.behaviors.IEventISAWBehavior"
+    />
+  <plone:behavior
+        name="isaw.policy.INewsLeadImageISAWBehavior"
+        title="News ISAW Lead Image Behavior"
+        description="Adds LeadImage plus image_alt fields to content types"
+        provides="isaw.policy.behaviors.INewsLeadImageISAWBehavior"
     />
 
 </configure>
