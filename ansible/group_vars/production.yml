@@ -26,3 +26,4 @@ proxy_cache_extra: |
   }
 
 install_fail2ban: on
+proxycache_size: 1024m
