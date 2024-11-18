@@ -56,7 +56,7 @@ setup(name='isaw.exhibitions',
       zip_safe=False,
       install_requires=['setuptools',
                         # -*- Extra requirements: -*-
-                        'plone.app.dexterity[grok]',
+                        'plone.app.dexterity',
                         'collective.dexteritytextindexer',
                         # Enable references, versioning, and iterate
                         'plone.app.relationfield',
