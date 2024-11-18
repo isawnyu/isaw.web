@@ -4,7 +4,7 @@ from xml.sax.saxutils import quoteattr
 from OFS.Image import Image
 from Products.Archetypes.Field import ImageField
 from Products.PluginIndexes.UUIDIndex.UUIDIndex import UUIDIndex
-from Products.TinyMCE.utility import TinyMCE
+#from Products.TinyMCE.utility import TinyMCE
 from plone.namedfile.scaling import ImageScale
 from plone.app.imaging.scaling import ImageScaling
 from plone.protect.interfaces import IDisableCSRFProtection
@@ -16,7 +16,8 @@ _marker = object()
 
 # Monkey-patch the TinyMCE utility to return a wildcard allowing all
 # tags and attributes, so sanitization happens on save only (we hope).
-TinyMCE.getValidElements = lambda self: {'*': ['*']}
+#TinyMCE.getValidElements = lambda self: {'*': ['*']}
+### aceglie TinyMCE no longer used in plone5.2
 
 
 def allow_not_uuid():
