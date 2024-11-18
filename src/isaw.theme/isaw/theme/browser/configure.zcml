@@ -1,6 +1,7 @@
 <configure
     xmlns="http://namespaces.zope.org/zope"
     xmlns:browser="http://namespaces.zope.org/browser"
+    xmlns:zcml="http://namespaces.zope.org/zcml"
     i18n_domain="isaw.theme">
 
   <!-- 'NYU ISAW Theme' Zope 3 browser layer -->
@@ -465,27 +466,30 @@
     template="templates/libcollection.pt"
     />
 
-    <browser:viewlet
-        name="collective.contentleadimage.full"
-        for="Products.ATContentTypes.content.event.ATEvent"
-        manager="plone.app.layout.viewlets.interfaces.IAboveContentBody"
-        template="templates/empty.pt"
-        view="plone.app.layout.globals.interfaces.IViewView"
-        layer="collective.contentleadimage.interfaces.ILeadImageSpecific"
-        permission="zope2.View"
-        />
-    <!-- move event lead image above title -->
-    <configure package="collective.contentleadimage.browser">
-        <browser:viewlet
+    <configure zcml:condition="installed collective.leadimage">
+        <!-- only when the sqlalchemy module can be imported -->
+       <browser:viewlet
             name="collective.contentleadimage.full"
             for="Products.ATContentTypes.content.event.ATEvent"
-            class=".viewlets.LeadImageViewlet"
-            manager="plone.app.layout.viewlets.interfaces.IAboveContentTitle"
-            template="leadimage-body.pt"
+            manager="plone.app.layout.viewlets.interfaces.IAboveContentBody"
+            template="templates/empty.pt"
             view="plone.app.layout.globals.interfaces.IViewView"
-            layer="..interfaces.ILeadImageSpecific"
+            layer="collective.contentleadimage.interfaces.ILeadImageSpecific"
             permission="zope2.View"
             />
+        <!-- move event lead image above title -->
+        <configure package="collective.contentleadimage.browser">
+            <browser:viewlet
+                name="collective.contentleadimage.full"
+                for="Products.ATContentTypes.content.event.ATEvent"
+                class=".viewlets.LeadImageViewlet"
+                manager="plone.app.layout.viewlets.interfaces.IAboveContentTitle"
+                template="leadimage-body.pt"
+                view="plone.app.layout.globals.interfaces.IViewView"
+                layer="..interfaces.ILeadImageSpecific"
+                permission="zope2.View"
+                />
+        </configure>
     </configure>
 
 </configure>
