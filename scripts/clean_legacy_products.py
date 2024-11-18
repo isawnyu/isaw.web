@@ -52,11 +52,12 @@ def unlockDavLocks():
     transaction.commit()
 
 
-def uninstall_faculty_stuff(portal):
-    PRODUCT = 'isaw.facultycv'
+def uninstall_lecacy_products(portal):
+    PRODUCTS = ['isaw.facultycv', 'isaw.bibitems']
     pqi = portal.portal_quickinstaller
-    if pqi.isProductInstalled(PRODUCT):
-        pqi.uninstallProducts([PRODUCT])
+    for PRODUCT in PRODUCTS:
+        if pqi.isProductInstalled(PRODUCT):
+            pqi.uninstallProducts([PRODUCT])
 
 
 def toggleCachePurging(status='disabled'):
@@ -79,9 +80,9 @@ def install_postmigration_products(portal):
             pqi.installProduct(prod)
 
 
-def remove_cv_profiles(portal):
+def remove_legacy_items(portal):
     pg = portal.portal_catalog
-    types = ('CV', 'profile')
+    types = ('CV', 'profile', 'isaw.bibitems.bibitem')
     for t in types:
         brains = pg(portal_type=t)
         for i, b in enumerate( brains):
@@ -98,9 +99,9 @@ if __name__ == "__main__":
     unlockDavLocks()
     toggleCachePurging(status='disabled')
 
-    remove_cv_profiles(portal)
+    remove_legacy_items(portal)
 
-    uninstall_faculty_stuff(portal)
+    uninstall_lecacy_products(portal)
     toggleCachePurging(status='enabled')
 
     transaction.commit()
