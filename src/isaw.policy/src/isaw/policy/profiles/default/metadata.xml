@@ -17,7 +17,7 @@
     <dependency>profile-plone.app.imagecropping:default</dependency>
     <dependency>profile-Products.PloneKeywordManager:default</dependency>
     <dependency>profile-collective.easyslider:default</dependency>
-    <dependency>profile-collective.easytemplate:default</dependency>
+    <!--<dependency>profile-collective.easytemplate:default</dependency>-->
     <dependency>profile-Products.RedirectionTool:default</dependency>
   </dependencies>
 </metadata>
