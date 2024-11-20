@@ -75,7 +75,8 @@ def toggleCachePurging(status='disabled'):
 
 
 def clean_old_behaviors(portal):
-    bh_to_remove = ['isaw.policy.map_extender.IGeolocationBehavior']
+    bh_to_remove = ['isaw.policy.map_extender.IGeolocationBehavior',
+                    'plone.app.stagingbehavior.interfaces.IStagingSupport']
     pt_tool = portal.portal_types
 
     for p_type in pt_tool.objectValues():
