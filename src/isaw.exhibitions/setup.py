@@ -61,7 +61,7 @@ setup(name='isaw.exhibitions',
                         # Enable references, versioning, and iterate
                         'plone.app.relationfield',
                         'plone.app.referenceablebehavior',
-                        'plone.app.versioningbehavior',
+                        #'plone.app.versioningbehavior',
                         'plone.app.stagingbehavior',
                         ],
       tests_require=tests_require,

@@ -5,16 +5,16 @@ from zope.schema import List, Text, TextLine, Tuple, URI
 from isaw.policy import MessageFactory as _
 from plone.app.textfield import RichText
 from plone.dexterity.browser import add
-from plone.directives import form
+from plone.supermodel import model
 from plone.namedfile import field as namedfile
 from z3c.form.browser.textlines import TextLinesFieldWidget
-
+from plone.autoform import directives
 
 class IISAWPolicyLayer(Interface):
     """Marker layer interface for ISAW Site"""
 
 
-class IISAWPublication(form.Schema):
+class IISAWPublication(model.Schema):
     title = TextLine(
         title=_(u"Short Title"),
         description=_(u"The short title of this publication"),
@@ -106,17 +106,17 @@ class IISAWPublication(form.Schema):
     access_uris = List(title=_(u'Access URIs (one per line)'),
                         value_type=URI(title=u'URI'),
                         required=False)
-    form.widget('access_uris', TextLinesFieldWidget)
+    directives.widget('access_uris', TextLinesFieldWidget)
 
     review_uris = List(title=_(u'Review URIs (one per line)'),
                         value_type=URI(title=u'URI'),
                         required=False)
-    form.widget('review_uris', TextLinesFieldWidget)
+    directives.widget('review_uris', TextLinesFieldWidget)
 
     order_uris = List(title=_(u'Order URIs (one per line)'),
                         value_type=URI(title=u'URI'),
                         required=False)
-    form.widget('order_uris', TextLinesFieldWidget)
+    directives.widget('order_uris', TextLinesFieldWidget)
 
 
     image = namedfile.NamedBlobImage(

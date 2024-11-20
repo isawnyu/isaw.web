@@ -3,7 +3,6 @@
   <version>40</version>
   <dependencies>
     <dependency>profile-isaw.theme:default</dependency>
-    <dependency>profile-isaw.facultycv:default</dependency>
     <dependency>profile-isaw.exhibitions:default</dependency>
     <dependency>profile-webcouturier.dropdownmenu:default</dependency>
     <dependency>profile-Products.WebServerAuth:default</dependency>
@@ -15,14 +14,10 @@
     <dependency>profile-plone.app.caching:default</dependency>
     <dependency>profile-collective.embedly:default</dependency>
     <dependency>profile-plone.app.iterate:plone.app.iterate</dependency>
-    <dependency>profile-collective.contentleadimage:default</dependency>
     <dependency>profile-plone.app.imagecropping:default</dependency>
     <dependency>profile-Products.PloneKeywordManager:default</dependency>
     <dependency>profile-collective.easyslider:default</dependency>
     <dependency>profile-collective.easytemplate:default</dependency>
     <dependency>profile-Products.RedirectionTool:default</dependency>
-    <dependency>profile-isaw.bibitems:default</dependency>
-    <dependency>profile-Products.Maps:default</dependency>
-    <dependency>profile-collective.z3cform.datagridfield:default</dependency>
   </dependencies>
 </metadata>
