@@ -27,7 +27,7 @@ import transaction
 
 
 
-portal = app.isaw
+portal = app.Plone
 
 logging.getLogger().setLevel(logging.INFO)
 for handler in logging.getLogger().handlers:
@@ -53,7 +53,10 @@ def unlockDavLocks():
 
 
 def uninstall_lecacy_products(portal):
-    PRODUCTS = ['isaw.facultycv', 'isaw.bibitems']
+    PRODUCTS = ['isaw.facultycv',
+                'isaw.bibitems',
+                'Products.Maps']
+
     pqi = portal.portal_quickinstaller
     for PRODUCT in PRODUCTS:
         if pqi.isProductInstalled(PRODUCT):
@@ -69,6 +72,23 @@ def toggleCachePurging(status='disabled'):
     settings.enabled = False if status == 'disabled' else True
 
     transaction.commit()
+
+
+def clean_old_behaviors(portal):
+    bh_to_remove = ['isaw.policy.map_extender.IGeolocationBehavior']
+    pt_tool = portal.portal_types
+
+    for p_type in pt_tool.objectValues():
+        if not IDexterityFTI.providedBy(p_type):
+            continue
+
+        behaviors_list = list(p_type.getProperty('behaviors', []))
+        for bh in  bh_to_remove:
+            if bh in behaviors_list:
+                behaviors_list.remove(bh)
+                logger.info('removed {} from {}'.format(bh, p_type))
+
+        p_type._updateProperty('behaviors', tuple(behaviors_list))
 
 
 def install_postmigration_products(portal):
@@ -100,6 +120,7 @@ if __name__ == "__main__":
     toggleCachePurging(status='disabled')
 
     remove_legacy_items(portal)
+    clean_old_behaviors(portal)
 
     uninstall_lecacy_products(portal)
     toggleCachePurging(status='enabled')
