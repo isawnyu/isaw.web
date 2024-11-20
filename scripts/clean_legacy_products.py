@@ -55,7 +55,9 @@ def unlockDavLocks():
 def uninstall_lecacy_products(portal):
     PRODUCTS = ['isaw.facultycv',
                 'isaw.bibitems',
-                'Products.Maps']
+                'Products.Maps',
+                'collective.easytemplate',
+                ]
 
     pqi = portal.portal_quickinstaller
     for PRODUCT in PRODUCTS:
