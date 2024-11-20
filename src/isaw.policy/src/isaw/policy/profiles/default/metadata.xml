@@ -4,7 +4,7 @@
   <dependencies>
     <dependency>profile-isaw.theme:default</dependency>
     <dependency>profile-isaw.exhibitions:default</dependency>
-    <dependency>profile-webcouturier.dropdownmenu:default</dependency>
+    <!--<dependency>profile-webcouturier.dropdownmenu:default</dependency>-->
     <dependency>profile-Products.WebServerAuth:default</dependency>
     <dependency>profile-plone.resource:default</dependency>
     <dependency>profile-plone.session:default</dependency>

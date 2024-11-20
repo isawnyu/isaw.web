@@ -58,7 +58,7 @@
         />
 
     <browser:menuItem
-        for="Products.ATContentTypes.interface.IATTopic"
+        for="plone.app.contenttypes.interfaces.ICollection"
         menu="plone_displayviews"
         title="Tiled Listing"
         action="@@tiled-listing"
@@ -66,7 +66,7 @@
         />
 
     <browser:menuItem
-        for="plone.app.collection.interfaces.ICollection"
+        for="plone.app.contenttypes.interfaces.ICollection"
         menu="plone_displayviews"
         title="Tiled Listing"
         action="@@tiled-listing"
@@ -110,7 +110,7 @@
         />
 
     <browser:menuItem
-        for="Products.ATContentTypes.interface.IATTopic"
+        for="plone.app.contenttypes.interfaces.ICollection"
         menu="plone_displayviews"
         title="Tiled View (alt)"
         action="@@simple-tiled-listing"
@@ -118,7 +118,7 @@
         />
 
     <browser:menuItem
-        for="plone.app.collection.interfaces.ICollection"
+        for="plone.app.contenttypes.interfaces.ICollection"
         menu="plone_displayviews"
         title="Tiled View (alt)"
         action="@@simple-tiled-listing"
@@ -143,7 +143,7 @@
         />
 
     <browser:menuItem
-        for="Products.ATContentTypes.interface.IATTopic"
+        for="plone.app.contenttypes.interfaces.ICollection"
         menu="plone_displayviews"
         title="Summary View (alt)"
         action="@@simple-summary-listing"
@@ -151,7 +151,7 @@
         />
 
     <browser:menuItem
-        for="plone.app.collection.interfaces.ICollection"
+        for="plone.app.contenttypes.interfaces.ICollection"
         menu="plone_displayviews"
         title="Summary View (alt)"
         action="@@simple-summary-listing"
@@ -188,7 +188,7 @@
         />
 
     <browser:menuItem
-        for="Products.ATContentTypes.interface.IATTopic"
+        for="plone.app.contenttypes.interfaces.ICollection"
         menu="plone_displayviews"
         title="Event Listing"
         action="@@event-listing"
@@ -196,7 +196,7 @@
         />
 
     <browser:menuItem
-        for="plone.app.collection.interfaces.ICollection"
+        for="plone.app.contenttypes.interfaces.ICollection"
         menu="plone_displayviews"
         title="Event Listing"
         action="@@event-listing"
@@ -231,7 +231,7 @@
         />
 
     <browser:menuItem
-        for="Products.ATContentTypes.interface.IATTopic"
+        for="plone.app.contenttypes.interfaces.ICollection"
         menu="plone_displayviews"
         title="Title-Only Listing"
         action="@@title-listing"
@@ -239,51 +239,17 @@
         />
 
     <browser:menuItem
-        for="plone.app.collection.interfaces.ICollection"
+        for="plone.app.contenttypes.interfaces.ICollection"
         menu="plone_displayviews"
         title="Title-Only Listing"
         action="@@title-listing"
         description="List folder contents by title only"
-        />
-
-  <!-- Publication listing view -->
-  <browser:page
-    name="publication-listing"
-    for="*"
-    permission="zope2.View"
-    class=".publication.PublicationListingView"
-    layer=".interfaces.IThemeSpecific"
-    template="templates/publication_listing.pt"
-    />
-
-    <browser:menuItem
-        for="plone.app.contenttypes.interfaces.IFolder"
-        menu="plone_displayviews"
-        title="Publication Listing"
-        action="@@publication-listing"
-        description="List publications"
-        />
-
-    <browser:menuItem
-        for="Products.ATContentTypes.interface.IATTopic"
-        menu="plone_displayviews"
-        title="Publication Listing"
-        action="@@publication-listing"
-        description="List publications"
-        />
-
-    <browser:menuItem
-        for="plone.app.collection.interfaces.ICollection"
-        menu="plone_displayviews"
-        title="Publication Listing"
-        action="@@publication-listing"
-        description="List publications"
         />
 
   <!-- byline viewlet available on any contentish (non-folder) AT item -->
   <browser:viewlet
       name="isaw.theme.byline"
-      for="Products.ATContentTypes.interfaces.ITextContent"
+      for="plone.dexterity.interfaces.IDexterityContent"
       class="plone.app.layout.viewlets.content.DocumentBylineViewlet"
       manager="plone.app.layout.viewlets.interfaces.IBelowContentTitle"
       permission="zope2.View"
@@ -310,7 +276,7 @@
 
   <browser:page
       name="people-listing"
-      for="plone.app.collection.interfaces.ICollection"
+      for="plone.app.contenttypes.interfaces.ICollection"
       class=".people.PeopleViewCollection"
       template="templates/people_listing.pt"
       layer=".interfaces.IThemeSpecific"
@@ -326,7 +292,7 @@
         />
 
     <browser:menuItem
-        for="plone.app.collection.interfaces.ICollection"
+        for="plone.app.contenttypes.interfaces.ICollection"
         menu="plone_displayviews"
         title="People Listing"
         action="@@people-listing"
@@ -359,15 +325,9 @@
       layer=".interfaces.IThemeSpecific"
       permission="zope2.View"
       />
+
   <browser:page
-      for="Products.ATContentTypes.interface.IATTopic"
-      name="maps_map"
-      template="templates/maps_map.pt"
-      layer=".interfaces.IThemeSpecific"
-      permission="zope2.View"
-      />
-  <browser:page
-      for="plone.app.collection.interfaces.ICollection"
+      for="plone.app.contenttypes.interfaces.ICollection"
       name="maps_map"
       template="templates/maps_map.pt"
       layer=".interfaces.IThemeSpecific"
@@ -393,7 +353,7 @@
         />
 
     <browser:menuItem
-        for="Products.ATContentTypes.interface.IATTopic"
+        for="plone.app.contenttypes.interfaces.ICollection"
         menu="plone_displayviews"
         title="Bibliographic List"
         action="@@bibliographic-list"
@@ -401,7 +361,7 @@
         />
 
     <browser:menuItem
-        for="plone.app.collection.interfaces.ICollection"
+        for="plone.app.contenttypes.interfaces.ICollection"
         menu="plone_displayviews"
         title="Bibliographic List"
         action="@@bibliographic-list"
@@ -433,30 +393,6 @@
       class=".viewlets.events.SearchEvents"
       permission="zope2.View" />
 
-  <browser:viewlet
-      name="isaw-zotero"
-      for="isaw.policy.interfaces.IISAWPublication"
-      manager="plone.app.layout.viewlets.interfaces.IHtmlHead"
-      class=".viewlets.zotero.PublicationZoteroViewlet"
-      permission="zope2.View" />
-
-  <browser:page
-    name="publication-view"
-    for="isaw.policy.interfaces.IISAWPublication"
-    permission="zope2.View"
-    class=".publication.PublicationView"
-    layer=".interfaces.IThemeSpecific"
-    template="templates/publication_view.pt"
-    />
-
-  <browser:page
-    name="publication-images"
-    for="isaw.policy.interfaces.IISAWPublication"
-    permission="zope2.View"
-    class=".publication.PublicationImagesView"
-    layer=".interfaces.IThemeSpecific"
-    template="templates/publication_images.pt"
-    />
 
   <browser:page
     name="libcollection-view"
