@@ -418,8 +418,7 @@ def enable_behaviors():
     p_type._updateProperty('behaviors', tuple(behaviors_list))
 
 
-def uninstall_collectiveleadImage():
-    # XXX
+def uninstall_collectiveleadImage(portal):
 
     # remove OLD c.leadeimage adapter from portal
     # uninstall c.leadeimage
@@ -600,7 +599,7 @@ if __name__ == "__main__":
     toggleCachePurging(status='enabled')
     toggleLinkIntegrity(status='enabled')
 
-    uninstall_collectiveleadImage()
+    uninstall_collectiveleadImage(portal)
     install_postmigration_products(portal)
     fix_events_calendar_portlet_configuration(portal)
 
