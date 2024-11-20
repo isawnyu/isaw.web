@@ -6,7 +6,6 @@ from Products.Archetypes.Field import ImageField
 from Products.PluginIndexes.UUIDIndex.UUIDIndex import UUIDIndex
 #from Products.TinyMCE.utility import TinyMCE
 from plone.namedfile.scaling import ImageScale
-from plone.app.imaging.scaling import ImageScaling
 from plone.protect.interfaces import IDisableCSRFProtection
 from zope.interface import alsoProvides
 from zope.globalrequest import getRequest
@@ -157,6 +156,8 @@ def _fixed_image_scale_make(self, info):
     return self._orig_make(info)
 
 def image_csrf_fix():
+    from plone.app.imaging.scaling import ImageScaling
+
     if getattr(ImageScaling, '_orig_make', None) is None:
         ImageScaling._orig_make = ImageScaling.make
         ImageScaling.make = _fixed_image_scale_make
