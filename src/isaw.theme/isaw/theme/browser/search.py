@@ -1,4 +1,4 @@
-from plone.app.search.browser import Search, SortOption, _
+from Products.CMFPlone.browser.search import Search, SortOption, _
 
 
 class ISAWSearch(Search):

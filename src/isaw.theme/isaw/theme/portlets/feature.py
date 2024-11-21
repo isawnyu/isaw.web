@@ -6,7 +6,7 @@ from plone.app.portlets.portlets import base
 from plone.portlets.interfaces import IPortletDataProvider
 from Products.Five.browser.pagetemplatefile import ViewPageTemplateFile
 from Products.CMFPlone import PloneMessageFactory as _
-from isaw.theme.portlets.widget import ImageWidget
+from plone.formwidget.namedfile.widget import NamedImageWidget
 
 class IFeaturedPortlet(IPortletDataProvider):
 
@@ -93,7 +93,7 @@ class Renderer(base.Renderer):
 
 class AddForm(base.AddForm):
     form_fields = form.Fields(IFeaturedPortlet)
-    form_fields['image'].custom_widget = ImageWidget
+    form_fields['image'].custom_widget = NamedImageWidget
     label = _(u"Add Featured Portlet")
 
     def create(self, data):
@@ -104,5 +104,5 @@ class AddForm(base.AddForm):
 class EditForm(base.EditForm):
 
     form_fields = form.Fields(IFeaturedPortlet)
-    form_fields['image'].custom_widget = ImageWidget
+    form_fields['image'].custom_widget = NamedImageWidget
     description = _(u"This portlet displays featured front page copy.")

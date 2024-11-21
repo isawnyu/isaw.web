@@ -1,60 +1,29 @@
-from DateTime import DateTime
-from Products.ATContentTypes.lib.calendarsupport import ICS_HEADER
-from Products.ATContentTypes.lib.calendarsupport import ICS_FOOTER
-from Products.ATContentTypes.lib.calendarsupport import ICS_EVENT_START
-from Products.ATContentTypes.lib.calendarsupport import ICS_EVENT_END
-from Products.ATContentTypes.lib.calendarsupport import n2rn
-from Products.ATContentTypes.lib.calendarsupport import rfc2445dt
-from Products.ATContentTypes.lib.calendarsupport import vformat
-from Products.ATContentTypes.lib.calendarsupport import foldLine
-from Products.Five import BrowserView
-from StringIO import StringIO
+# -*- coding: utf-8 -*-
 
+from plone.app.event.browser.event_listing import EventListingIcal
+from plone.app.event.browser.event_listing import construct_icalendar
+from plone.app.event.browser.event_listing import RET_MODE_OBJECTS
 
 PRODID = "-//ISAW//ICalendar Support"
 
 
-def get_ical(result):
-    """get iCal data
-    """
-    out = StringIO()
-    map = {
-        'dtstamp': rfc2445dt(DateTime()),
-        'created': rfc2445dt(DateTime(result.CreationDate())),
-        'uid': result.UID(),
-        'modified': rfc2445dt(DateTime(result.ModificationDate())),
-        'summary': vformat(result.Title()),
-        'startdate': rfc2445dt(DateTime(result.start)),
-        'enddate': rfc2445dt(DateTime(result.end)),
-        }
-    out.write(ICS_EVENT_START % map)
-
-    description = result.Description()
-    if description:
-        out.write(foldLine('DESCRIPTION:%s\n' % vformat(description)))
-
-    subject = result.Subject()
-    if subject:
-        out.write('CATEGORIES:%s\n' % ', '.join(subject))
-
-    out.write(ICS_EVENT_END)
-    return out.getvalue()
 
 
-class ICalView(BrowserView):
+class ICalView(EventListingIcal):
 
-    def __call__(self):
-        """iCalendar output
-        """
-        self.request.response.setHeader('Content-Type', 'text/calendar')
-        self.request.response.setHeader('Content-Disposition',
-                                        'attachment; filename="isaw_%s.ics"'
-                                        % self.context.getId())
-        out = StringIO()
-        out.write(ICS_HEADER % {'prodid': PRODID})
-        results = self.context.listFolderContents(
-            contentFilter={"portal_type": "Event"})
-        for result in results:
-            out.write(get_ical(result))
-        out.write(ICS_FOOTER)
-        return n2rn(out.getvalue())
+
+    @property
+    def ical(self):
+        # Get as objects.
+        # Don't include occurrences to avoid having them along with their
+        # original events and it's recurrence definition in icalendar exports.
+        events = self.events(ret_mode=RET_MODE_OBJECTS, expand=False, batch=False)
+        cal = construct_icalendar(self.context, events)
+        name = "%s.ics" % self.context.getId()
+        contents = cal.to_ical()
+        self.request.response.setHeader("Content-Type", "text/calendar")
+        self.request.response.setHeader(
+        "Content-Disposition", 'attachment; filename="isaw_%s.ics"' % name
+    )
+        self.request.response.setHeader("Content-Length", len(contents))
+        self.request.response.write(contents)

@@ -299,16 +299,6 @@
         description="List person profiles in a folder, with image"
         />
 
-  <configure package="plone.app.search">
-    <browser:page
-        name="updated_search"
-        class="isaw.theme.browser.search.ISAWSearch"
-        permission="zope2.View"
-        for="Products.CMFCore.interfaces.IFolderish"
-        template="updated_search.pt"
-        layer="isaw.theme.browser.interfaces.IThemeSpecific"
-        />
-  </configure>
 
   <browser:page
       name="isaw-settings"

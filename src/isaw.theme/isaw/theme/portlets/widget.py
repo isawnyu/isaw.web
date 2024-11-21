@@ -1,6 +1,5 @@
 from OFS.Image import Image
 
-from zope.app.form.browser.widget import DisplayWidget
 from zope.app.form.browser.textwidgets import FileWidget
 from zope.browserpage.viewpagetemplatefile import ViewPageTemplateFile
 

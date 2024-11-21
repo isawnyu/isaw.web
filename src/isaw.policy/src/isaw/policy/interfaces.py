@@ -168,7 +168,7 @@ class PublicationAddView(add.DefaultAddView):
     form = PublicationAddForm
 
 
-class IISAWLibCollection(form.Schema):
+class IISAWLibCollection(model.Schema):
 
     title = TextLine(
         title=_(u"Title"),
