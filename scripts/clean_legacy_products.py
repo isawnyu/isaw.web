@@ -27,7 +27,7 @@ import transaction
 
 
 
-portal = app.Plone
+portal = app.isaw
 
 logging.getLogger().setLevel(logging.INFO)
 for handler in logging.getLogger().handlers:
@@ -117,6 +117,76 @@ def remove_legacy_items(portal):
             api.content.delete(obj=obj,  check_linkintegrity=False)
 
 
+
+def search_clean_portlets(portal, dryrun=True):
+    from plone.portlets.interfaces import IPortletManager
+    from plone.portlets.interfaces import IPortletAssignmentMapping
+
+    found_log_template = """
+     {path}
+     manager: {manager}
+     id: {id}
+     uid/ref: {uid_ref}
+     action: {action}
+     ==================
+    """
+    def _clean(context,  portlet_interfaces, dryrun=True, reset=False):
+
+        path = '/'.join(context.getPhysicalPath())
+        found = 0
+        for manager_name in ["plone.leftcolumn", "plone.rightcolumn"]:
+            manager = getUtility(
+                IPortletManager, name=manager_name, context=context)
+            mapping = getMultiAdapter(
+                (context, manager), IPortletAssignmentMapping)
+            for id, assignment in mapping.items():
+                for _interface in  portlet_interfaces:
+                    if not _interface.providedBy(assignment):
+                        continue
+
+                    action = dryrun and 'Found' or 'Found and removed '
+                    data = dict(action=action,
+                                manager=manager_name,
+                                id=id,
+                                path=path,
+                                uid_ref=context.__repr__(),
+                                user=api.user.get_current().getId(),
+                                )
+                    logger.info(
+                            found_log_template.format(**data))
+                    found += 1
+                    if not dryrun:
+                        del(mapping[id])
+        return found
+
+
+    portlet_interfaces = []
+    try:
+        from collective.portlet.relateditems.relateditems import IRelatedItems
+        portlet_interfaces.append(IRelatedItems)
+    except:
+        pass
+
+    if not portlet_interfaces:
+        logger.info("No portlet interfaces to remove found.")
+        return 0
+
+    pg = portal.portal_catalog
+    brains = pg.unrestrictedSearchResults()
+
+    total = float(len(brains))
+    found = 0
+    for i, b in enumerate(brains):
+        if i > 0 and not i % 100:
+            logger.info('...{:.2f}% completed' .format(i/total*100.0))
+        obj = b.getObject()
+        num_erased = _clean(obj, portlet_interfaces, dryrun=dryrun, )
+        found +=num_erased
+
+    logger.info('\n\n=== finish portlet cleaning. Found {} portlets '.format(
+                total))
+
+
 if __name__ == "__main__":
 
     unlockDavLocks()
@@ -127,6 +197,8 @@ if __name__ == "__main__":
 
     uninstall_lecacy_products(portal)
     toggleCachePurging(status='enabled')
+
+    search_clean_portlets(portal, dryrun=True)
 
     transaction.commit()
 
