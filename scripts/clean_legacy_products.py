@@ -167,6 +167,11 @@ def search_clean_portlets(portal, dryrun=True):
         portlet_interfaces.append(IRelatedItems)
     except:
         pass
+    try:
+        from collective.quickupload.portlet.quickuploadportlet import IQuickUploadPortlet
+        portlet_interfaces.append(IQuickUploadPortlet)
+    except:
+        pass
 
     if not portlet_interfaces:
         logger.info("No portlet interfaces to remove found.")
