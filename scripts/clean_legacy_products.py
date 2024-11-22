@@ -57,6 +57,7 @@ def uninstall_lecacy_products(portal):
                 'isaw.bibitems',
                 'Products.Maps',
                 'collective.easytemplate',
+                'collective.portlet.relateditems',
                 ]
 
     pqi = portal.portal_quickinstaller
@@ -198,7 +199,7 @@ if __name__ == "__main__":
     uninstall_lecacy_products(portal)
     toggleCachePurging(status='enabled')
 
-    search_clean_portlets(portal, dryrun=True)
+    search_clean_portlets(portal, dryrun=False)
 
     transaction.commit()
 
