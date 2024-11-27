@@ -12,24 +12,6 @@
     <property
         name="featured_title">Octadrachm. Obverse: Bust of Ptolemy III.</property>
   </assignment>
-  <assignment name="related-items" category="context" key="/"
-              manager="plone.rightcolumn"
-              type="collective.portlet.relateditems.RelatedItems" visible="False">
-    <property name="count">5</property>
-    <property name="allowed_types">
-      <element>Document</element>
-      <element>Event</element>
-      <element>News Item</element>
-    </property>
-    <property name="portlet_title">Related Items</property>
-    <property name="display_description">True</property>
-    <property name="show_all_types">False</property>
-    <property name="states">
-      <element>published</element>
-    </property>
-    <property name="only_subject">(False,)</property>
-    <property name="display_all_fallback">True</property>
-  </assignment>
   <blacklist category="context" location="/" manager="plone.leftcolumn"
              status="show"/>
   <blacklist category="context" location="/" manager="plone.rightcolumn"

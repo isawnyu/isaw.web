@@ -39,6 +39,7 @@ src/collective.contentleadimage
 src/collective.linkcheck
 src/collective.saml2
 src/dm.zope.saml2
+src/collective.embedly
 
 # PyInstaller
 #  Usually these files are written by a python script from a template
