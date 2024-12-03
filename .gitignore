@@ -32,13 +32,16 @@ var/*
 *.egg
 .installed.cfg
 .mr.developer.cfg
-src/plone.app.users
-src/isaw.bibitems
-src/plone.app.imagecropping
 src/collective.contentleadimage
+src/collective.easyslider/
+src/collective.embedly/
 src/collective.linkcheck
 src/collective.saml2
 src/dm.zope.saml2
+src/isaw.bibitems
+src/plone.app.imagecropping
+src/plone.app.users
+
 
 # PyInstaller
 #  Usually these files are written by a python script from a template

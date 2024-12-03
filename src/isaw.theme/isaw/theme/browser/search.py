@@ -1,5 +1,7 @@
-from plone.app.search.browser import Search, SortOption, _
-
+try:
+    from plone.app.search.browser import Search, SortOption, _
+except ImportError:
+    from Products.CMFPlone.browser.search import Search, SortOption, _
 
 class ISAWSearch(Search):
     """Customize sort options"""

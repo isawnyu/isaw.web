@@ -1,9 +1,11 @@
 from OFS.Image import Image
 
-from zope.app.form.browser.widget import DisplayWidget
-from zope.app.form.browser.textwidgets import FileWidget
-from zope.browserpage.viewpagetemplatefile import ViewPageTemplateFile
+try:
 
+    from zope.browserpage.viewpagetemplatefile import ViewPageTemplateFile
+    from zope.app.form.browser.textwidgets import FileWidget
+except ImportError:
+    from plone.formwidget.namedfile.widget import NamedFileWidget as FileWidget
 
 class ImageWidget(FileWidget):
     """

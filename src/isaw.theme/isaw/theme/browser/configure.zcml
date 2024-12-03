@@ -63,15 +63,10 @@
         title="Tiled Listing"
         action="@@tiled-listing"
         description="List folder contents in a 3x3 grid of tiles"
+            layer=".interfaces.IThemeSpecific"
+
         />
 
-    <browser:menuItem
-        for="plone.app.contenttypes.interfaces.ICollection"
-        menu="plone_displayviews"
-        title="Tiled Listing"
-        action="@@tiled-listing"
-        description="List folder contents in a 3x3 grid of tiles"
-        />
 
     <browser:viewlet
         name="isaw.theme.tiled_listing.featured_item"
@@ -107,6 +102,8 @@
         title="Tiled View (alt)"
         action="@@simple-tiled-listing"
         description="List folder contents in a 3x3 grid of tiles"
+            layer=".interfaces.IThemeSpecific"
+
         />
 
     <browser:menuItem
@@ -115,15 +112,8 @@
         title="Tiled View (alt)"
         action="@@simple-tiled-listing"
         description="List folder contents in a 3x3 grid of tiles"
-        />
-
-    <browser:menuItem
-        for="plone.app.contenttypes.interfaces.ICollection"
-        menu="plone_displayviews"
-        title="Tiled View (alt)"
-        action="@@simple-tiled-listing"
-        description="List folder contents in a 3x3 grid of tiles"
-        />
+           layer=".interfaces.IThemeSpecific"
+         />
 
   <browser:page
     name="simple-summary-listing"
@@ -140,7 +130,8 @@
         title="Summary View (alt)"
         action="@@simple-summary-listing"
         description="List folder contents in a simple list"
-        />
+         layer=".interfaces.IThemeSpecific"
+   />
 
     <browser:menuItem
         for="plone.app.contenttypes.interfaces.ICollection"
@@ -148,14 +139,8 @@
         title="Summary View (alt)"
         action="@@simple-summary-listing"
         description="List folder contents in a simple list"
-        />
+            layer=".interfaces.IThemeSpecific"
 
-    <browser:menuItem
-        for="plone.app.contenttypes.interfaces.ICollection"
-        menu="plone_displayviews"
-        title="Summary View (alt)"
-        action="@@simple-summary-listing"
-        description="List folder contents in a simple list"
         />
 
   <!-- Event detail view -->
@@ -185,7 +170,8 @@
         title="Event Listing"
         action="@@event-listing"
         description="List events in single column page"
-        />
+         layer=".interfaces.IThemeSpecific"
+   />
 
     <browser:menuItem
         for="plone.app.contenttypes.interfaces.ICollection"
@@ -193,15 +179,10 @@
         title="Event Listing"
         action="@@event-listing"
         description="List events in single column page"
+            layer=".interfaces.IThemeSpecific"
+
         />
 
-    <browser:menuItem
-        for="plone.app.contenttypes.interfaces.ICollection"
-        menu="plone_displayviews"
-        title="Event Listing"
-        action="@@event-listing"
-        description="List events in single column page"
-        />
 
     <browser:page
         name="event-listing-page"
@@ -228,7 +209,8 @@
         title="Title-Only Listing"
         action="@@title-listing"
         description="List folder contents by title only"
-        />
+         layer=".interfaces.IThemeSpecific"
+   />
 
     <browser:menuItem
         for="plone.app.contenttypes.interfaces.ICollection"
@@ -236,15 +218,9 @@
         title="Title-Only Listing"
         action="@@title-listing"
         description="List folder contents by title only"
-        />
+          layer=".interfaces.IThemeSpecific"
+  />
 
-    <browser:menuItem
-        for="plone.app.contenttypes.interfaces.ICollection"
-        menu="plone_displayviews"
-        title="Title-Only Listing"
-        action="@@title-listing"
-        description="List folder contents by title only"
-        />
 
   <!-- byline viewlet available on any contentish (non-folder) AT item -->
   <browser:viewlet
@@ -289,7 +265,8 @@
         title="People Listing"
         action="@@people-listing"
         description="List person profiles in a folder, with image"
-        />
+          layer=".interfaces.IThemeSpecific"
+  />
 
     <browser:menuItem
         for="plone.app.contenttypes.interfaces.ICollection"
@@ -297,9 +274,11 @@
         title="People Listing"
         action="@@people-listing"
         description="List person profiles in a folder, with image"
-        />
+         layer=".interfaces.IThemeSpecific"
+   />
 
-  <configure package="plone.app.search">
+  <configure package="plone.app.search"
+             zcml:condition="installed plone.app.search">
     <browser:page
         name="updated_search"
         class="isaw.theme.browser.search.ISAWSearch"
@@ -350,7 +329,8 @@
         title="Bibliographic List"
         action="@@bibliographic-list"
         description="List bibliographic entries"
-        />
+         layer=".interfaces.IThemeSpecific"
+   />
 
     <browser:menuItem
         for="plone.app.contenttypes.interfaces.ICollection"
@@ -358,15 +338,8 @@
         title="Bibliographic List"
         action="@@bibliographic-list"
         description="List bibliographic entries"
-        />
-
-    <browser:menuItem
-        for="plone.app.contenttypes.interfaces.ICollection"
-        menu="plone_displayviews"
-        title="Bibliographic List"
-        action="@@bibliographic-list"
-        description="List bibliographic entries"
-        />
+            layer=".interfaces.IThemeSpecific"
+       />
 
   <browser:viewlet
       name="emergency-message"
