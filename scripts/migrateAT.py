@@ -402,7 +402,7 @@ def enable_behaviors():
 
     # enable behaviors of old ATSchemaExtended fields on News Item replacing ILeadImage
     # it enables ALT text and its invariant
-    p_type = pt_tool.get('News item')
+    p_type = pt_tool.get('News Item')
     behavior = 'isaw.policy.behaviors.INewsLeadImageISAWBehavior'
     behavior_remove = "plone.app.contenttypes.behaviors.leadimage.ILeadImage"
     behaviors_list = list(p_type.getProperty('behaviors'))
