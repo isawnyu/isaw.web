@@ -3,7 +3,7 @@
 from plone.app.portlets.portlets import base
 from plone.portlets.interfaces import IPortletDataProvider
 from Products.Five.browser.pagetemplatefile import ViewPageTemplateFile
-from zope.interface import implements
+from zope.interface import implementer
 
 
 class INewsItemImagePortlet(IPortletDataProvider):
@@ -11,9 +11,9 @@ class INewsItemImagePortlet(IPortletDataProvider):
     pass
 
 
+@implementer(INewsItemImagePortlet)
 class Assignment(base.Assignment):
     """simple portlet assignment"""
-    implements(INewsItemImagePortlet)
 
     @property
     def title(self):
