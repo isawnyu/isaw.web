@@ -58,6 +58,7 @@ def uninstall_lecacy_products(portal):
                 'Products.Maps',
                 'collective.easytemplate',
                 'collective.portlet.relateditems',
+                'wildcard.foldercontents',
                 ]
 
     pqi = portal.portal_quickinstaller
