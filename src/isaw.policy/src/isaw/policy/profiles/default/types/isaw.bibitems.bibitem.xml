@@ -1,9 +1,0 @@
-<?xml version="1.0"?>
-<object name="isaw.bibitems.bibitem"
-   meta_type="Dexterity FTI"
-   i18n:domain="isaw.bibitems" xmlns:i18n="http://xml.zope.org/namespaces/i18n">
-  <property name="icon_expr">string:${portal_url}/book-open-bookmark.png</property>
-  <property name="behaviors" purge="False">
-     <element value="isaw.policy.map_extender.IGeolocationBehavior"/>
-  </property>
-</object>

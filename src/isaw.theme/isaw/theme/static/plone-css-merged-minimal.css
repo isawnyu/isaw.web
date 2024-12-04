@@ -1516,7 +1516,7 @@ div.overlay .formControls a {
 .icons-on .contenttype-plone-site {
     background: no-repeat transparent 0px -1508px url(contenttypes-sprite.png);
 }
-.icons-on .contenttype-topic {
+.icons-on .contenttype-collection {
     background: no-repeat transparent 0px -1724px url(contenttypes-sprite.png);
 }
 
@@ -1534,7 +1534,7 @@ div.overlay .formControls a {
 .icons-on .contenttype-link,
 .icons-on .contenttype-news-item,
 .icons-on .contenttype-plone-site,
-.icons-on .contenttype-topic,
+.icons-on .contenttype-collection,
 .icons-on #plone-contentmenu-factories .contenttype-file,
 .icons-on #plone-contentmenu-factories .contenttype-image {
     line-height: 2em;

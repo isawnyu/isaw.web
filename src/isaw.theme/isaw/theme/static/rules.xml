@@ -136,7 +136,7 @@
     <!-- hide descriptions -->
     <drop css:if-content="body.portaltype-document"
           css:content=".documentDescription"/>
-    <drop css:if-content="body.portaltype-topic"
+    <drop css:if-content="body.portaltype-collection"
           css:content=".documentDescription"/>
     <drop css:if-content="body.portaltype-news-item"
           css:content=".documentDescription"/>

@@ -72,10 +72,10 @@
     </field>
     <value />
   </record>
-  <record field="site_rss_items" interface="Products.CMFPlone.interfaces.syndication.ISiteSyndicationSettings" name="Products.CMFPlone.interfaces.syndication.ISiteSyndicationSettings.site_rss_items">
-    <field type="plone.registry.field.Tuple">
+ <!--< <record field="site_rss_items" interface="Products.CMFPlone.interfaces.syndication.ISiteSyndicationSettings" name="Products.CMFPlone.interfaces.syndication.ISiteSyndicationSettings.site_rss_items">
+    field type="plone.registry.field.Tuple">
       <default>
-        <element>/news/aggregator</element>
+        <element></element>
       </default>
       <description>Paths to folders and collections to link to at the portal root.</description>
       <required>False</required>
@@ -87,7 +87,7 @@
     <value>
       <element>/news/aggregator</element>
     </value>
-  </record>
+  </record>-->
   <record field="cacheStopRequestVariables" interface="plone.app.caching.interfaces.IPloneCacheSettings" name="plone.app.caching.interfaces.IPloneCacheSettings.cacheStopRequestVariables">
     <value>True</value>
   </record>
@@ -442,14 +442,15 @@
       </field>
       <value>%I:%M %p</value>
     </record>
-    <record interface="plone.app.imagecropping.browser.settings.ISettings" name="plone.app.imagecropping.browser.settings.ISettings.cropping_for">
+    <record interface="plone.app.imagecropping.browser.settings.ISettings"
+            name="plone.app.imagecropping.browser.settings.ISettings.cropping_for">
       <value>
-        <element>header</element>
-        <element>slider</element>
+        <!--<element>header</element>-->
+        <!--<element>slider</element>-->
         <element>large</element>
-        <element>blogtile</element>
+        <!--<element>blogtile</element>-->
         <element>preview</element>
-        <element>featured</element>
+        <!--<element>featured</element>-->
         <element>mini</element>
         <element>thumb</element>
         <element>tile</element>
