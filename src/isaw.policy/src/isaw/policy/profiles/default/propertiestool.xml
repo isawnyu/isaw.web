@@ -36,7 +36,6 @@
       <element value="Ruleset"/>
       <element value="Relations Library"/>
     </property>
-    <property name="visible_ids" type="boolean">True</property>
     <property name="exposeDCMetaTags" type="boolean">True</property>
     <property name="disable_nonfolderish_sections"
               type="boolean">True</property>
