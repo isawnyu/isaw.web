@@ -127,7 +127,7 @@ class TiledListingView(BrowserView, TileDetailsMixin):
             query['b_size'] = b_size
             items = self.context.getFolderContents(contentFilter=query,
                                                    batch=batch, b_size=b_size)
-        elif self.context.portal_type == 'Topic':
+        elif self.context.portal_type == 'Collection':
             if b_start and not self.request.get('b_start'):
                 self.request['b_start'] = b_start
             items = self.context.queryCatalog(self.request, batch, b_size,
