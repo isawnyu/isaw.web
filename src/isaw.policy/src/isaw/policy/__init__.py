@@ -17,3 +17,13 @@ logger = logging.getLogger('isaw.policy')
 def initialize(context):
     """Initializer called when used as a Zope 2 product."""
     patches.patch_saml_login()
+
+
+from plone.app.upgrade.utils import alias_module
+
+class Geolocation(object):
+    """dummy"""
+    pass
+
+alias_module('Products.Maps.adapters.Geolocation', Geolocation)
+alias_module('plone.formwidget.geolocation.geolocation.Geolocation', Geolocation)
