@@ -93,9 +93,10 @@ client_max_body_size: 48M
 
 # Minimize Varnish RAM
 proxycache_method: file
-proxycache_opts:  "-p nuke_limit=500"
+proxycache_opts:  "-p nuke_limit=500 -p http_resp_hdr_len=64k -p http_resp_size=256k -p workspace_backend=320k"
 proxy_cache_grace: 60s
 proxy_cache_anon_ttl: 300s
+proxycache_size: 750m
 
 proxy_cache_backend_extra: |
         .connect_timeout = 300s;
@@ -180,3 +181,7 @@ apache_mods_disabled:
   - mpm_worker.load
   - php7.2.conf
   - php7.2.load
+
+apache_global_vhost_settings: |
+  LimitRequestFieldSize 16380
+  LimitRequestLine 16380
