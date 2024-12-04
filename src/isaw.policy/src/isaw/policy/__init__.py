@@ -1,7 +1,8 @@
 # Disable the HomeFolderLocator from plone.app.iterate
-import logging
-from zope.i18nmessageid import MessageFactory
 from . import patches
+from plone.app.upgrade.utils import alias_module
+from zope.i18nmessageid import MessageFactory
+import logging
 
 # XXX: Why did we disable home folder finding?
 # from plone.app.iterate.containers import HomeFolderLocator
@@ -19,11 +20,10 @@ def initialize(context):
     patches.patch_saml_login()
 
 
-from plone.app.upgrade.utils import alias_module
-
 class Geolocation(object):
     """dummy"""
     pass
 
+# aliasing geolocation class to please the storage
 alias_module('Products.Maps.adapters.Geolocation', Geolocation)
 alias_module('plone.formwidget.geolocation.geolocation.Geolocation', Geolocation)
