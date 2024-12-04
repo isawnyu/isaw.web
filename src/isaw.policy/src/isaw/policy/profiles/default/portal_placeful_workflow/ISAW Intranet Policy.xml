@@ -5,15 +5,13 @@
   <default>
    <bound-workflow workflow_id="isaw_intranet_workflow"/>
   </default>
-  <type default_chain="true" type_id="CV"/>
   <type default_chain="true" type_id="Collection"/>
   <type default_chain="true" type_id="Document"/>
   <type default_chain="true" type_id="Event"/>
   <type default_chain="true" type_id="Folder"/>
   <type default_chain="true" type_id="Link"/>
   <type default_chain="true" type_id="News Item"/>
-  <type default_chain="true" type_id="Topic"/>
-  <type default_chain="true" type_id="profile"/>
+  <!-- <type default_chain="true" type_id="profile"/> -->
   <type default_chain="true" type_id="File"/>
  </bindings>
 </object>
