@@ -3,6 +3,7 @@ import csv
 import logging
 import sys
 import transaction
+from urlparse import urlparse
 from lxml import html
 
 from AccessControl.SecurityManagement import newSecurityManager
@@ -47,8 +48,13 @@ def getSite(app, args):
 
 
 def ignorable_url(url):
-    return (url.startswith('/') or url.startswith('.') or
-            url.startswith("http://nohost") or ':' not in url)
+    try:
+        parsed = urlparse(url)
+    except ValueError:
+        return True
+    if parsed.scheme == 'mailto':
+        return False
+    return not parsed.netloc or parsed.netloc == 'nohost' or 'isaw.nyu.edu' in parsed.netloc
 
 
 def getStringUrl(value):
