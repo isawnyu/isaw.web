@@ -12,9 +12,9 @@
     meta_type="Filesystem Directory View"
     directory="isaw.theme:skins/isaw_theme_styles"/>
 
- <skin-path name="NYU ISAW Theme" based-on="Sunburst Theme">
+ <skin-path name="NYU ISAW Theme" based-on="Plone Default">
  </skin-path>
- 
+
  <skin-path name="*">
   <layer name="isaw_theme_custom_images"
      insert-after="custom"/>
@@ -22,6 +22,8 @@
      insert-after="custom"/>
   <layer name="isaw_theme_styles"
      insert-after="custom" />
+
+
   <layer name="kupu_tests"
          remove="True" />
   <layer name="dropdownmenu"
