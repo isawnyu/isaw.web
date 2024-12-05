@@ -178,6 +178,7 @@ if __name__ == '__main__':
             csv_file,
             fieldnames=['URI', 'Path', "Field Name", "Link Text"]
         )
+        writer.writeheader()
         for item in findContent(site):
             for field, url, link_text in getUrlValues(item):
                 writer.writerow({
