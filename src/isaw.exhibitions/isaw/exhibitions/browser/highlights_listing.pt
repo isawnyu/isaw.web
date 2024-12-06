@@ -13,7 +13,8 @@
                      tal:define="is_collection python:context.portal_type == 'Collection';
                                  collection_view nocall:context/@@standard_view|nothing;
                                  listing nocall:context/folder_listing|nothing;
-                                 base_template python:is_collection and collection_view or listing;">
+                                 base_template python:is_collection and collection_view or listing;
+                                  normalizeString nocall:context/@@plone/normalizeString;">
     <div class="ExhibitionHighlightsView">
     <metal:use-core use-macro="base_template/macros/content-core">
       <table class="plain" metal:fill-slot="entries">
@@ -48,7 +49,7 @@
       </table>
     </metal:use-core>
     </div>
-  </metal:define-core>  
+  </metal:define-core>
 </metal:content-core>
 </body>
 </html>
