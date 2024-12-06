@@ -1,12 +1,22 @@
 from AccessControl import getSecurityManager
 from Acquisition import aq_inner
 from plone.app.iterate.browser.control import Control
+from plone.app.iterate.browser.control import ICheckinCheckoutPolicy
 from plone.app.iterate import interfaces
 from plone.app.iterate import permissions
 
 
 class ISAWIterateControl(Control):
     """Override Iterate control"""
+
+    def get_original(self, context):
+
+        policy = ICheckinCheckoutPolicy(self.context, None)
+        if policy is None:
+            return None
+        original = policy.getBaseline()
+        return original
+
 
     def checkin_allowed(self):
         """Check if a checkin is allowed
