@@ -21,6 +21,7 @@
 
   <browser:page
     for="*"
+    class="plone.app.contenttypes.browser.folder.FolderView"
     template="checklist_listing.pt"
     name="exhibition-checklist"
     permission="zope2.View"
@@ -28,6 +29,7 @@
 
   <browser:page
     for="*"
+    class="plone.app.contenttypes.browser.folder.FolderView"
     template="highlights_listing.pt"
     name="exhibition-highlights"
     permission="zope2.View"
