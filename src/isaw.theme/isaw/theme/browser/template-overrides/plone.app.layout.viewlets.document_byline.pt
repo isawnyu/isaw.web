@@ -6,7 +6,7 @@
                  mtool python:context.portal_membership;
                  portal_url python:context.portal_url;
                  can_edit python:mtool.checkPermission('Modify portal content', context);
-                 profile_view nocall:context/@@member_profile;
+                 profile_view nocall:context/@@member_profile|nothing;
                  creators here/Creators|nothing;
                  contributors here/Contributors|nothing;"
      tal:condition="python: show and (is_news or can_edit)">
@@ -75,9 +75,6 @@
           i18n:translate="time_expired">expired</span>
   </tal:expired>
 
-  <span class="contentHistory" id="content-history"
-        tal:condition="view/show_history">
-    |
     <a href="#"
        tal:attributes="href string:${here/absolute_url}/@@historyview"
        i18n:translate="label_history">History</a>
