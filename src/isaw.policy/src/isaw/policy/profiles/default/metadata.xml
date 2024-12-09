@@ -6,7 +6,6 @@
     <dependency>profile-isaw.facultycv:default</dependency>
     <dependency>profile-isaw.exhibitions:default</dependency>
     <dependency>profile-webcouturier.dropdownmenu:default</dependency>
-    <dependency>profile-collective.quickupload:default</dependency>
     <dependency>profile-plone.resource:default</dependency>
     <dependency>profile-plone.session:default</dependency>
     <dependency>profile-collective.portlet.relateditems:default</dependency>
