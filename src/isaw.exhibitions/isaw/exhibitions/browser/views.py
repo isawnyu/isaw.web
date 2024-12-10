@@ -6,6 +6,7 @@ from plone.app.layout.nextprevious.view import (NextPreviousView,
                                                 NextPreviousViewlet,
                                                 NextPreviousLinksViewlet)
 from plone.app.contenttypes.browser.folder import FolderView
+from Products.CMFPlone.PloneBatch import Batch
 
 from ..interfaces import IExhibitionObject
 
@@ -119,3 +120,12 @@ class ChecklistView(FolderView):
     @property
     def friendly_types(self):
         return ('Image', )
+
+    def batch(self):
+        batch = Batch(
+            self.results(sort_order='ascending'),
+            size=self.b_size,
+            start=self.b_start,
+            orphan=1
+        )
+        return batch
