@@ -5,6 +5,8 @@ from Products.CMFCore.utils import getToolByName
 from plone.app.layout.nextprevious.view import (NextPreviousView,
                                                 NextPreviousViewlet,
                                                 NextPreviousLinksViewlet)
+from plone.app.contenttypes.browser.folder import FolderView
+
 from ..interfaces import IExhibitionObject
 
 
@@ -111,3 +113,9 @@ class HighlightsNextPreviousViewlet(HighlightsNextPreviousView,
 class HighlightsNextPreviousLinksViewlet(HighlightsNextPreviousView,
                                          NextPreviousLinksViewlet):
     pass
+
+class ChecklistView(FolderView):
+
+    @property
+    def friendly_types(self):
+        return ('Image', )

@@ -26,6 +26,13 @@
     name="exhibition-checklist"
     permission="zope2.View"
     />
+  <browser:page
+    for="*"
+    class=".views.ChecklistView"
+    template="checklist-view.pt"
+    name="checklist-view"
+    permission="zope2.View"
+    />
 
   <browser:page
     for="*"
