@@ -4,6 +4,6 @@
    i18n:domain="isaw.exhibitions" xmlns:i18n="http://xml.zope.org/namespaces/i18n">
   <property name="icon_expr">string:${portal_url}/vase-ear-double.png</property>
   <property name="behaviors" purge="False">
-     <element value="isaw.policy.map_extender.IGeolocationBehavior"/>
+     <!--<element value="isaw.policy.map_extender.IGeolocationBehavior"/>-->
   </property>
 </object>
