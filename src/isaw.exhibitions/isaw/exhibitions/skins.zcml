@@ -4,6 +4,8 @@
     i18n_domain="isaw.exhibitions">
 
   <!-- File System Directory Views registration -->
-  <cmf:registerDirectory name="skins" directory="skins" recursive="True" />
+  <!--<cmf:registerDirectory name="skins" directory="skins" recursive="True" />-->
+
+  <!--All the tree templates has been migrated to browserviews-->
 
 </configure>
