@@ -57,6 +57,7 @@ def uninstall_lecacy_products(portal):
                 'isaw.bibitems',
                 'Products.Maps',
                 'collective.easytemplate',
+                'collective.embedly',
                 'collective.portlet.relateditems',
                 'wildcard.foldercontents',
                 'Products.WebServerAuth',
