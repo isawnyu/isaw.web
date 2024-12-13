@@ -53,7 +53,8 @@
            title="click here"
            tal:attributes="href string:${portal_url}/search?SearchableText=${searchname};
                            title string:search site for more information about ${fullname}"
-           tal:content="fullname">Grace Hopper</a></span><span tal:condition="not:repeat/contributor/end" tal:omit-tag="">, </span>
+           tal:content="fullname">Grace Hopper</a></span><span tal:condition="not:repeat/contributor/end" tal:omit-tag="">,
+      </span>
     </tal:name>
   </tal:contributors>
 
@@ -61,7 +62,7 @@
                      created context/CreationDate;
                      date python:published or created">
                      <br tal:condition="python:creators or contributors" />
-  <span class="documentPublished"
+    <span class="documentPublished"
         tal:condition="date">
     <span tal:replace="python:view.toLocalizedTime(date,long_format=0)">
       August 16, 2001 at 23:35:59
@@ -78,6 +79,5 @@
     <a href="#"
        tal:attributes="href string:${here/absolute_url}/@@historyview"
        i18n:translate="label_history">History</a>
-  </span>
 
 </div>
