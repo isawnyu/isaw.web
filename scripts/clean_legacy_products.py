@@ -53,21 +53,23 @@ def unlockDavLocks():
 
 
 def uninstall_lecacy_products(portal):
-    PRODUCTS = ['isaw.facultycv',
-                'isaw.bibitems',
+    PRODUCTS = [
                 'Maps',
+                'Products.WebServerAuth',
+                'WebServerAuth',
                 'collective.easytemplate',
                 'collective.embedly',
                 'collective.portlet.relateditems',
-                'wildcard.foldercontents',
-                'Products.WebServerAuth',
                 'collective.quickupload',
-                'web_server_auth',
+                'isaw.bibitems',
+                'wildcard.foldercontents',
+                'isaw.facultycv',
                 ]
 
     pqi = portal.portal_quickinstaller
     for PRODUCT in PRODUCTS:
         if pqi.isProductInstalled(PRODUCT):
+            logger.info('uninstalling {}'.format(PRODUCT))
             pqi.uninstallProducts([PRODUCT])
 
 
@@ -214,6 +216,7 @@ if __name__ == "__main__":
     clean_old_behaviors(portal)
 
     uninstall_lecacy_products(portal)
+
     toggleCachePurging(status='enabled')
 
     search_clean_portlets(portal, dryrun=False)
