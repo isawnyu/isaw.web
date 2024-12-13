@@ -55,13 +55,14 @@ def unlockDavLocks():
 def uninstall_lecacy_products(portal):
     PRODUCTS = ['isaw.facultycv',
                 'isaw.bibitems',
-                'Products.Maps',
+                'Maps',
                 'collective.easytemplate',
                 'collective.embedly',
                 'collective.portlet.relateditems',
                 'wildcard.foldercontents',
                 'Products.WebServerAuth',
                 'collective.quickupload',
+                'web_server_auth',
                 ]
 
     pqi = portal.portal_quickinstaller
@@ -110,7 +111,14 @@ def install_postmigration_products(portal):
 
 def remove_legacy_items(portal):
     pg = portal.portal_catalog
-    types = ('CV', 'profile', 'isaw.bibitems.bibitem')
+    types = ('CV',
+
+             # XXX profile should be retained until collective.person will be customized for ISAW
+             'profile',
+
+             'isaw.bibitems.bibitem',
+             'isaw.policy.location'
+             )
     for t in types:
         brains = pg(portal_type=t)
         for i, b in enumerate( brains):
