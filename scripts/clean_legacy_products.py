@@ -118,6 +118,8 @@ def remove_legacy_items(portal):
              # XXX profile should be retained until collective.person will be customized for ISAW
              'profile',
 
+             'TemplatedDocument',
+
              'isaw.bibitems.bibitem',
              'isaw.policy.location'
              )
