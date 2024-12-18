@@ -34,6 +34,15 @@ class Registry(Persistent):
 class Dummy(object):
     """dummy"""
 
+    def __init__(self, id):
+        self.id = id
+
+    def getId(self):
+        return "fake_id Dummy class"
+
+    def getPortalTypeName(self, ):
+        return "fake_portal_type Dummy class"
+
 
 # aliasing legacy modules/classes to please the storage
 alias_module('Products.CMFDefault.DiscussionItem.DiscussionItemContainer', Dummy)
@@ -52,3 +61,4 @@ alias_module('plone.app.stagingbehavior.relation.StagingRelationValue', Dummy)
 alias_module('plone.contentratings.assignment.LocalAssignmentUtility', LocalAssignmentUtility)
 alias_module('plone.contentratings.interfaces.IUnratable', Interface)
 alias_module('plone.formwidget.geolocation.geolocation.Geolocation', Dummy)
+alias_module('plone.app.controlpanel.markup.WickedSettings', Dummy)
