@@ -64,6 +64,7 @@ def uninstall_lecacy_products(portal):
                 'isaw.bibitems',
                 'wildcard.foldercontents',
                 'isaw.facultycv',
+                'Marshall',
                 ]
 
     pqi = portal.portal_quickinstaller
@@ -71,7 +72,7 @@ def uninstall_lecacy_products(portal):
         if pqi.isProductInstalled(PRODUCT):
             logger.info('uninstalling {}'.format(PRODUCT))
             pqi.uninstallProducts([PRODUCT])
-
+    logger.info("All legacy products uninstalled ")
 
 def toggleCachePurging(status='disabled'):
     from plone.cachepurging.interfaces import ICachePurgingSettings
