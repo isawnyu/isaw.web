@@ -12,6 +12,15 @@
       provides="Products.GenericSetup.interfaces.EXTENSION"
       />
 
+
+  <genericsetup:registerProfile
+      name="plone51"
+      title="isaw.policy (Plone51)"
+      directory="profiles/upgrade51"
+      description="Installs the isaw.policy package  in plone51"
+      provides="Products.GenericSetup.interfaces.EXTENSION"
+      />
+
   <!-- profile importStep and upgradeStep declarations will go here -->
   <genericsetup:upgradeDepends
       sortkey="10"
@@ -417,6 +426,15 @@
       description=""
       profile="isaw.policy:default"
       import_steps="propertiestool"
+      />
+
+  <genericsetup:upgradeDepends
+      source="40"
+      destination="50"
+      title="Generic Plone51 post upgrade"
+      description=""
+      profile="isaw.policy:upgrade51"
+      import_steps="plone.app.registry"
       />
 
 </configure>

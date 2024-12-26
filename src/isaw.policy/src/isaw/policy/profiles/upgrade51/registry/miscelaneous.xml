@@ -1,0 +1,16 @@
+<registry>
+
+    <!--OLD site.properties.typesLinkToFolderContentsInFC-->
+    <record
+        name="plone.types_use_view_action_in_listings"
+        interface="Products.CMFPlone.interfaces.controlpanel.ITypesSchema"
+        field="types_use_view_action_in_listings">
+      <value>
+          <element remove="True">Folder</element>
+          <element>Ruleset Collection</element>
+          <element>Ruleset</element>
+          <element>Relations Library</element>
+      </value>
+    </record>
+
+</registry>

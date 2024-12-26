@@ -31,7 +31,7 @@ class LocalAssignmentUtility(Persistent):
 class Registry(Persistent):
     """dummy"""
 
-class Dummy(object):
+class Dummy(Persistent):
     """dummy"""
 
     def __init__(self, id):
