@@ -371,7 +371,6 @@
     name="libcollection-view"
     for="isaw.policy.interfaces.IISAWLibCollection"
     permission="zope2.View"
-    layer=".interfaces.IThemeSpecific"
     template="templates/libcollection.pt"
     />
 

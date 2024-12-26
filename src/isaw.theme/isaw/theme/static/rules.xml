@@ -96,11 +96,11 @@
               data-dialog-id="portal-searchbox">Search</button>
     </replace>
 
-    <replace css:theme-children="#main-navigation #secondary"
-             css:content-children="#portal-siteactions" />
+    <replace css:theme-children="#portal-mainnavigation #secondary"
+             css:content-children=".actions-site_actions" />
 
-    <replace css:theme-children="#main-navigation #primary"
-             css:content-children="#portal-globalnav" />
+    <replace css:theme-children="#portal-mainnavigation #primary"
+             css:content-children="#portal-globalnav-wrapper" />
 
     <copy css:theme="#searchGadget_form"
           css:content="#searchGadget_form"
@@ -116,7 +116,7 @@
       <xsl:value-of select="//a[@id='support-link']" />
     </replace>
 
-    <drop css:content="#portal-footer" />
+    <drop css:content="#portal-footer-wrapper" />
     <replace method="raw"
              css:theme-children=".footer-row"
              css:content="#portal-footer" />
