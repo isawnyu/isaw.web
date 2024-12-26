@@ -6,6 +6,11 @@
     <value key="js">++theme++isaw.theme/js/isaw.js</value>
     <value key="deps">jquery</value>
   </records>
+  <records prefix="plone.resources/awld"
+           interface='Products.CMFPlone.interfaces.IResourceRegistry'>
+    <value key="js">++theme++isaw.theme/js/awld/awld.js</value>
+    <value key="deps">jquery</value>
+  </records>
 
   <records prefix="plone.resources/easysliderjs"
            interface='Products.CMFPlone.interfaces.IResourceRegistry'>
@@ -20,7 +25,7 @@
     </value>
     <value key="enabled">True</value>
     <value key="jscompilation">++theme++isaw.theme/js/isaw.js</value>
-    <value key="last_compilation">2024-12-26 00:00:00</value>
+    <value key="last_compilation">2024-12-26 00:00:01</value>
     <value key="depends">plone</value>
     <value key="merge_with">default</value>
  </records>
@@ -34,6 +39,18 @@
     <value key="jscompilation">++resource++easySlider.js</value>
     <value key="last_compilation">2024-12-26 00:00:00</value>
     <value key="depends">plone</value>
+    <value key="merge_with">default</value>
+ </records>
+
+  <records prefix="plone.bundles/awld"
+           interface='Products.CMFPlone.interfaces.IBundleRegistry'>
+    <value key="resources">
+      <element>awld</element>
+    </value>
+    <value key="enabled">True</value>
+    <value key="jscompilation">++theme++isaw.theme/js/awld/awld.js</value>
+    <value key="last_compilation">2024-12-26 00:00:00</value>
+    <value key="depends">isaw</value>
     <value key="merge_with">default</value>
  </records>
 
