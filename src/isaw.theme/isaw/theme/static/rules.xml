@@ -116,7 +116,7 @@
       <xsl:value-of select="//a[@id='support-link']" />
     </replace>
 
-    <drop css:content="#portal-footer-wrapper" />
+    <drop css:content="#portal-footer" />
     <replace method="raw"
              css:theme-children=".footer-row"
              css:content="#portal-footer" />
