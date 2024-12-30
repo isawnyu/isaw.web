@@ -96,11 +96,11 @@
               data-dialog-id="portal-searchbox">Search</button>
     </replace>
 
-    <replace css:theme-children="#portal-mainnavigation #secondary"
-             css:content-children=".actions-site_actions" />
+    <replace css:theme-children="#main-navigation #secondary"
+             css:content-children="#portal-siteactions" />
 
-    <replace css:theme-children="#portal-mainnavigation #primary"
-             css:content-children="#portal-globalnav-wrapper" />
+    <replace css:theme-children="#main-navigation #primary"
+             css:content-children="#portal-globalnav" />
 
     <copy css:theme="#searchGadget_form"
           css:content="#searchGadget_form"
