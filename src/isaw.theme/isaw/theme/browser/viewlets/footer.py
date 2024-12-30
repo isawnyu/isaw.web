@@ -45,7 +45,7 @@ class SiteFooter(ViewletBase):
             else:
                 username = userid
 
-            actions_html += '<p><img src="user.png" /> <em>{}</em></p>'.format(
+            actions_html += '<p><img src="++theme++isaw.theme/images/user.png" /> <em>{}</em></p>'.format(
                 username)
 
         registry = getUtility(IRegistry)
