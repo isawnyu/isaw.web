@@ -230,7 +230,7 @@ body[class*="isaw-home"][class*="section"][class*="template-document_view"] #por
 body[class*="isaw-home"][class*="section"][class*="template-document_view"] #portal-columns .cycle-pager span:Hover,
 body[class*="isaw-home"][class*="section"][class*="template-document_view"] #portal-columns .cycle-pager span:focus {background:rgba(255,255,255,1); }
 
-#portal-breadcrumbs {background: #ddd9d6; color:#fff; font-family:'Noto Sans', sans-serif; font-size:14px; font-weight:800; letter-spacing:.5px; line-height:12px; margin:0; padding:21px 20px 20px 56px; text-transform:uppercase; }
+#portal-breadcrumbs {background: #ddd9d6; color:#fff; font-family:'Noto Sans', sans-serif; font-size:14px; font-weight:800; letter-spacing:.5px; line-height:12px; margin:0; padding:6px 20px 6px 14px; text-transform:uppercase; }
 
 .section-graduate-studies #portal-breadcrumbs {background:#6d6054; }
 .section-visiting-scholars #portal-breadcrumbs {background:#9d3a20; }
