@@ -72,7 +72,7 @@ a:focus #site-title, #page-site-title a:focus {opacity: 0.8; border-color: blue;
 #portal-top .identity {position: absolute; top:0; left:0; background:url('_images/logo-isaw.svg') center center / contain no-repeat #fff; display:block; height:179px; text-indent:-10000px; width:47px; z-index:6}
 #portal-top #mobile-nav-trigger {display:none; }
 #portal-top #main-navigation { }
-#portal-top #main-navigation ul#primary {background:#fffaf5; display:block; height:78px; margin:0; position:absolute; right:0; text-align:right; top:49px; width:100%; z-index:2; }
+#portal-top #main-navigation ul#primary {background:#fffaf5; display:block; height:78px; margin:0; padding:0; position:absolute; right:0; text-align:right; top:49px; width:100%; z-index:2; }
 #portal-top #main-navigation ul#primary li {display:inline-block; position:relative; text-align:right; vertical-align:top; width:220px; }
 #portal-top #main-navigation ul#primary li a {background:#9c8350; color:#fff; display:block; font-family: 'Noto Sans', sans-serif; font-size:15px; font-weight:800; letter-spacing:1px; line-height:72px; padding:0; text-align:center; text-decoration:none; text-transform:uppercase; border: 3px solid transparent; }
 #portal-top #main-navigation ul#primary li a:hover,
