@@ -31,7 +31,7 @@ class LocalAssignmentUtility(Persistent):
 class Registry(Persistent):
     """dummy"""
 
-class Dummy(Persistent):
+class Dummy(object):
     """dummy"""
 
     def __init__(self, id):
@@ -42,6 +42,9 @@ class Dummy(Persistent):
 
     def getPortalTypeName(self, ):
         return "fake_portal_type Dummy class"
+
+class DummyP(Dummy, Persistent):
+    pass
 
 
 # aliasing legacy modules/classes to please the storage
