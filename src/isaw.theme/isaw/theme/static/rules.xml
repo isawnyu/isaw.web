@@ -13,7 +13,7 @@
     </xsl:choose>
 </xsl:variable>
 <xsl:variable name="section">
-    <xsl:value-of select="//nav[@id='portal-breadcrumbs']/li[2]/a[1]/text()|//div[@id='portal-breadcrumbs']/span[3]/span[1]/text()" />
+    <xsl:value-of select="//nav[@id='portal-breadcrumbs']/span[3]/a[1]/text()|//div[@id='portal-breadcrumbs']/span[3]/span[1]/text()" />
 </xsl:variable>
 <!-- Don't act on AJAX faceted search requests -->
 <notheme if-path="@@faceted_query @@tagscloud_counter @@tiled-listing-page" />

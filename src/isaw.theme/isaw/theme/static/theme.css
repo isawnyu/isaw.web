@@ -230,7 +230,7 @@ body[class*="isaw-home"][class*="section"][class*="template-document_view"] #por
 body[class*="isaw-home"][class*="section"][class*="template-document_view"] #portal-columns .cycle-pager span:Hover,
 body[class*="isaw-home"][class*="section"][class*="template-document_view"] #portal-columns .cycle-pager span:focus {background:rgba(255,255,255,1); }
 
-#portal-breadcrumbs {background: #ddd9d6; color:#fff; font-family:'Noto Sans', sans-serif; font-size:14px; font-weight:800; letter-spacing:.5px; line-height:12px; margin:0; padding:6px 20px 6px 14px; text-transform:uppercase; }
+#portal-breadcrumbs {background: #ddd9d6; color:#fff; font-family:'Noto Sans', sans-serif; font-size:14px; font-weight:800; letter-spacing:.5px; line-height:12px; margin:0; padding:21px 20px 20px 56px; text-transform:uppercase; }
 
 .section-graduate-studies #portal-breadcrumbs {background:#6d6054; }
 .section-visiting-scholars #portal-breadcrumbs {background:#9d3a20; }
@@ -238,41 +238,41 @@ body[class*="isaw-home"][class*="section"][class*="template-document_view"] #por
 .section-events #portal-breadcrumbs {background:#66232b; }
 
 #breadcrumbs-you-are-here {display: none;}
-#portal-breadcrumbs li {color: #333; }
+#portal-breadcrumbs span {color: #333; }
 #portal-breadcrumbs ol li {display: inline-block}
-#portal-breadcrumbs > li a, #portal-breadcrumbs ol > li:first-child {margin:0 6px 0 -5px; }
-#portal-breadcrumbs li.breadcrumbSeparator {margin-left:0; }
-#portal-breadcrumbs li.breadcrumbSeparator {color: transparent !important;}
-#portal-breadcrumbs li.breadcrumbSeparator:before {content: ">"; color: #333;}
-#portal-breadcrumbs li a {color: #333; text-decoration:none; padding: 5px; border: 3px solid transparent;}
-#portal-breadcrumbs li a:hover,
-#portal-breadcrumbs li a:focus {
+#portal-breadcrumbs > span a, #portal-breadcrumbs nav > span:first-child {margin:0 6px 0 -5px; }
+#portal-breadcrumbs span.breadcrumbSeparator {margin-left:0; }
+#portal-breadcrumbs span.breadcrumbSeparator {color: transparent !important;}
+#portal-breadcrumbs span.breadcrumbSeparator:before {content: ">"; color: #333;}
+#portal-breadcrumbs span a {color: #fff; text-decoration:none; padding: 5px; border: 3px solid transparent;}
+#portal-breadcrumbs span a:hover,
+#portal-breadcrumbs span a:focus {
     color:blue !important; text-decoration: none;
     border-color: blue;
 }
 
-.section-graduate-studies #portal-breadcrumbs li,
-.section-visiting-scholars #portal-breadcrumbs li,
-.section-exhibitions #portal-breadcrumbs li,
-.section-events #portal-breadcrumbs li,
-.section-graduate-studies #portal-breadcrumbs li a,
-.section-visiting-scholars #portal-breadcrumbs li a,
-.section-exhibitions #portal-breadcrumbs li a,
-.section-events #portal-breadcrumbs li a,
-.section-graduate-studies #portal-breadcrumbs li.breadcrumbSeparator:before,
-.section-visiting-scholars #portal-breadcrumbs li.breadcrumbSeparator:before,
-.section-exhibitions #portal-breadcrumbs li.breadcrumbSeparator:before,
-.section-events #portal-breadcrumbs li.breadcrumbSeparator:before {
+.section-graduate-studies #portal-breadcrumbs span,
+.section-visiting-scholars #portal-breadcrumbs span,
+.section-exhibitions #portal-breadcrumbs span,
+.section-events #portal-breadcrumbs span,
+.section-graduate-studies #portal-breadcrumbs span a,
+.section-visiting-scholars #portal-breadcrumbs span a,
+.section-exhibitions #portal-breadcrumbs span a,
+.section-events #portal-breadcrumbs span a,
+.section-graduate-studies #portal-breadcrumbs span.breadcrumbSeparator:before,
+.section-visiting-scholars #portal-breadcrumbs span.breadcrumbSeparator:before,
+.section-exhibitions #portal-breadcrumbs span.breadcrumbSeparator:before,
+.section-events #portal-breadcrumbs span.breadcrumbSeparator:before {
     color: #fff;
 }
-.section-graduate-studies #portal-breadcrumbs li a:focus,
-.section-graduate-studies #portal-breadcrumbs li a:hover,
-.section-visiting-scholars #portal-breadcrumbs li a:focus,
-.section-visiting-scholars #portal-breadcrumbs li a:hover,
-.section-exhibitions #portal-breadcrumbs li a:focus,
-.section-exhibitions #portal-breadcrumbs li a:hover,
-.section-events #portal-breadcrumbs li a:focus,
-.section-events #portal-breadcrumbs li a:hover {
+.section-graduate-studies #portal-breadcrumbs span a:focus,
+.section-graduate-studies #portal-breadcrumbs span a:hover,
+.section-visiting-scholars #portal-breadcrumbs span a:focus,
+.section-visiting-scholars #portal-breadcrumbs span a:hover,
+.section-exhibitions #portal-breadcrumbs span a:focus,
+.section-exhibitions #portal-breadcrumbs span a:hover,
+.section-events #portal-breadcrumbs span a:focus,
+.section-events #portal-breadcrumbs span a:hover {
     background-color: seashell;
 }
 
@@ -1268,7 +1268,7 @@ h2.CVSectionTitle:before {
 
 @media screen and (max-width:767px){
 	#viewlet-above-content #portal-breadcrumbs {font-size:10px; line-height:12px; height: 12px; margin-bottom:22px; padding: 14px 20px 13px 56px; text-size-adjust: none; -webkit-text-size-adjust: none;}
-	#viewlet-above-content #portal-breadcrumbs li {margin:0; }
+	#viewlet-above-content #portal-breadcrumbs span {margin:0; }
 	/*flexbox it*/
 	#column-contents {padding:0 20px 80px 40px;
 		display: -webkit-box;      /* OLD - iOS 6-, Safari 3.1-6 */
