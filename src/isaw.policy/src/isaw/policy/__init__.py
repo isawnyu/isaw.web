@@ -1,9 +1,11 @@
 # Disable the HomeFolderLocator from plone.app.iterate
 from . import patches
+from ZODB import broken
 from plone.app.upgrade.utils import alias_module
 from zope.i18nmessageid import MessageFactory
 from zope.interface import Interface
 import logging
+
 
 # XXX: Why did we disable home folder finding?
 # from plone.app.iterate.containers import HomeFolderLocator
@@ -31,7 +33,8 @@ class LocalAssignmentUtility(Persistent):
 class Registry(Persistent):
     """dummy"""
 
-class Dummy(Persistent):
+
+class Dummy(broken.Broken):
     """dummy"""
 
     def __init__(self, id):
@@ -42,7 +45,6 @@ class Dummy(Persistent):
 
     def getPortalTypeName(self, ):
         return "fake_portal_type Dummy class"
-
 
 # aliasing legacy modules/classes to please the storage
 alias_module('Products.CMFDefault.DiscussionItem.DiscussionItemContainer', Dummy)
