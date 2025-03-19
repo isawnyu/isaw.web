@@ -400,4 +400,30 @@
         </configure>
     </configure>
 
+    <browser:viewlet
+          name="isaw-zotero"
+          for="isaw.policy.interfaces.IISAWPublication"
+          manager="plone.app.layout.viewlets.interfaces.IHtmlHead"
+          class=".viewlets.zotero.PublicationZoteroViewlet"
+          permission="zope2.View" />
+
+      <browser:page
+        name="publication-view"
+        for="isaw.policy.interfaces.IISAWPublication"
+        permission="zope2.View"
+        class=".publication.PublicationView"
+        layer=".interfaces.IThemeSpecific"
+        template="templates/publication_view.pt"
+        />
+
+
+      <browser:page
+        name="publication-images"
+        for="isaw.policy.interfaces.IISAWPublication"
+        permission="zope2.View"
+        class=".publication.PublicationImagesView"
+        layer=".interfaces.IThemeSpecific"
+        template="templates/publication_images.pt"
+        />
+
 </configure>
