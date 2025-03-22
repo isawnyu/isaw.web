@@ -28,8 +28,8 @@ import transaction
 
 
 portal = app.isaw
-
 logging.getLogger().setLevel(logging.INFO)
+
 for handler in logging.getLogger().handlers:
     handler.setLevel(logging.INFO)
 
@@ -74,6 +74,7 @@ def uninstall_lecacy_products(portal):
             pqi.uninstallProducts([PRODUCT])
     logger.info("All legacy products uninstalled ")
 
+
 def toggleCachePurging(status='disabled'):
     from plone.cachepurging.interfaces import ICachePurgingSettings
 
@@ -83,6 +84,23 @@ def toggleCachePurging(status='disabled'):
     settings.enabled = False if status == 'disabled' else True
 
     transaction.commit()
+
+
+def clean_registry_entries(portal):
+    js_to_remove = ['++resource++plone.formwidget.geolocation/libs.js']
+    css_to_remove = ['++resource++plone.formwidget.geolocation/libs.css',
+                     '++resource++plone.formwidget.geolocation/maps.css',
+                     'PressRoom.css']
+    js_reg = portal.portal_javascripts
+    css_reg = portal.portal_css
+    for res in js_to_remove:
+        if res in js_reg.getResourceIds():
+            js_reg.manage_removeScript(id=res)
+            logger.info("{} removed from {}".format(res, js_reg))
+    for res in css_to_remove:
+        if res in css_reg.getResourceIds():
+            css_reg.manage_removeStylesheet(id=res)
+            logger.info("{} removed from {}".format(res, css_reg))
 
 
 def clean_old_behaviors(portal):
@@ -223,6 +241,8 @@ if __name__ == "__main__":
     toggleCachePurging(status='enabled')
 
     search_clean_portlets(portal, dryrun=False)
+
+    clean_registry_entries(portal)
 
     transaction.commit()
 
