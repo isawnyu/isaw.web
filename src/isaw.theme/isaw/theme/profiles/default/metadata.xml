@@ -3,6 +3,5 @@
   <version>34</version>
   <dependencies>
     <dependency>profile-plone.app.theming:default</dependency>
-    <dependency>profile-collective.navigationtoggle:default</dependency>
   </dependencies>
 </metadata>
