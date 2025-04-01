@@ -46,7 +46,7 @@ class Renderer(base.Renderer):
 
 
 class AddForm(base.AddForm):
-
+    schema = IButtonPortlet
     form_fields = form.Fields(IButtonPortlet)
     label = _(u"Add Button Portlet")
 
@@ -55,5 +55,5 @@ class AddForm(base.AddForm):
 
 
 class EditForm(base.EditForm):
-
+    schema = IButtonPortlet
     form_fields = form.Fields(IButtonPortlet)
