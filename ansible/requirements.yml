@@ -5,7 +5,7 @@
   name: plone.plone_server
 
 - src: https://github.com/jnv/ansible-role-unattended-upgrades.git
-  version: v1.12.1
+  version: v1.12.2
   name: jnv.unattended-upgrades
 
 - src: geerlingguy.apache

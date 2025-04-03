@@ -185,3 +185,8 @@ apache_mods_disabled:
 apache_global_vhost_settings: |
   LimitRequestFieldSize 16380
   LimitRequestLine 16380
+
+unattended_mail: tom.elliott@nyu.edu,alecpm@gmail.com
+unattended_mail_only_on_error: true
+unattended_automatic_reboot: true
+unattended_automatic_reboot_time: 02:00

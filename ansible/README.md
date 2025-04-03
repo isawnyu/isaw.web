@@ -67,6 +67,14 @@ You can also optionally enable a UFW firewall:
 
 ```
 
+You can install NYU required security monitoring services by using the nyu-security playbook:
+
+```
+    $ ansible-playbook nyu-security.yml
+
+```
+
+
 ## Inventory
 
 The default inventory file is `inventory.cfg`.
