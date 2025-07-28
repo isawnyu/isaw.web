@@ -11,7 +11,11 @@
       <!-- Row with 3 columns -->
       <div class="footer-row-top">
         <div class="footer-column footer-left">
-          <h3>Contact</h3>
+          <a href="https://www.nyu.edu" title="NYU" target="_self">
+          <img src="++theme++isaw.theme/images/nyu-isaw-logo.png"
+            alt="NYU/ISAW Logo"
+            class="image-inline" />
+          </a>
           <p>15 East 84th St.<br />New York, NY 10028<br />212-992-7800<br />
           <a href="mailto:isaw@nyu.edu"><b>Contact us</b></a></p>
         </div>

@@ -523,7 +523,7 @@ span.captioned, span.captioned * {
 	font-family:'Noto Sans', sans-serif;
 	font-size:15px;
 	font-weight:500;
-	overflow:auto;
+	overflow:hidden;
 	padding:24px 20px 58px;
     min-height: 11em;
 }
@@ -1700,7 +1700,7 @@ li.portletItem a.tile {
 
 .column_one {
     border-left:1px solid #6b6462;
-    padding: 0 5%;
+    padding: 0 15%;
 }
 
 /* ======= LEFT COLUMN ======= */
@@ -1719,7 +1719,7 @@ li.portletItem a.tile {
 
 /* Inner columns */
 .footer-column {
-  min-width: 220px;
+  min-width: 180px;
 }
 
 /* Disclaimer (row below the 3 columns) */
@@ -1729,8 +1729,9 @@ li.portletItem a.tile {
 
 /* ======= RIGHT COLUMN (footer-right) ======= */
 .footer-side {
-  border-left: 1px solid #6b6462;
-  padding: 0 5%;
+  padding: 0 15%;
+  border-left:1px solid #6b6462;
+
 }
 
 #personal-tools-links {
