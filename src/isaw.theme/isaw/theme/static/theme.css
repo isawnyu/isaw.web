@@ -528,7 +528,7 @@ span.captioned, span.captioned * {
     min-height: 11em;
 }
 .footer-row #portal-footer {margin:0 auto; max-width:1154px; overflow:visible; position:relative; }
-//.footer-row #portal-footer .footer-portlet {display:block; float:left; padding:0 5%; width:16%; }
+/*.footer-row #portal-footer .footer-portlet {display:block; float:left; padding:0 5%; width:16%; }*/
 
 .footer-row #portal-footer .footer-portlet.contact {
 	border-right:1px solid #6b6462;
@@ -1689,101 +1689,80 @@ li.portletItem a.tile {
 }
 
 
-
-/*footer flexbox*/
-.site-footer {
-  color: #fff;
-  padding: 2em;
-  font-family: sans-serif;
-  font-size: 0.9em;
+/* ======= MAIN FOOTER STRUCTURE ======= */
+.footer-container {
+  display: grid;
+  grid-template-columns: 3fr 1fr; /* left column + right column */
+  gap: 2rem;
+  align-items: start;
+  padding: 2rem;
 }
 
-.footer-top {
+.column_one {
+    border-left:1px solid #6b6462;
+    padding: 0 5%;
+}
+
+/* ======= LEFT COLUMN ======= */
+.footer-main {
   display: flex;
-  flex-wrap: wrap;
-  justify-content: space-between;
-  gap: 2em;
-  margin-bottom: 2em;
+  flex-direction: column;
+  gap: 2rem;
 }
 
+/* Row with 3 columns (footer-left, column_one, column_two) */
+.footer-row-top {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1rem;
+}
+
+/* Inner columns */
 .footer-column {
-  flex: 1 1 30%;
-  min-width: 250px;
+  min-width: 220px;
 }
 
-.footer-column h4 {
-  margin-top: 0;
-  color: #ccc;
+/* Disclaimer (row below the 3 columns) */
+.footer-row-bottom {
+  /* by default it already takes up the full available width */
 }
 
-.footer-column ul {
+/* ======= RIGHT COLUMN (footer-right) ======= */
+.footer-side {
+  border-left: 1px solid #6b6462;
+  padding: 0 5%;
+}
+
+#personal-tools-links {
   list-style: none;
-  padding: 0;
+  padding-left: 0;
+  margin-top: 0.5rem;
 }
 
-.footer-column ul li {
-  margin-bottom: 0.5em;
+#personal-tools-links li {
+  margin: 0.3rem 0;
 }
 
-.footer-column a {
-  color: #9cf;
-  text-decoration: none;
-}
+/* ======= RESPONSIVE ======= */
+@media (max-width: 1024px) {
+  .footer-container {
+    grid-template-columns: 1fr; /* from 2 columns to 1 */
+  }
 
-.footer-column a:hover {
-  text-decoration: underline;
-}
+  .footer-main {
+    order: 1;
+  }
 
-.footer-bottom {
-  border-top: 1px solid #444;
-  padding-top: 1em;
-  display: flex;
-  justify-content: space-between;
-  flex-wrap: wrap;
-  font-size: 0.8em;
-  color: #aaa;
-}
+  .footer-side {
+    order: 2;
+    max-width: 100%;
+  }
 
-.footer-bottom .credit {
-  text-align: right;
-  flex: 1 1 100%;
-  margin-top: 0.5em;
-}
-
-/* MOBILE LAYOUT */
-@media screen and (max-width: 768px) {
-  .footer-top {
-	flex-direction: column;
+  .footer-row-top {
+    grid-template-columns: 1fr;
   }
 
   .footer-column {
-	display: none;
-  }
-
-  .footer-left,
-  .footer-right {
-	display: block;
-  }
-
-  .footer-center {
-	display: flex;
-	flex-direction: column;
-	gap: 1em;
-  }
-
-  .footer-box {
-	background: #2a2a2a;
-	padding: 1em;
-	border-radius: 4px;
-  }
-
-  .footer-bottom {
-	flex-direction: column;
-	text-align: left;
-  }
-
-  .footer-bottom .credit {
-	text-align: left;
-	margin-top: 1em;
+    min-width: 100%;
   }
 }
