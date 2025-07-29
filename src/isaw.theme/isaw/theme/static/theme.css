@@ -1744,26 +1744,58 @@ li.portletItem a.tile {
   margin: 0.3rem 0;
 }
 
-/* ======= RESPONSIVE ======= */
-@media (max-width: 1024px) {
+
+@media (max-width: 768px) {
+  .userrole-authenticated .footer-row {
+    height: auto;
+  }
   .footer-container {
-    grid-template-columns: 1fr; /* from 2 columns to 1 */
+    display: grid;
+    grid-template-areas:
+      "left right"
+      "col1 col1"
+      "col2 col2"
+      "bottom bottom";
+    grid-template-columns: 1fr 1fr;
+    gap: 1rem;
+    padding:1rem 0;
+    overflow-y:scroll;
   }
 
+  .footer-row-top,
   .footer-main {
-    order: 1;
+    all: unset; /* remove flex/grid for desktop */
   }
 
-  .footer-side {
-    order: 2;
-    max-width: 100%;
+  .footer-left {
+    grid-area: left;
   }
 
-  .footer-row-top {
-    grid-template-columns: 1fr;
+  .footer-right {
+    grid-area: right;
+  }
+
+  .column_one {
+    grid-area: col1;
+    border:none;
+    padding:2rem 0;
+    width: 200%; /*span width at two columns*/
+  }
+
+  .column_two {
+    grid-area: col2;
+    padding: 0;
+    width: 200%; /*span width at two columns*/
+
+  }
+
+  .footer-bottom {
+    grid-area: bottom;
+    padding:2rem 0;
+    width: 200%; /*span width at two columns*/
   }
 
   .footer-column {
-    min-width: 100%;
+    min-width: 0;
   }
 }
