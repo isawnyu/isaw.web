@@ -4,6 +4,7 @@ import re
 from urlparse import urlparse
 from zope.interface import implements
 
+from plone import api as plone_api
 from Products.Archetypes import atapi
 from Products.ATContentTypes.content import folder
 from Products.ATContentTypes.content import schemata
@@ -137,6 +138,18 @@ profileSchema = folder.ATFolderSchema.copy() + atapi.Schema((
         required=False,
     ),
 
+    atapi.StringField(
+        name='NamedLocation',
+        vocabulary_factory="isaw.facultycv.named_locations",
+        enforceVocabulary=True,
+        widget=atapi.SelectionWidget(
+            label=u'Location',
+            label_msgid='isaw.facultycv_label_Location',
+            il8n_domain='isaw.facultycv',
+        ),
+        required=False,
+    ),
+
 ))
 
 profileSchema['title'].storage = atapi.AnnotationStorage()
@@ -205,6 +218,19 @@ class profile(folder.ATFolder):
 
     title = atapi.ATFieldProperty('title')
     description = atapi.ATFieldProperty('description')
+
+    @property
+    def named_location(self):
+        """Return the full named location dict from the registry for this profile's NamedLocation identifier, or None."""
+        identifier = self.getNamedLocation()
+        if not identifier:
+            return None
+        record_name = "isaw.facultycv.interfaces.settings.IISAWFacultyCVSettings.named_locations"
+        items = plone_api.portal.get_registry_record(record_name) or []
+        for loc in items:
+            if loc.get("identifier") == identifier:
+                return loc
+        return None
 
     def profile_links(self):
         links = self.getExternalURIs() or []
