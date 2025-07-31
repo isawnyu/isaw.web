@@ -10,10 +10,10 @@
 <metal:block fill-slot="head_slot">
     <link rel="meta" type="application/rdf+xml" title="Profile FOAF data" href="foaf.rdf" />
     <script src="https://use.fontawesome.com/63f0007faf.js"></script>
-</metal:block>   
+</metal:block>
 
 <metal:block fill-slot="content-title" />
-    
+
 <metal:content-core fill-slot="content-core">
     <metal:content-core define-macro="content-core">
         <div class="ProfileContent"
@@ -56,6 +56,9 @@
                  tal:condition="blurb"
                  tal:content="structure blurb">Blurb</div>
         </div>
+
+        <!-- TODO: REMOVE ME -->
+        <pre tal:content="context/named_location|nothing"></pre>
 
         <div class="CVInfo" tal:define="cv nocall:context/cv|nothing"
              tal:condition="nocall:cv">
