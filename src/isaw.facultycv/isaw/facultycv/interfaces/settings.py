@@ -4,8 +4,8 @@ from zope.interface import Interface
 
 
 class INamedLocation(Interface):
-    identifier = schema.ASCIILine(title=u"Ascii identifier for select widget")
-    title = schema.TextLine(title=u"Name/Title")
+    identifier = schema.ASCIILine(title=u"ID")
+    title = schema.TextLine(title=u"Title")
     latitude = schema.ASCIILine(title=u"Latitude")
     longitude = schema.ASCIILine(title=u"Longitude")
 
