@@ -146,8 +146,11 @@ profileSchema = folder.ATFolderSchema.copy() + atapi.Schema((
             label=u'Location',
             label_msgid='isaw.facultycv_label_Location',
             il8n_domain='isaw.facultycv',
+            format='select',
+            force_selection=True,
         ),
         required=False,
+        schemata='categorization',
     ),
 
 ))
@@ -157,6 +160,7 @@ profileSchema['description'].storage = atapi.AnnotationStorage()
 
 profileSchema['description'].widget.visible = {"edit": "invisible"}
 profileSchema['ProfileRef'].widget.visible = {"edit": "invisible"}
+profileSchema['location'].widget.visible = {"edit": "invisible", "view": "invisible"}
 
 
 schemata.finalizeATCTSchema(

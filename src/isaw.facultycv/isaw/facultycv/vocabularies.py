@@ -26,10 +26,12 @@ def UsersVocabularyFactory(context):
 
 @provider(IVocabularyFactory)
 def NamedLocationsVocabulary(context):
-    items = plone_api.portal.get_registry_record("isaw.facultycv.interfaces.settings.IISAWFacultyCVSettings.named_locations") or []
-    terms = [SimpleTerm(value='', title=u'— None —')]  # Add null option
+    record_name = "isaw.facultycv.interfaces.settings.IISAWFacultyCVSettings.named_locations"
+    items = plone_api.portal.get_registry_record(record_name) or []
+    sorted_items = sorted(items, key=lambda loc: loc.get("title", "").lower())
+    terms = [SimpleTerm(value='', title=u'— None —')]
     terms += [
         SimpleTerm(value=loc["identifier"], title=loc["title"])
-        for loc in items
+        for loc in sorted_items
     ]
     return SimpleVocabulary(terms)
