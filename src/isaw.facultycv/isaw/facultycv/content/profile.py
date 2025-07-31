@@ -233,7 +233,14 @@ class profile(folder.ATFolder):
         items = plone_api.portal.get_registry_record(record_name) or []
         for loc in items:
             if loc.get("identifier") == identifier:
-                return loc
+                # convert lat/lng to floats
+                return {
+                    "latitude": float(loc["latitude"]),
+                    "longitude": float(loc["longitude"]),
+                    "identifier": loc["identifier"],
+                    "title": loc["title"],
+                }
+
         return None
 
     def profile_links(self):
