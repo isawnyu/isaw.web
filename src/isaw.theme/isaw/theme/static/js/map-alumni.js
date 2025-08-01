@@ -16,16 +16,16 @@
     L.tileLayer('https://api.maptiler.com/maps/topo-v2/{z}/{x}/{y}.png?key=Kv1hV81exhuxIocoEOos', {
         tileSize: 512,
         zoomOffset: -1,
-        minZoom: 1, 
+        minZoom: 1,
         crossOrigin: true
-    }).addTo(map); 
+    }).addTo(map);
     L.control.attribution({prefix:false}).addAttribution('<a href="https://leafletjs.com/">Leaflet</a> map by <a href="https://isaw.nyu.edu">ISAW NYU</a>. Base map "Topo" by <a href="https://cloud.maptiler.com">MapTiler</a>. Markers from <a href="https://ionic.io/ionicons">IonIcons</a>.').addTo(map)
 
     var isaw_bounds = L.latLngBounds()
 
     /* plot alumni locations */
     var alumIcon = L.icon({
-        iconUrl: '../images/school-sharp.svg',    
+        iconUrl: '../images/school-sharp.svg',
         iconSize:     [26, 26], // size of the icon
         iconAnchor:   [13, 13], // point of the icon which will correspond to marker's location
     });
@@ -40,7 +40,7 @@
             L.marker(lat_lon, {icon:alumIcon, alt:"Icon of a mortar board hat worn by college graduates."}).bindPopup(`
 <h2><a href="${alumn.profileuri}">${alumn.displayname}</a></h2>
 <p>Class of ${alumn.year}<br>${alumn.title}</p>
-        `));        
+        `));
         isaw_bounds.extend(lat_lon);
     }
     map.addLayer(alumni_markers)
@@ -58,10 +58,10 @@
 
 async function getCSVData() {
 	return new Promise((resolve, reject) => {
-		Papa.parse('../data/alumni.csv', {
+		Papa.parse('/isaw/people/students/alumni.csv', {
 			download:true,
 			header:true,
-			complete:(results) => {				
+			complete:(results) => {
 				resolve(results.data);
 			}
 		});

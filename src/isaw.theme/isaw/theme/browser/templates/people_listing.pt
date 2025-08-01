@@ -5,10 +5,54 @@
       lang="en"
       metal:use-macro="context/main_template/macros/master"
       i18n:domain="isaw.theme">
+
+<head>
+
+    <metal:block fill-slot="style_slot"
+        tal:define="navroot context/@@plone_portal_state/navigation_root_url;
+                    base string:${navroot}/++theme++isaw.theme">
+        <link rel="stylesheet" type="text/css"
+              tal:attributes="href string:${base}/map.css"
+            />
+        <link rel="stylesheet" type="text/css"
+              tal:attributes="href string:${base}/js/leaflet@1.9.4/leaflet.css"
+            />
+        <link rel="stylesheet"
+            tal:attributes="href string:${base}/js/leaflet.markercluster@1.5.3/MarkerCluster.css"/>
+        <link rel="stylesheet"
+            tal:attributes="href string:${base}/js/leaflet.markercluster@1.5.3/MarkerCluster.Default.css"/>
+        <link rel="stylesheet"
+            tal:attributes="href string:${base}/resetbounds.css">
+    </metal:block>
+
+    <metal:block fill-slot="javascript_head_slot"
+        tal:define="navroot context/@@plone_portal_state/navigation_root_url;
+                    base string:${navroot}/++theme++isaw.theme">
+        <script src="../dist/leaflet@1.9.4/leaflet.js"
+                tal:attributes="src string:${base}/js/leaflet@1.9.4/leaflet.js"></script>
+        <script src="../dist/leaflet.markercluster@1.5.3/leaflet.markercluster.js"
+                tal:attributes="src string:${base}/js/leaflet.markercluster@1.5.3/leaflet.markercluster.js"></script>
+
+        <script src="../js/resetbounds.js"
+                tal:attributes="src string:${base}/js/resetbounds.js"></script>
+        <script src="../dist/papaparse@5.4.1/papaparse.min.js"
+                tal:attributes="src string:${base}/js/papaparse@5.4.1/papaparse.min.js">
+        </script>
+    </metal:block>
+</head>
+
 <body>
 
 <metal:content-core fill-slot="content-core">
   <metal:content-core define-macro="content-core">
+
+  <div id="map">
+  </div>
+  <script src="../js/map-alumni.js"
+          tal:define="navroot context/@@plone_portal_state/navigation_root_url;
+                      base string:${navroot}/++theme++isaw.theme"
+          tal:attributes="src string:${base}/js/map-alumni.js">
+  </script>
 
     <div id="people">
       <tal:faculty>
@@ -22,11 +66,11 @@
           </a>
           <div class="facultyInfo">
             <div tal:content="structure person/html_blurb" class="facultyPosition">[Director]</div>
-            <div tal:condition="person/email" 
+            <div tal:condition="person/email"
                  tal:content="person/email" class="facultyEmail">[roger.bagnall@nyu.edu]</div>
           </div>
         </div>
-        
+
    </tal:faculty>
    </div>
 
