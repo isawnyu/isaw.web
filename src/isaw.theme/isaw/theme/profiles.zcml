@@ -359,4 +359,13 @@
       import_steps="typeinfo"
       />
 
+  <genericsetup:upgradeStep
+        title="Add footer settings to registry"
+        description="Adds column_one, column_two, and disclaimer keys to the registry"
+        source="34"
+        destination="35"
+        handler=".setuphandlers.add_footer_registry_keys"
+      profile="isaw.theme:default"
+    />
+
 </configure>
