@@ -1,0 +1,4 @@
+/* Style for ISAW Alumni Map */
+
+#map { width: 75vw;
+    height: 75vh; border: 1px solid black; }
