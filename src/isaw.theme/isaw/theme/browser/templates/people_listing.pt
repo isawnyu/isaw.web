@@ -46,7 +46,9 @@
 <metal:content-core fill-slot="content-core">
   <metal:content-core define-macro="content-core">
 
-  <tal:map>
+  <tal:map define="alumni_vrs python:'alumni' in request.get('URL0') and 'alumni' or '';
+                   alumni_vrs python:'visiting-research-scholars' in request.get('URL0') and 'vrs' or alumni_vrs"
+           condition="alumni_vrs">
     <p>
       <a role="button"
          href="#"
@@ -57,10 +59,10 @@
     </p>
     <div id="map" style="display:none;">
     </div>
-    <script src="../js/map-alumni.js"
+    <script src="../js/map-alumni[or]vrs.js"
             tal:define="navroot context/@@plone_portal_state/navigation_root_url;
                         base string:${navroot}/++theme++isaw.theme"
-            tal:attributes="src string:${base}/js/map-alumni.js">
+            tal:attributes="src string:${base}/js/map-${alumni_vrs}.js">
     </script>
   </tal:map>
 
