@@ -73,13 +73,14 @@ async function getCSVData() {
 
 jQuery(function($) {
     function mapToggle(){
+    event.preventDefault();
 	$('div#map').slideToggle(
 	    function(){
 	    $('span#map_view').toggle();
 	    $('span#map_hide').toggle();
 	    window._leaflet_events.resize5_2();
 	    }
-	)
+	);
 	}
     $('a#map-hide-show-link').on('click', mapToggle)
 }
