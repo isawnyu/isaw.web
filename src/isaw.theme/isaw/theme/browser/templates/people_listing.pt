@@ -50,7 +50,7 @@
     <p>
       <a role="button"
          href="#"
-         onclick="javascript:$('div#map').slideToggle(function(){$('span#map_view').toggle();$('span#map_hide').toggle()} )">
+         id="map-hide-show-link">
           <span id="map_view">View a map of alumni institutions</span>
           <span id="map_hide" style="display:none">Close</span>
          </a>
@@ -60,7 +60,7 @@
     <script src="../js/map-alumni.js"
             tal:define="navroot context/@@plone_portal_state/navigation_root_url;
                         base string:${navroot}/++theme++isaw.theme"
-            tal:attributes="src string:${base}/js/map-vrs.js">
+            tal:attributes="src string:${base}/js/map-alumni.js">
     </script>
   </tal:map>
 
