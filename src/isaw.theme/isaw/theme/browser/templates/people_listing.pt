@@ -52,7 +52,7 @@
          href="#"
          id="map-hide-show-link">
           <span id="map_view">View a map of alumni institutions</span>
-          <span id="map_hide" style="display:none">Close</span>
+          <span id="map_hide" style="display:none">Close map</span>
          </a>
     </p>
     <div id="map" style="display:none;">
