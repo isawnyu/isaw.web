@@ -46,13 +46,23 @@
 <metal:content-core fill-slot="content-core">
   <metal:content-core define-macro="content-core">
 
-  <div id="map">
-  </div>
-  <script src="../js/map-alumni.js"
-          tal:define="navroot context/@@plone_portal_state/navigation_root_url;
-                      base string:${navroot}/++theme++isaw.theme"
-          tal:attributes="src string:${base}/js/map-alumni.js">
-  </script>
+  <tal:map>
+    <p>
+      <a role="button"
+         href="#"
+         onclick="javascript:$('div#map').slideToggle(function(){$('span#map_view').toggle();$('span#map_hide').toggle()} )">
+          <span id="map_view">View a map of alumni institutions</span>
+          <span id="map_hide" style="display:none">Close</span>
+         </a>
+    </p>
+    <div id="map" style="display:none;">
+    </div>
+    <script src="../js/map-alumni.js"
+            tal:define="navroot context/@@plone_portal_state/navigation_root_url;
+                        base string:${navroot}/++theme++isaw.theme"
+            tal:attributes="src string:${base}/js/map-vrs.js">
+    </script>
+  </tal:map>
 
     <div id="people">
       <tal:faculty>

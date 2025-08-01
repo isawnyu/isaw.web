@@ -16,16 +16,16 @@
     L.tileLayer('https://api.maptiler.com/maps/topo-v2/{z}/{x}/{y}.png?key=Kv1hV81exhuxIocoEOos', {
         tileSize: 512,
         zoomOffset: -1,
-        minZoom: 1, 
+        minZoom: 1,
         crossOrigin: true
-    }).addTo(map); 
+    }).addTo(map);
     L.control.attribution({prefix:false}).addAttribution('<a href="https://leafletjs.com/">Leaflet</a> map by <a href="https://isaw.nyu.edu">ISAW NYU</a>. Base map "Topo" by <a href="https://cloud.maptiler.com">MapTiler</a>. Markers from <a href="https://ionic.io/ionicons">IonIcons</a>.').addTo(map)
 
     var isaw_bounds = L.latLngBounds()
 
     /* plot alumni locations */
     var vrsIcon = L.icon({
-        iconUrl: '../images/person-sharp.svg',    
+        iconUrl: base_url+'/++theme++isaw.theme/images/person-sharp.svg',
         iconSize:     [26, 26], // size of the icon
         iconAnchor:   [13, 13], // point of the icon which will correspond to marker's location
     });
@@ -42,7 +42,7 @@
             L.marker(lat_lon, {icon:vrsIcon, alt:"Icon evoking the outline of a human head and shoulders."}).bindPopup(`
 <h2>${vrs_alumn.first_name} ${vrs_alumn.last_name}</h2>
 <p>${vrs_alumn.vrs_details}<br>${vrs_alumn.title}, ${vrs_alumn.institution}</p>
-        `));        
+        `));
         isaw_bounds.extend(lat_lon);
     }
     map.addLayer(vrs_alumni_markers)
@@ -60,10 +60,10 @@
 
 async function getCSVData() {
 	return new Promise((resolve, reject) => {
-		Papa.parse('../data/vrs.csv', {
+		Papa.parse(base_url+'/people/students/vrs.csv', {
 			download:true,
 			header:true,
-			complete:(results) => {				
+			complete:(results) => {
 				resolve(results.data);
 			}
 		});
