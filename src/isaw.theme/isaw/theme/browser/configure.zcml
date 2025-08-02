@@ -9,8 +9,8 @@
       type="zope.publisher.interfaces.browser.IBrowserSkinType"
       name="NYU ISAW Theme"
       />
-  
-  <!-- For overriding templates, add z3c.jbot to the base.cfg to use -->    
+
+  <!-- For overriding templates, add z3c.jbot to the base.cfg to use -->
   <include package="z3c.jbot" file="meta.zcml" />
 
   <!-- Forms package for events request etc -->
@@ -19,7 +19,7 @@
   <browser:templateOverrides
       directory="template-overrides"
       layer=".interfaces.IThemeSpecific" />
-  
+
   <!-- Utils View -->
   <browser:page
      name="utils_view"
@@ -27,7 +27,7 @@
      class=".utilsview.UtilsView"
      permission="zope.Public"
      allowed_interface=".interfaces.IUtilsView"
-     /> 
+     />
 
   <!-- NYU SSO View -->
   <browser:page
@@ -298,11 +298,28 @@
       />
 
   <browser:page
+      name="people-listing-csv"
+      for="Products.ATContentTypes.interfaces.IATFolder"
+      class=".people.PeopleViewFolder"
+      attribute="people_csv"
+      layer=".interfaces.IThemeSpecific"
+      permission="zope2.View"
+      />
+
+  <browser:page
       name="people-listing"
       for="plone.app.collection.interfaces.ICollection"
       class=".people.PeopleViewCollection"
       template="templates/people_listing.pt"
       layer=".interfaces.IThemeSpecific"
+      permission="zope2.View"
+      />
+  <browser:page
+      name="people-listing-csv"
+      for="plone.app.collection.interfaces.ICollection"
+      class=".people.PeopleViewCollection"
+      attribute="people_csv"
+     layer=".interfaces.IThemeSpecific"
       permission="zope2.View"
       />
 

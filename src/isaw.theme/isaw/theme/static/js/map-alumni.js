@@ -35,51 +35,54 @@
     for(let i=0;i<alumni.length;i++) {
         console.log(i)
         let alumn = alumni[i]
+        if (alumn["name"]===''){
+            continue;
+        }
         let lat_lon=[parseFloat(alumn["latitude"],10), parseFloat(alumn["longitude"],10)]
         alumni_markers.addLayer(
             L.marker(lat_lon, {icon:alumIcon, alt:"Icon of a mortar board hat worn by college graduates."}).bindPopup(`
-<h2><a href="${alumn.profileuri}">${alumn.displayname}</a></h2>
+<h2><a href="${alumn.url}">${alumn.name}</a></h2>
 <p>Class of ${alumn.year}<br>${alumn.title}</p>
-        `));
-        isaw_bounds.extend(lat_lon);
-    }
-    map.addLayer(alumni_markers)
+    `));
+    isaw_bounds.extend(lat_lon);
+}
+map.addLayer(alumni_markers)
 
-    /* pan and zoom the map to fit all the content */
-    map.fitBounds(isaw_bounds);
+/* pan and zoom the map to fit all the content */
+map.fitBounds(isaw_bounds);
 
-    L.control.ResetBounds({
-        position: "topleft",
-        title: "Reset view",
-        bounds: isaw_bounds,
-    }).addTo(map);
+L.control.ResetBounds({
+    position: "topleft",
+    title: "Reset view",
+    bounds: isaw_bounds,
+}).addTo(map);
 
 })();
 
 async function getCSVData() {
-	return new Promise((resolve, reject) => {
-		Papa.parse(base_url+'/people/students/alumni.csv', {
-			download:true,
-			header:true,
-			complete:(results) => {
-				resolve(results.data);
-			}
-		});
-	});
+    return new Promise((resolve, reject) => {
+        Papa.parse('./@@people-listing-csv', {
+            download:true,
+            header:true,
+            complete:(results) => {
+                resolve(results.data);
+            }
+        });
+    });
 }
 
 
 jQuery(function($) {
     function mapToggle(event){
         event.preventDefault();
-	$('div#map').slideToggle(
-	    function(){
-	    $('span#map_view').toggle();
-	    $('span#map_hide').toggle();
-	    window._leaflet_events.resize5_2();
-	    }
-	);
-	}
+    $('div#map').slideToggle(
+        function(){
+        $('span#map_view').toggle();
+        $('span#map_hide').toggle();
+        window._leaflet_events.resize5_2();
+        }
+    );
+    }
     $('a#map-hide-show-link').on('click', mapToggle);
 }
 );
