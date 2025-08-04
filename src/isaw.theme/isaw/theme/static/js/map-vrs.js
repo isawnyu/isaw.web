@@ -35,13 +35,14 @@
     for(let i=0;i<vrs_alumni.length;i++) {
         console.log(i)
         let vrs_alumn = vrs_alumni[i]
-        if (vrs_alumn["latitude"]=="") { continue; }
-        if (vrs_alumn["longitude"]=="") { continue; }
+	if (vrs_alumn["name"]===''){continue;}
+        if (vrs_alumn["latitude"]==="") { continue; }
+        if (vrs_alumn["longitude"]==="") { continue; }
         let lat_lon=[parseFloat(vrs_alumn["latitude"],10), parseFloat(vrs_alumn["longitude"],10)]
         vrs_alumni_markers.addLayer(
             L.marker(lat_lon, {icon:vrsIcon, alt:"Icon evoking the outline of a human head and shoulders."}).bindPopup(`
-<h2>${vrs_alumn.first_name} ${vrs_alumn.last_name}</h2>
-<p>${vrs_alumn.vrs_details}<br>${vrs_alumn.title}, ${vrs_alumn.institution}</p>
+<h2><a href="${vrs_alumn.url}">${vrs_alumn.name}</a></h2>
+<div class="map_html_blub">${vrs_alumn.html_blurb}<br/></div>
         `));
         isaw_bounds.extend(lat_lon);
     }
@@ -60,7 +61,7 @@
 
 async function getCSVData() {
 	return new Promise((resolve, reject) => {
-		Papa.parse(base_url+'/people/students/vrs.csv', {
+		Papa.parse('./@@people-listing-csv', {
 			download:true,
 			header:true,
 			complete:(results) => {

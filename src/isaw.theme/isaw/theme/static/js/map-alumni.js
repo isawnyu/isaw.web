@@ -35,14 +35,14 @@
     for(let i=0;i<alumni.length;i++) {
         console.log(i)
         let alumn = alumni[i]
-        if (alumn["name"]===''){
-            continue;
-        }
+        if (alumn["name"]===''){continue;}
+        if (alumn["latitude"]===''){continue;}
+        if (alumn["longitude"]===''){continue;}
         let lat_lon=[parseFloat(alumn["latitude"],10), parseFloat(alumn["longitude"],10)]
         alumni_markers.addLayer(
             L.marker(lat_lon, {icon:alumIcon, alt:"Icon of a mortar board hat worn by college graduates."}).bindPopup(`
 <h2><a href="${alumn.url}">${alumn.name}</a></h2>
-<p>Class of ${alumn.year}<br>${alumn.title}</p>
+<div class="map_html_blub">${alumn.html_blurb}<br/></div>
     `));
     isaw_bounds.extend(lat_lon);
 }
