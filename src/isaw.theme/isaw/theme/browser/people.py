@@ -7,6 +7,15 @@ class PeopleView(BrowserView):
 
     CSV_HEADERS = 'name,html_blurb,latitude,longitude,url'
 
+    @property
+    def alumni_vrs_map(self, ):
+        request = self.request
+        if 'alumni' in request.get('URL0'):
+            return 'alumni'
+        if 'visiting-research-scholars' in request.get('URL0'):
+            return 'vrs'
+        return ''
+
     def people(self):
         brains = self._query()
         result = []
