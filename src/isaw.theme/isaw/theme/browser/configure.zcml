@@ -298,6 +298,15 @@
       />
 
   <browser:page
+      name="people-listing-map"
+      for="Products.ATContentTypes.interfaces.IATFolder"
+      class=".people.PeopleViewFolder"
+      template="templates/people_listing_map.pt"
+      layer=".interfaces.IThemeSpecific"
+      permission="zope2.View"
+      />
+
+  <browser:page
       name="people-listing-csv"
       for="Products.ATContentTypes.interfaces.IATFolder"
       class=".people.PeopleViewFolder"
@@ -315,6 +324,14 @@
       permission="zope2.View"
       />
   <browser:page
+      name="people-listing-map"
+      for="plone.app.collection.interfaces.ICollection"
+      class=".people.PeopleViewCollection"
+      template="templates/people_listing_map.pt"
+      layer=".interfaces.IThemeSpecific"
+      permission="zope2.View"
+      />
+  <browser:page
       name="people-listing-csv"
       for="plone.app.collection.interfaces.ICollection"
       class=".people.PeopleViewCollection"
@@ -322,6 +339,22 @@
      layer=".interfaces.IThemeSpecific"
       permission="zope2.View"
       />
+
+    <browser:menuItem
+        for="Products.ATContentTypes.interfaces.IATFolder"
+        menu="plone_displayviews"
+        title="People Listing with Geomap"
+        action="@@people-listing-map"
+        description="List person profiles in a folder, with image and the profiles Geomap"
+        />
+
+    <browser:menuItem
+        for="plone.app.collection.interfaces.ICollection"
+        menu="plone_displayviews"
+        title="People Listing with Geomap"
+        action="@@people-listing-map"
+        description="List person profiles in a folder, with image and profiles Geomap"
+        />
 
     <browser:menuItem
         for="Products.ATContentTypes.interfaces.IATFolder"
