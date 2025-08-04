@@ -1,0 +1,41 @@
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en"
+      xmlns:tal="http://xml.zope.org/namespaces/tal"
+      xmlns:metal="http://xml.zope.org/namespaces/metal"
+      xmlns:i18n="http://xml.zope.org/namespaces/i18n"
+      lang="en"
+      metal:use-macro="context/main_template/macros/master"
+      i18n:domain="isaw.theme">
+
+<head/>
+
+<body>
+
+<metal:content-core fill-slot="content-core">
+  <metal:content-core define-macro="content-core">
+
+    <div id="people">
+      <tal:faculty>
+        <div class="facultyListing" tal:repeat="person view/people">
+          <a tal:attributes="href person/url">
+            <span class="facultyImage">
+              <img src="" alt="" tal:condition="person/has_image"
+                   tal:attributes="src person/image_url"/>
+              <span tal:condition="not:person/has_image">&nbsp;</span>
+            </span>
+            <h2 tal:content="person/name">[Roger Bagnall]</h2>
+          </a>
+          <div class="facultyInfo">
+            <div tal:content="structure person/html_blurb" class="facultyPosition">[Director]</div>
+            <div tal:condition="person/email"
+                 tal:content="person/email" class="facultyEmail">[roger.bagnall@nyu.edu]</div>
+          </div>
+        </div>
+
+   </tal:faculty>
+   </div>
+
+  </metal:content-core>
+</metal:content-core>
+
+</body>
+</html>
