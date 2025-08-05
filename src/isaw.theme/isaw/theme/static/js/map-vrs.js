@@ -1,6 +1,6 @@
 (async () => {
     /* load data about the alumni */
-    let vrs_alumni = await getCSVData();
+    let vrs_alumni = await getJSONData();
 
     /* set up the map, base tiles, controls, etc. */
     let map = L.map('map', {
@@ -59,16 +59,13 @@
 
 })();
 
-async function getCSVData() {
-	return new Promise((resolve, reject) => {
-		Papa.parse('./@@people-listing-csv', {
-			download:true,
-			header:true,
-			complete:(results) => {
-				resolve(results.data);
-			}
-		});
-	});
+async function getJSONData() {
+    return new Promise((resolve, reject) => {
+        fetch('./@@people-listing-json')
+            .then(response => response.json())
+            .then(data => resolve(data))
+            .catch(error => reject(error));
+    });
 }
 
 

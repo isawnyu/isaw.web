@@ -1,11 +1,11 @@
 from Products.Five.browser import BrowserView
-import csv
-from six import StringIO
+import json
+
 
 class PeopleView(BrowserView):
     """Base vew class for the @@people-view"""
 
-    CSV_HEADERS = 'name,html_blurb,latitude,longitude,url'
+    JSON_HEADERS = 'name,html_blurb,latitude,longitude,url'
 
     @property
     def alumni_vrs_map(self, ):
@@ -39,31 +39,28 @@ class PeopleView(BrowserView):
 
         return result
 
-    def people_csv(self):
+    def people_json(self):
         results = self.people()
         if not results:
             return ''
 
-        stream = StringIO()
-        writer = csv.DictWriter(stream, self.CSV_HEADERS.split(','), quoting=csv.QUOTE_ALL)
-        writer.writeheader()
-
-        self.request.response.setHeader("Content-Type", "text/csv")
+        self.request.response.setHeader("Content-Type", "text/json")
         self.request.response.setHeader(
-                        "Content-Disposition", 'attachment; filename="people.csv"'
+                        "Content-Disposition", 'attachment; filename="people-listing.json"'
                     )
 
+        people = []
         for record in results:
             row = {}
-            for k in self.CSV_HEADERS.split(','):
-                row[k] = record[k]
-            if not (row['latitude'] and row['longitude']):
+            if not (record['latitude'] and record['longitude']):
                 continue
-            writer.writerow(row)
 
-        value =stream.getvalue()
-        stream.close()
-        return value
+            for h in self.JSON_HEADERS.split(','):
+                row[h] = record.get(h, '')
+
+            people.append(row)
+
+        return json.dumps(people)
 
 
 class PeopleViewFolder(PeopleView):

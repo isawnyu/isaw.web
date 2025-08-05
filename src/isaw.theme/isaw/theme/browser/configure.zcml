@@ -307,10 +307,10 @@
       />
 
   <browser:page
-      name="people-listing-csv"
+      name="people-listing-json"
       for="Products.ATContentTypes.interfaces.IATFolder"
       class=".people.PeopleViewFolder"
-      attribute="people_csv"
+      attribute="people_json"
       layer=".interfaces.IThemeSpecific"
       permission="zope2.View"
       />
@@ -332,10 +332,10 @@
       permission="zope2.View"
       />
   <browser:page
-      name="people-listing-csv"
+      name="people-listing-json"
       for="plone.app.collection.interfaces.ICollection"
       class=".people.PeopleViewCollection"
-      attribute="people_csv"
+      attribute="people_json"
      layer=".interfaces.IThemeSpecific"
       permission="zope2.View"
       />

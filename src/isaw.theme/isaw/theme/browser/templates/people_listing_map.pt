@@ -13,10 +13,10 @@
           tal:define="navroot context/@@plone_portal_state/navigation_root_url;
                       base string:${navroot}/++theme++isaw.theme">
           <link rel="stylesheet" type="text/css"
-                tal:attributes="href string:${base}/map.css"
+              tal:attributes="href string:${base}/map.css"
               />
           <link rel="stylesheet" type="text/css"
-                tal:attributes="href string:${base}/js/leaflet@1.9.4/leaflet.css"
+              tal:attributes="href string:${base}/js/leaflet@1.9.4/leaflet.css"
               />
           <link rel="stylesheet"
               tal:attributes="href string:${base}/js/leaflet.markercluster@1.5.3/MarkerCluster.css"/>
@@ -27,20 +27,15 @@
       </metal:block>
 
       <metal:block fill-slot="javascript_head_slot"
-          tal:define="navroot context/@@plone_portal_state/navigation_root_url;
-                      base string:${navroot}/++theme++isaw.theme">
+                   tal:define="navroot context/@@plone_portal_state/navigation_root_url;
+                               base string:${navroot}/++theme++isaw.theme">
           <script src="../dist/leaflet@1.9.4/leaflet.js"
                   tal:attributes="src string:${base}/js/leaflet@1.9.4/leaflet.js"></script>
           <script src="../dist/leaflet.markercluster@1.5.3/leaflet.markercluster.js"
                   tal:attributes="src string:${base}/js/leaflet.markercluster@1.5.3/leaflet.markercluster.js"></script>
-
-          <script src="../js/resetbounds.js"
+           <script src="../js/resetbounds.js"
                   tal:attributes="src string:${base}/js/resetbounds.js"></script>
-          <script src="../dist/papaparse@5.4.1/papaparse.min.js"
-                  tal:attributes="src string:${base}/js/papaparse@5.4.1/papaparse.min.js">
-          </script>
-    </metal:block>
-
+      </metal:block>
     </tal:map_resources>
 </head>
 
@@ -49,7 +44,7 @@
 <metal:content-core fill-slot="content-core">
   <metal:content-core define-macro="content-core">
 
-  <tal:map
+  <tal:geomap
       define="alumni_vrs view/alumni_vrs_map"
       condition="alumni_vrs">
     <p>
@@ -67,7 +62,7 @@
                         base string:${navroot}/++theme++isaw.theme"
             tal:attributes="src string:${base}/js/map-${alumni_vrs}.js">
     </script>
-  </tal:map>
+  </tal:geomap>
 
     <div id="people">
       <tal:faculty>
