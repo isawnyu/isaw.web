@@ -1,6 +1,6 @@
 (async () => {
     /* load data about the alumni */
-    let vrs_alumni = await getJSONData();
+    let people = await getJSONData();
 
     /* set up the map, base tiles, controls, etc. */
     let map = L.map('map', {
@@ -29,24 +29,23 @@
         iconSize:     [26, 26], // size of the icon
         iconAnchor:   [13, 13], // point of the icon which will correspond to marker's location
     });
-    var vrs_alumni_markers = L.markerClusterGroup({
+    var people_markers = L.markerClusterGroup({
         spiderfyOnMaxZoom: true,
     });
-    for(let i=0;i<vrs_alumni.length;i++) {
+    for(let i=0;i<people.length;i++) {
         console.log(i)
-        let vrs_alumn = vrs_alumni[i]
-	if (vrs_alumn["name"]===''){continue;}
+        let vrs_alumn = people[i]
         if (vrs_alumn["latitude"]==="") { continue; }
         if (vrs_alumn["longitude"]==="") { continue; }
         let lat_lon=[parseFloat(vrs_alumn["latitude"],10), parseFloat(vrs_alumn["longitude"],10)]
-        vrs_alumni_markers.addLayer(
+        people_markers.addLayer(
             L.marker(lat_lon, {icon:vrsIcon, alt:"Icon evoking the outline of a human head and shoulders."}).bindPopup(`
 <h2><a href="${vrs_alumn.url}">${vrs_alumn.name}</a></h2>
 <div class="map_html_blub">${vrs_alumn.html_blurb}<br/></div>
         `));
         isaw_bounds.extend(lat_lon);
     }
-    map.addLayer(vrs_alumni_markers)
+    map.addLayer(people_markers)
 
     /* pan and zoom the map to fit all the content */
     map.fitBounds(isaw_bounds);

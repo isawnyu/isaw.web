@@ -1,6 +1,6 @@
 (async () => {
-    /* load data about the alumni */
-    let alumni = await getJSONData();
+    /* load data about the people */
+    let people = await getJSONData();
 
     /* set up the map, base tiles, controls, etc. */
     let map = L.map('map', {
@@ -23,30 +23,29 @@
 
     var isaw_bounds = L.latLngBounds()
 
-    /* plot alumni locations */
+    /* plot people locations */
     var alumIcon = L.icon({
         iconUrl: base_url+'/++theme++isaw.theme/images/school-sharp.svg',
         iconSize:     [26, 26], // size of the icon
         iconAnchor:   [13, 13], // point of the icon which will correspond to marker's location
     });
-    var alumni_markers = L.markerClusterGroup({
+    var people_markers = L.markerClusterGroup({
         spiderfyOnMaxZoom: true,
     });
-    for(let i=0;i<alumni.length;i++) {
+    for(let i=0;i<people.length;i++) {
         console.log(i)
-        let alumn = alumni[i]
-        if (alumn["name"]===''){continue;}
+        let alumn = people[i]
         if (alumn["latitude"]===''){continue;}
         if (alumn["longitude"]===''){continue;}
         let lat_lon=[parseFloat(alumn["latitude"],10), parseFloat(alumn["longitude"],10)]
-        alumni_markers.addLayer(
+        people_markers.addLayer(
             L.marker(lat_lon, {icon:alumIcon, alt:"Icon of a mortar board hat worn by college graduates."}).bindPopup(`
 <h2><a href="${alumn.url}">${alumn.name}</a></h2>
 <div class="map_html_blub">${alumn.html_blurb}<br/></div>
     `));
     isaw_bounds.extend(lat_lon);
 }
-map.addLayer(alumni_markers)
+map.addLayer(people_markers)
 
 /* pan and zoom the map to fit all the content */
 map.fitBounds(isaw_bounds);
