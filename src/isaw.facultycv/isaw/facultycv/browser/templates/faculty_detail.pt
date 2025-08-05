@@ -57,9 +57,6 @@
                  tal:content="structure blurb">Blurb</div>
         </div>
 
-        <!-- TODO: REMOVE ME -->
-        <pre tal:content="context/named_location|nothing"></pre>
-
         <div class="CVInfo" tal:define="cv nocall:context/cv|nothing"
              tal:condition="nocall:cv">
             <div class="EducationCV"
