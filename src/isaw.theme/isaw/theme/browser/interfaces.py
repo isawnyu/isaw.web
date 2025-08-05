@@ -1,9 +1,11 @@
-from zope.interface import Interface
-from zope import schema
-from zope.viewlet.interfaces import IViewletManager
-
+# -*- coding: utf-8 -*-
+from plone.directives import form
+from plone.supermodel import model
 from plone.theme.interfaces import IDefaultPloneLayer
-
+from zope import schema
+from zope.interface import Interface
+from zope.viewlet.interfaces import IViewletManager
+from isaw.policy import MessageFactory as _
 
 class IThemeSpecific(IDefaultPloneLayer):
     """Marker interface that defines a Zope 3 browser layer.
@@ -87,9 +89,38 @@ class IISAWSettings(Interface):
     emergency_message = schema.Text(title=u"Emergency Message",
             description=u"Any text here will be displayed at the top of the site. An empty field means do not display emergency message",
             required=False)
-    footer_html = schema.Text(title=u"Footer HTML",
-            description=u"The full HTML of the site footer",
-            required=True,
-            default=DEFAULT_FOOTER_HTML)
+
     no_results_message = schema.Text(title=u'No results message for event search',
             default=u'<p>There are no upcoming events.</p>')
+
+    footer_html = schema.Text(title=u"Footer HTML (deprecated)",
+            description=u"The full HTML of the site footer (deprecated)",
+            required=True,
+            default=DEFAULT_FOOTER_HTML)
+
+    column_one = schema.Text(
+        title=u"Column One",
+        description=u"HTML content for the first footer column.",
+        required=False,
+        missing_value='',
+    )
+
+    column_two = schema.Text(
+        title=u"Column Two",
+        description=u"HTML content for the second footer column.",
+        required=False,
+        missing_value='',
+    )
+
+    disclaimer = schema.Text(
+        title=u"Disclaimer",
+        description=u"HTML content for the footer disclaimer.",
+        required=False,
+        missing_value='',
+    )
+
+    model.fieldset(
+          'Footer',
+          label=_(u"Footer settings"),
+          fields=['footer_html', 'column_one', 'column_two', 'disclaimer']
+      )
