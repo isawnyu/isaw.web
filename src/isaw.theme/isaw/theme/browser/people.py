@@ -16,8 +16,8 @@ class PeopleView(BrowserView):
             return 'vrs'
         return ''
 
-    def people(self):
-        brains = self._query()
+    def people(self, depth=1):
+        brains = self._query(depth=depth)
         result = []
         for brain in brains:
             profile = brain.getObject()
@@ -40,7 +40,7 @@ class PeopleView(BrowserView):
         return result
 
     def people_json(self):
-        results = self.people()
+        results = self.people(depth=-1)
         if not results:
             return ''
 
@@ -66,10 +66,14 @@ class PeopleView(BrowserView):
 class PeopleViewFolder(PeopleView):
     """View class for the @@people-view on Folders"""
 
-    def _query(self):
-        return self.context.getFolderContents(
-            contentFilter={'portal_type': 'profile'}
-        )
+    def _query(self, depth=1):
+        portal_catalog = self.context.portal_catalog
+        query = {}
+        query['portal_type'] = 'profile'
+        folder_path = '/'.join(self.context.getPhysicalPath())
+        query['path'] = {'query': folder_path, 'depth': depth}
+
+        return portal_catalog(**query)
 
 
 class PeopleViewCollection(PeopleView):

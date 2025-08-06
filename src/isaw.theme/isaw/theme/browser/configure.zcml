@@ -210,6 +210,14 @@
     layer=".interfaces.IThemeSpecific"
     template="templates/title_view.pt"
     />
+  <browser:page
+    name="title-listing-map"
+    for="*"
+    permission="zope2.View"
+    class=".title_listing_view.TitleListingView"
+    layer=".interfaces.IThemeSpecific"
+    template="templates/title_view_map.pt"
+    />
 
     <browser:menuItem
         for="Products.ATContentTypes.interface.IATFolder"
@@ -217,6 +225,14 @@
         title="Title-Only Listing"
         action="@@title-listing"
         description="List folder contents by title only"
+        />
+
+    <browser:menuItem
+        for="Products.ATContentTypes.interface.IATFolder"
+        menu="plone_displayviews"
+        title="Title-Only Listing with geomap"
+        action="@@title-listing-map"
+        description="List folder contents by title only and Geomap"
         />
 
     <browser:menuItem
@@ -336,7 +352,7 @@
       for="plone.app.collection.interfaces.ICollection"
       class=".people.PeopleViewCollection"
       attribute="people_json"
-     layer=".interfaces.IThemeSpecific"
+      layer=".interfaces.IThemeSpecific"
       permission="zope2.View"
       />
 
