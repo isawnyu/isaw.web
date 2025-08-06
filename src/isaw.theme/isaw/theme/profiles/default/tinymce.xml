@@ -9,13 +9,9 @@
   </styles>
  </layout>
  <resourcetypes purge="False">
-  <customplugins purge="False">
-    <element value="awldjs|/++theme++isaw.theme/js/awld/awld_tinymce_plugin.js"/>
-  </customplugins>
  </resourcetypes>
  <toolbar purge="False">
   <customtoolbarbuttons purge="False">
-    <element value="awldjs"/>
   </customtoolbarbuttons>
  </toolbar>
 </object>
