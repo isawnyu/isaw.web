@@ -1,11 +1,13 @@
+# -*- coding: utf-8 -*-
+from plone import api as plone_api
 from Products.CMFCore.utils import getToolByName
-from zope.interface import directlyProvides
+from zope.interface import provider
 from zope.schema.interfaces import IVocabularyFactory
-from zope.schema.vocabulary import SimpleVocabulary
+from zope.schema.vocabulary import SimpleTerm, SimpleVocabulary
 
 
+@provider(IVocabularyFactory)
 def UsersVocabularyFactory(context):
-
     acl_users = getToolByName(context, 'acl_users')
     terms = [(SimpleVocabulary.createTerm('', '', 'None'))]
 
@@ -21,4 +23,15 @@ def UsersVocabularyFactory(context):
 
     return SimpleVocabulary(terms)
 
-directlyProvides(UsersVocabularyFactory, IVocabularyFactory)
+
+@provider(IVocabularyFactory)
+def NamedLocationsVocabulary(context):
+    record_name = "isaw.facultycv.interfaces.settings.IISAWFacultyCVSettings.named_locations"
+    items = plone_api.portal.get_registry_record(record_name) or []
+    sorted_items = sorted(items, key=lambda loc: loc.get("title", "").lower())
+    terms = [SimpleTerm(value='', title=u'— None —')]
+    terms += [
+        SimpleTerm(value=loc["identifier"], title=loc["title"])
+        for loc in sorted_items
+    ]
+    return SimpleVocabulary(terms)

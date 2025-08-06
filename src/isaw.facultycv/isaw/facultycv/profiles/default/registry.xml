@@ -1,0 +1,8 @@
+<registry xmlns:i18n="http://xml.zope.org/namespaces/i18n"
+          i18n:domain="isaw.facultycv">
+  <records interface="isaw.facultycv.interfaces.settings.IISAWFacultyCVSettings">
+    <field name="named_locations">
+        <value></value>
+    </field>
+  </records>
+</registry>
