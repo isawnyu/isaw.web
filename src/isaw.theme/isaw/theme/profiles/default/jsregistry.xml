@@ -19,16 +19,6 @@
                 id="++theme++isaw.theme/js/isaw.js"
                 insert-after="jquery-integration.js"/>
 
-    <javascript cacheable="True" compression="none" cookable="False"
-                enabled="True" inline="False"
-                id="++theme++isaw.theme/js/awld/lib/requirejs/require.min.js"
-                insert-after="*"/>
-
-    <javascript cacheable="False" compression="none" cookable="False"
-                enabled="True" inline="False"
-                id="++theme++isaw.theme/js/awld/awld.js"
-                insert-after="++theme++isaw.theme/awld/lib/requirejs/require.min.js"/>
-
     <javascript cacheable="True" compression="none" cookable="True"
                 enabled="True" inline="False"
                 id="++resource++plone.formwidget.geolocation/libs.js"
