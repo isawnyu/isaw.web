@@ -523,12 +523,12 @@ span.captioned, span.captioned * {
 	font-family:'Noto Sans', sans-serif;
 	font-size:15px;
 	font-weight:500;
-	overflow:auto;
+	overflow:hidden;
 	padding:24px 20px 58px;
     min-height: 11em;
 }
 .footer-row #portal-footer {margin:0 auto; max-width:1154px; overflow:visible; position:relative; }
-//.footer-row #portal-footer .footer-portlet {display:block; float:left; padding:0 5%; width:16%; }
+/*.footer-row #portal-footer .footer-portlet {display:block; float:left; padding:0 5%; width:16%; }*/
 
 .footer-row #portal-footer .footer-portlet.contact {
 	border-right:1px solid #6b6462;
@@ -1687,4 +1687,116 @@ li.portletItem a.tile {
 }
 .summary-body-text {
     margin-top: 28px;
+}
+
+
+/* ======= MAIN FOOTER STRUCTURE ======= */
+.footer-container {
+  display: grid;
+  grid-template-columns: 3fr 1fr; /* left column + right column */
+  gap: 2rem;
+  align-items: start;
+  padding: 2rem;
+}
+
+.column_one {
+    border-left:1px solid #6b6462;
+    padding: 0 15%;
+}
+
+/* ======= LEFT COLUMN ======= */
+.footer-main {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+}
+
+/* Row with 3 columns (footer-left, column_one, column_two) */
+.footer-row-top {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1rem;
+}
+
+/* Inner columns */
+.footer-column {
+  min-width: 180px;
+}
+
+/* Disclaimer (row below the 3 columns) */
+.footer-row-bottom {
+  /* by default it already takes up the full available width */
+}
+
+/* ======= RIGHT COLUMN (footer-right) ======= */
+.footer-side {
+  padding: 0 15%;
+  border-left:1px solid #6b6462;
+
+}
+
+#personal-tools-links {
+  list-style: none;
+  padding-left: 0;
+  margin-top: 0.5rem;
+}
+
+#personal-tools-links li {
+  margin: 0.3rem 0;
+}
+
+
+@media (max-width: 768px) {
+  .userrole-authenticated .footer-row {
+    height: auto;
+  }
+  .footer-container {
+    display: grid;
+    grid-template-areas:
+      "left right"
+      "col1 col1"
+      "col2 col2"
+      "bottom bottom";
+    grid-template-columns: 1fr 1fr;
+    gap: 1rem;
+    padding:1rem 0;
+    overflow-y:scroll;
+  }
+
+  .footer-row-top,
+  .footer-main {
+    all: unset; /* remove flex/grid for desktop */
+  }
+
+  .footer-left {
+    grid-area: left;
+  }
+
+  .footer-right {
+    grid-area: right;
+  }
+
+  .column_one {
+    grid-area: col1;
+    border:none;
+    padding:2rem 0;
+    width: 200%; /*span width at two columns*/
+  }
+
+  .column_two {
+    grid-area: col2;
+    padding: 0;
+    width: 200%; /*span width at two columns*/
+
+  }
+
+  .footer-bottom {
+    grid-area: bottom;
+    padding:2rem 0;
+    width: 200%; /*span width at two columns*/
+  }
+
+  .footer-column {
+    min-width: 0;
+  }
 }

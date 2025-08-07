@@ -4,6 +4,15 @@
     i18n_domain="isaw.facultycv">
 
   <include package="plone.app.contentmenu" />
+  <include package="plone.app.registry" />
+  <include package="plone.app.controlpanel" />
+
+  <browser:page
+      name="isaw-facultycv-settings"
+      for="Products.CMFPlone.interfaces.IPloneSiteRoot"
+      class=".controlpanel.ISAWFacultyCVControlPanel"
+      permission="plone.app.controlpanel.Overview"
+      />
 
   <browser:resourceDirectory
     name="cvimages"

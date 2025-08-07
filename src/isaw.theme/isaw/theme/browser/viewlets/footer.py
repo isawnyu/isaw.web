@@ -51,5 +51,12 @@ class SiteFooter(ViewletBase):
         registry = getUtility(IRegistry)
         settings = registry.forInterface(IISAWSettings, False)
         html = getattr(settings, 'footer_html', u'')
-        html = html.replace('<ul id="personal-tools-links"></ul>', actions_html) if html else "<b>someting missing</b>"
+        html = html.replace('<ul id="personal-tools-links"></ul>', actions_html)
+
+        self.actions_html = actions_html
+        self.column_one = getattr(settings, 'column_one', u'')
+        self.column_two = getattr(settings, 'column_two', u'')
+        self.disclaimer = getattr(settings, 'disclaimer', u'')
+
         return html
+
