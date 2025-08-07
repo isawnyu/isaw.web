@@ -27,7 +27,6 @@ setup(name='isaw.theme',
           'setuptools',
           # -*- Extra requirements: -*-
 #          'sixfeetup.utils',
-          'collective.addthis',
           'webcouturier.dropdownmenu',
           'plone.app.theming',
           'collective.navigationtoggle',

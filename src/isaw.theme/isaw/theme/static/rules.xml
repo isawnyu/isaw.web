@@ -185,9 +185,6 @@
     <after method="raw" css:theme-children="#portal-column-second"
            css:content=".calendar-view-link" />
 
-    <!-- addthis buttons are out -->
-    <drop css:content="#socialtools" />
-
     <!-- drop bad accessibility elements -->
     <drop content="//*[@accesskey='']" attributes="accesskey" />
     <drop content="//a[@title]" attributes="title" />
