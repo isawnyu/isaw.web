@@ -26,7 +26,6 @@ setup(name='isaw.theme',
       install_requires=[
           'setuptools',
           # -*- Extra requirements: -*-
-          'collective.addthis',
           'plone.app.theming',
           'Products.ZCatalog>=3.0.2',
       ],
