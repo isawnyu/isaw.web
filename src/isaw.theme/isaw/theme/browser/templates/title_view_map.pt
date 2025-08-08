@@ -1,0 +1,88 @@
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en"
+      xmlns:tal="http://xml.zope.org/namespaces/tal"
+      xmlns:metal="http://xml.zope.org/namespaces/metal"
+      xmlns:i18n="http://xml.zope.org/namespaces/i18n"
+      lang="en"
+      metal:use-macro="context/main_template/macros/master"
+      i18n:domain="isaw.theme">
+<head>
+  <tal:map_resources
+    tal:condition="view/alumni_vrs_map">
+      <metal:block fill-slot="style_slot"
+          tal:define="navroot context/@@plone_portal_state/navigation_root_url;
+                      base string:${navroot}/++theme++isaw.theme">
+          <link rel="stylesheet" type="text/css"
+              tal:attributes="href string:${base}/map.css"
+              />
+          <link rel="stylesheet" type="text/css"
+              tal:attributes="href string:${base}/js/leaflet@1.9.4/leaflet.css"
+              />
+          <link rel="stylesheet"
+              tal:attributes="href string:${base}/js/leaflet.markercluster@1.5.3/MarkerCluster.css"/>
+          <link rel="stylesheet"
+              tal:attributes="href string:${base}/js/leaflet.markercluster@1.5.3/MarkerCluster.Default.css"/>
+          <link rel="stylesheet"
+              tal:attributes="href string:${base}/resetbounds.css">
+      </metal:block>
+
+      <metal:block fill-slot="javascript_head_slot"
+                   tal:define="navroot context/@@plone_portal_state/navigation_root_url;
+                               base string:${navroot}/++theme++isaw.theme">
+          <script src="../dist/leaflet@1.9.4/leaflet.js"
+                  tal:attributes="src string:${base}/js/leaflet@1.9.4/leaflet.js"></script>
+          <script src="../dist/leaflet.markercluster@1.5.3/leaflet.markercluster.js"
+                  tal:attributes="src string:${base}/js/leaflet.markercluster@1.5.3/leaflet.markercluster.js"></script>
+           <script src="../js/resetbounds.js"
+                  tal:attributes="src string:${base}/js/resetbounds.js"></script>
+      </metal:block>
+    </tal:map_resources>
+</head>
+
+<body>
+
+<metal:content-core fill-slot="content-core">
+<metal:block define-macro="content-core"
+                    tal:define="templateId template/getId">
+
+ <tal:geomap
+      define="alumni_vrs view/alumni_vrs_map"
+      condition="alumni_vrs">
+    <p>
+      <a role="button"
+         href="#"
+         id="map-hide-show-link">
+          <span id="map_view">View a map of alumni institutions</span>
+          <span id="map_hide" style="display:none">Close map</span>
+         </a>
+    </p>
+    <div id="map" style="display:none;">
+    </div>
+    <script src="../js/map-alumni[or]vrs.js"
+            tal:define="navroot context/@@plone_portal_state/navigation_root_url;
+                        base string:${navroot}/++theme++isaw.theme"
+            tal:attributes="src string:${base}/js/map-${alumni_vrs}.js">
+    </script>
+  </tal:geomap>
+
+
+  <div id="title-listing-container"
+       tal:define="b_start python:request.get('b_start', 0);
+                   items python:view.listings(b_start=b_start);
+                   batch nocall:items;">
+    <ul class="title-listing">
+     <tal:block tal:repeat="item items">
+      <li tal:define="title item/Title;
+                      url item/getURL">
+        <a href="" tal:attributes="href url;
+                                   alt title"
+                   tal:content="title">[Item Title]</a>
+      </li>
+     </tal:block>
+    </ul>
+    <div metal:use-macro="context/batch_macros/macros/navigation" />
+  </div>
+</metal:block>
+</metal:content-core>
+
+</body>
+</html>
