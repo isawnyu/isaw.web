@@ -10,6 +10,11 @@ div#map { width: 75vw;
     padding: 0;
 }
 
+div#map .leaflet-control-zoom a{
+    text-decoration: none;
+}
+
+
 @media screen and (max-width:512px) {
   div#map {
      /*phones*/
