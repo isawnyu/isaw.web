@@ -10,7 +10,9 @@
         <element value="simple-summary-listing"/>
         <element value="event-listing"/>
         <element value="people-listing"/>
+        <element value="people-listing-map"/>
         <element value="title-listing"/>
+        <element value="title-listing-map"/>
         <element value="publication-listing"/>
         <element value="bibliographic-list"/>
         <element value="exhibition-checklist"/>

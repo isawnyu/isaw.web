@@ -10,10 +10,10 @@
 <metal:block fill-slot="head_slot">
     <link rel="meta" type="application/rdf+xml" title="Profile FOAF data" href="foaf.rdf" />
     <script src="https://use.fontawesome.com/63f0007faf.js"></script>
-</metal:block>   
+</metal:block>
 
 <metal:block fill-slot="content-title" />
-    
+
 <metal:content-core fill-slot="content-core">
     <metal:content-core define-macro="content-core">
         <div class="ProfileContent"
