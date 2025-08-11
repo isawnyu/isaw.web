@@ -314,14 +314,22 @@
       layer=".interfaces.IThemeSpecific"
       />
 
-  <browser:page
-      name="people-listing"
-      for="plone.app.contenttypes.interfaces.IFolder"
-      class=".people.PeopleViewFolder"
-      template="templates/people_listing.pt"
-      layer=".interfaces.IThemeSpecific"
-      permission="zope2.View"
-      />
+    <browser:page
+        name="people-listing"
+        for="Products.ATContentTypes.interfaces.IATFolder"
+        class=".people.PeopleViewFolder"
+        template="templates/people_listing.pt"
+        layer=".interfaces.IThemeSpecific"
+        permission="zope2.View"
+        />
+    <browser:page
+        name="people-listing"
+        for="plone.app.contenttypes.interfaces.IFolder"
+        class=".people.PeopleViewFolder"
+        template="templates/people_listing.pt"
+        layer=".interfaces.IThemeSpecific"
+        permission="zope2.View"
+        />
 
   <browser:page
       name="people-listing-map"

@@ -136,7 +136,6 @@ def install_postmigration_products(portal):
 def remove_legacy_items(portal):
     pg = portal.portal_catalog
     types = ('CV',
-
              # XXX profile should be retained until collective.person will be customized for ISAW
              #'profile',
              'TemplatedDocument',
@@ -151,6 +150,11 @@ def remove_legacy_items(portal):
             except KeyError:
                 logger.error("error deserializing {}".format(i))
                 continue
+            except AttributeError:
+                logger.error("Object inexistent {} ... uncataloging".format(b.getPath()))
+                pg.uncatalogObject(b.getPath())
+                continue
+
             logger.info("{} removing: {}".format(b.portal_type, b.getPath()))
             api.content.delete(obj=obj,  check_linkintegrity=False)
 
