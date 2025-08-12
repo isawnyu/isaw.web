@@ -1,5 +1,4 @@
 # -*- coding: utf-8 -*-
-from plone.directives import form
 from plone.supermodel import model
 from plone.theme.interfaces import IDefaultPloneLayer
 from zope import schema
