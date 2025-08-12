@@ -4,4 +4,8 @@
       name="isaw.policy"
       interface="isaw.policy.interfaces.IISAWPolicyLayer"
       />
+
+    <layer name="collective.addthis"
+           interface="collective.addthis.interfaces.IAddThisBrowserLayer"
+           remove="True" />
 </layers>
