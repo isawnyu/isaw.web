@@ -1,3 +1,49 @@
-<footer id="portal-footer" role="contentinfo" tal:condition="view/html">
-    <tal:message replace="structure view/html" />
+<footer class="site-footer"
+    role="contentinfo"
+    id="portal-footer"
+    tal:define="html view/html">
+
+  <div class="footer-container">
+
+    <!-- Left column -->
+    <div class="footer-main">
+
+      <!-- Row with 3 columns -->
+      <div class="footer-row-top">
+        <div class="footer-column footer-left">
+          <a href="https://www.nyu.edu" title="NYU" target="_self">
+          <img src="++theme++isaw.theme/images/nyu-isaw-logo.png"
+            alt="NYU/ISAW Logo"
+            class="image-inline" />
+          </a>
+          <p>15 East 84th St.<br />New York, NY 10028<br />212-992-7800<br />
+          <a href="mailto:isaw@nyu.edu"><b>Contact us</b></a></p>
+        </div>
+
+        <div class="footer-column column_one">
+          <tal:column_one replace="structure view/column_one" />
+        </div>
+
+        <div class="footer-column column_two">
+          <tal:column_two replace="structure view/column_two" />
+        </div>
+      </div>
+
+      <!-- Row with disclaimer -->
+      <div class="footer-row-bottom footer-bottom">
+        <tal:disclaimer replace="structure view/disclaimer" />
+      </div>
+
+    </div>
+
+    <!-- Right column -->
+    <div class="footer-side footer-right">
+      <h3 class="support">
+        <a href="support-isaw" id="footer-support-link">Support ISAW</a>
+      </h3>
+      <ul id="personal-tools-links"
+          tal:replace="structure view/actions_html"></ul>
+    </div>
+
+  </div>
 </footer>

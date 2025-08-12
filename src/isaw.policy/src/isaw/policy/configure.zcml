@@ -45,6 +45,11 @@
       factory=".purging.LeadimagePurgePaths"
       name="isaw.policy.leadimage" />
 
+  <subscriber
+      handler="plone.app.caching.purge.purgeOnModified"
+      for="Products.CMFCore.interfaces.IContentish
+           Products.DCWorkflow.interfaces.IAfterTransitionEvent" />
+
   <adapter
       for="Products.CMFCore.interfaces.IFolderish
            zope.publisher.interfaces.browser.IDefaultBrowserLayer

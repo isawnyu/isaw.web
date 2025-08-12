@@ -202,6 +202,14 @@
     layer=".interfaces.IThemeSpecific"
     template="templates/title_view.pt"
     />
+  <browser:page
+    name="title-listing-map"
+    for="*"
+    permission="zope2.View"
+    class=".title_listing_view.TitleListingView"
+    layer=".interfaces.IThemeSpecific"
+    template="templates/title_view_map.pt"
+    />
 
     <browser:menuItem
         for="plone.app.contenttypes.interfaces.IFolder"
@@ -211,6 +219,7 @@
         description="List folder contents by title only"
          layer=".interfaces.IThemeSpecific"
    />
+  
 
     <browser:menuItem
         for="plone.app.contenttypes.interfaces.ICollection"
@@ -250,6 +259,8 @@
       permission="zope2.View"
       />
 
+
+
   <browser:page
       name="people-listing"
       for="plone.app.contenttypes.interfaces.ICollection"
@@ -258,6 +269,30 @@
       layer=".interfaces.IThemeSpecific"
       permission="zope2.View"
       />
+  <browser:page
+      name="people-listing-map"
+      for="plone.app.collection.interfaces.ICollection"
+      class=".people.PeopleViewCollection"
+      template="templates/people_listing_map.pt"
+      layer=".interfaces.IThemeSpecific"
+      permission="zope2.View"
+      />
+  <browser:page
+      name="people-listing-json"
+      for="plone.app.collection.interfaces.ICollection"
+      class=".people.PeopleViewCollection"
+      attribute="people_json"
+      layer=".interfaces.IThemeSpecific"
+      permission="zope2.View"
+      />
+    
+    <browser:menuItem
+        for="plone.app.collection.interfaces.ICollection"
+        menu="plone_displayviews"
+        title="People Listing with Geomap"
+        action="@@people-listing-map"
+        description="List person profiles in a folder, with image and profiles Geomap"
+        />
 
     <browser:menuItem
         for="plone.app.contenttypes.interfaces.IFolder"

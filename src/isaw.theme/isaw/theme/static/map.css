@@ -1,0 +1,26 @@
+/* Style for ISAW Alumni Map */
+
+div#map { width: 75vw;
+    height: 75vh; border: 1px solid black;
+    border: 1px solid gray;
+    box-sizing: border-box;
+    width: 100%;
+    margin: 0;
+    height: 400px;
+    padding: 0;
+}
+
+div#map .leaflet-control-zoom a{
+    text-decoration: none;
+}
+
+
+@media screen and (max-width:512px) {
+  div#map {
+     /*phones*/
+    max-height: 100vw; # sic
+    height: 100vh;
+}}
+
+
+
