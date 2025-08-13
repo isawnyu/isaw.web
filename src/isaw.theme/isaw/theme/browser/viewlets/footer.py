@@ -50,7 +50,7 @@ class SiteFooter(ViewletBase):
 
         registry = getUtility(IRegistry)
         settings = registry.forInterface(IISAWSettings, False)
-        html = getattr(settings, 'footer_html', u'')
+        html = getattr(settings, 'footer_html', u'') or u''
         html = html.replace('<ul id="personal-tools-links"></ul>', actions_html)
 
         self.actions_html = actions_html
