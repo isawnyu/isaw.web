@@ -367,5 +367,13 @@
         handler=".setuphandlers.add_footer_registry_keys"
       profile="isaw.theme:default"
     />
+  <genericsetup:upgradeStep
+        title="Add people and title only geomap options to display menu"
+        description=""
+        source="35"
+        destination="36"
+        handler=".setuphandlers.add_map_views"
+      profile="isaw.theme:default"
+    />
 
 </configure>

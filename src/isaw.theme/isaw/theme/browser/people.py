@@ -5,7 +5,7 @@ import json
 class PeopleView(BrowserView):
     """Base vew class for the @@people-view"""
 
-    JSON_HEADERS = 'name,html_blurb,latitude,longitude,url'
+    JSON_KEYS = 'name,html_blurb,latitude,longitude,url'.split(',')
 
     @property
     def alumni_vrs_map(self, ):
@@ -49,16 +49,14 @@ class PeopleView(BrowserView):
                         "Content-Disposition", 'attachment; filename="people-listing.json"'
                     )
 
-        people = []
-        for record in results:
-            row = {}
-            if not (record['latitude'] and record['longitude']):
-                continue
+        relevant = self.JSON_KEYS
 
-            for h in self.JSON_HEADERS.split(','):
-                row[h] = record.get(h, '')
-
-            people.append(row)
+        # some data like `has_image` is not jsonserializable, so we fetch only relevant keys
+        people = [
+            {h: record.get(h, '') for h in relevant}
+            for record in results
+            if record.get('latitude') and record.get('longitude')
+        ]
 
         return json.dumps(people)
 

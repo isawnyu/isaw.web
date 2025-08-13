@@ -1,9 +1,13 @@
+from .browser.interfaces import IISAWSettings
 from Products.CMFCore.utils import getToolByName
+from plone import api
 from plone.registry.interfaces import IRegistry
 from zope.component import getUtility
-from .browser.interfaces import IISAWSettings
 
 #from sixfeetup.utils import helpers as sfutils
+
+PROFILE_ID = 'profile-isaw.theme:default'
+
 
 def setupVarious(context):
 
@@ -64,7 +68,6 @@ def set_calendar_types(context):
         show_states=('published', 'external', 'internally_published'),
         firstweekday=6)
 
-
 def add_footer_registry_keys(context):
     """Upgrade step: add footer settings keys to registry."""
 
@@ -87,3 +90,10 @@ def add_footer_registry_keys(context):
     for key, value in defaults.items():
         if not getattr(settings, key, None):
             setattr(settings, key, value)
+
+
+def add_map_views(context):
+    setup = api.portal.get_tool('portal_setup')
+    setup.runImportStepFromProfile(PROFILE_ID, 'typeinfo')
+
+
