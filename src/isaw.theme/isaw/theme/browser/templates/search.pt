@@ -104,7 +104,7 @@
                     </span>
 
                     <dl class="actionMenu"
-                        tal:attributes="class python:view.show_advanced_search() and 'actionMenu' or 'actionMenu deactivated'">
+                        tal:attributes="class python:view.show_advanced_search() and 'actionMenu activated' or 'actionMenu'">
 
                       <dt class="actionMenuHeader">
                           <a href="#"

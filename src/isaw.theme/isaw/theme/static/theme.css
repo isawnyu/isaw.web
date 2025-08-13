@@ -85,6 +85,7 @@ body {color:#231f20; margin:0;}
     }
 
     dl.actionMenu dd {
+    display: none;
     position: absolute;
     width: 30%;
     min-width: auto;
@@ -95,9 +96,9 @@ body {color:#231f20; margin:0;}
     -moz-border-radius-bottomleft: 0.5em;
     -moz-border-radius-bottomright: 0.5em;
   }
-  dl.actionMenu.deactivated dd {
-    display: none;
-    }
+  dl.actionMenu.activated dd {
+    display: block;
+  }
 }
 
 
