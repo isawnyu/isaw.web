@@ -1,9 +1,16 @@
+from .browser.interfaces import IISAWSettings
 from Products.CMFCore.utils import getToolByName
+from plone import api
 from plone.registry.interfaces import IRegistry
 from zope.component import getUtility
-from .browser.interfaces import IISAWSettings
+from logging import getLogger
+
+logger = getLogger(__name__)
 
 #from sixfeetup.utils import helpers as sfutils
+
+
+PROFILE_ID = 'profile-isaw.theme:default'
 
 def setupVarious(context):
 
@@ -87,3 +94,15 @@ def add_footer_registry_keys(context):
     for key, value in defaults.items():
         if not getattr(settings, key, None):
             setattr(settings, key, value)
+
+def to_plone_51(context):
+    """ include steps to complete plone51 migration
+
+     - import resource registry
+    """
+    setup = api.portal.get_tool('portal_setup')
+    setup.runImportStepFromProfile(
+         PROFILE_ID, 'plone.app.registry', run_dependencies=False
+     )
+    logger.info('registry updated')
+
