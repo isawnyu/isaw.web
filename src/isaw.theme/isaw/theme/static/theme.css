@@ -1998,3 +1998,9 @@ li.portletItem a.tile {
         min-width: 0;
     }
 }
+
+/*fix usercontrolpanel table*/
+body.userrole-manager div#portal-column-content {
+    width:70%;
+    overflow:scroll;
+}
