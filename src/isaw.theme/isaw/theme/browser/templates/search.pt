@@ -273,12 +273,14 @@
                                        tal:define="isAnon context/@@plone_portal_state/anonymous;
                                                    toLocalizedTime nocall: context/@@plone/toLocalizedTime;
                                                    site_properties context/portal_properties/site_properties;
-                                                   use_view_action site_properties/typesUseViewActionInListings|python:();">
+                                                   use_view_action site_properties/typesUseViewActionInListings|python:();
+                                                   image_scale portal/@@image_scale">
                           <dl class="searchResults">
                               <tal:results repeat="item batch">
-                                    <dt tal:attributes="class item/ContentTypeClass">
-                                      <img tal:condition="item/getIcon"
-                                           tal:attributes="src string:${item/getURL}/@@images/image/icon;"/>
+                                    <dt tal:define="hasIcon item/getIcon"
+                                        tal:attributes="class item/ContentTypeClass">
+                                      <img tal:condition="hasIcon"
+                                           tal:replace="structure python: image_scale.tag(item, 'image', scale='icon', css_class='thumb-icon')">
                                       <a href="#"
                                          tal:define="item_url item/getURL;
                                                      item_type item/PortalType"
