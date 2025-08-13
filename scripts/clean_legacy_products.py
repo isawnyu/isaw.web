@@ -58,6 +58,7 @@ def uninstall_lecacy_products(portal):
                 'Products.WebServerAuth',
                 'WebServerAuth',
                 'collective.easytemplate',
+                'collective.easyslider',
                 'collective.embedly',
                 'collective.portlet.relateditems',
                 'collective.quickupload',
@@ -87,10 +88,7 @@ def toggleCachePurging(status='disabled'):
 
 
 def clean_registry_entries(portal):
-    js_to_remove = ['++resource++plone.formwidget.geolocation/libs.js',
-                    '++theme++isaw.theme/js/awld/lib/requirejs/require.min.js',
-                    '++theme++isaw.theme/js/awld/awld.js',
-                    ]
+    js_to_remove = ['++resource++plone.formwidget.geolocation/libs.js']
     css_to_remove = ['++resource++plone.formwidget.geolocation/libs.css',
                      '++resource++plone.formwidget.geolocation/maps.css',
                      'PressRoom.css']
@@ -137,8 +135,10 @@ def remove_legacy_items(portal):
     pg = portal.portal_catalog
     types = ('CV',
              # XXX profile should be retained until collective.person will be customized for ISAW
-             #'profile',
+             'profile',
+
              'TemplatedDocument',
+
              'isaw.bibitems.bibitem',
              'isaw.policy.location'
              )
@@ -214,12 +214,6 @@ def search_clean_portlets(portal, dryrun=True):
     except:
         pass
 
-    try:
-        from isaw.theme.portlets.feature import IFeaturedPortlet
-        portlet_interfaces.append(IFeaturedPortlet)
-    except:
-        pass
-
     if not portlet_interfaces:
         logger.info("No portlet interfaces to remove found.")
         return 0
@@ -232,18 +226,42 @@ def search_clean_portlets(portal, dryrun=True):
     for i, b in enumerate(brains):
         if i > 0 and not i % 100:
             logger.info('...{:.2f}% completed' .format(i/total*100.0))
-        try:
-            obj = b.getObject()
-        except AttributeError:
-            logger.warn('Object not found error: uncataloging: '+ b.getPath())
-            pg.uncatalog_object(b.getPath())
-            continue
-
+        obj = b.getObject()
         num_erased = _clean(obj, portlet_interfaces, dryrun=dryrun, )
         found +=num_erased
 
     logger.info('\n\n=== finish portlet cleaning. Found {} portlets '.format(
                 total))
+
+
+def clean_easyslider_addon(context):
+
+    registry = portal.portal_registry
+    to_delete = [k for k in registry.records.keys() if 'easyslider' in k.lower()]
+
+    if not to_delete:
+        print("No easyslider registry records found.")
+    else:
+        for key in to_delete:
+            del registry.records[key]
+            print("Deleted registry key:", key)
+
+    # Remove control panel action
+    cp = portal.portal_controlpanel
+
+    actions = list(cp.listActions())
+    found = False
+
+    for index, action in enumerate(actions):
+        _id = "easyslieder"  #SIC
+        if action.id == _id :
+            print("Deleting control panel action:", action.id, "-", action.title)
+            cp.deleteActions([index])
+            found = True
+            break
+
+    if not found:
+        print("No AddThis-related control panel action found.")
 
 
 if __name__ == "__main__":
@@ -254,12 +272,14 @@ if __name__ == "__main__":
     remove_legacy_items(portal)
     clean_old_behaviors(portal)
 
-    search_clean_portlets(portal, dryrun=False)
-
     uninstall_lecacy_products(portal)
-    clean_registry_entries(portal)
 
     toggleCachePurging(status='enabled')
+
+    search_clean_portlets(portal, dryrun=False)
+
+    clean_registry_entries(portal)
+    clean_easyslider_addon(portal)
 
     transaction.commit()
 
