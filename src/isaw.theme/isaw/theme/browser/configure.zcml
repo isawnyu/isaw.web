@@ -219,7 +219,7 @@
         description="List folder contents by title only"
          layer=".interfaces.IThemeSpecific"
    />
-  
+
 
     <browser:menuItem
         for="plone.app.contenttypes.interfaces.ICollection"
@@ -246,6 +246,15 @@
       class=".search.ISAWSearch"
       permission="zope2.View"
       for="*"
+      template="templates/search.pt"
+      layer=".interfaces.IThemeSpecific"
+      />
+
+  <browser:page
+      name="search"
+      class=".search.ISAWSearch"
+      permission="zope2.View"
+      for="Products.CMFPlone.interfaces.IPloneSiteRoot"
       template="templates/search.pt"
       layer=".interfaces.IThemeSpecific"
       />
@@ -285,7 +294,7 @@
       layer=".interfaces.IThemeSpecific"
       permission="zope2.View"
       />
-    
+
     <browser:menuItem
         for="plone.app.collection.interfaces.ICollection"
         menu="plone_displayviews"
