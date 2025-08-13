@@ -6,6 +6,7 @@
     i18n_domain="isaw.facultycv">
 
   <five:registerPackage package="." initialize=".initialize" />
+  <includeDependencies package="." />
 
   <!-- Include the sub-packages that use their own configure.zcml files. -->
   <include package=".browser" />
@@ -29,6 +30,12 @@
     component="isaw.facultycv.vocabularies.UsersVocabularyFactory"
   />
 
+  <utility
+    name="isaw.facultycv.named_locations"
+    provides="zope.schema.interfaces.IVocabularyFactory"
+    component="isaw.facultycv.vocabularies.NamedLocationsVocabulary"
+  />
+
   <!-- Register the installation GenericSetup extension profile -->
   <genericsetup:registerProfile
       name="default"
@@ -46,6 +53,16 @@
       description=""
       profile="isaw.facultycv:default"
       import_steps="typeinfo"
+      />
+
+  <genericsetup:upgradeDepends
+      sortkey="10"
+      source="2"
+      destination="3"
+      title="Add ISAW FacultyCV controlpanel"
+      description=""
+      profile="isaw.facultycv:default"
+      import_steps="plone.app.registry controlpanel"
       />
 
 </configure>

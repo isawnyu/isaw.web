@@ -4,6 +4,7 @@ import re
 from urlparse import urlparse
 from zope.interface import implements
 
+from plone import api as plone_api
 from Products.Archetypes import atapi
 from Products.ATContentTypes.content import folder
 from Products.ATContentTypes.content import schemata
@@ -137,6 +138,21 @@ profileSchema = folder.ATFolderSchema.copy() + atapi.Schema((
         required=False,
     ),
 
+    atapi.StringField(
+        name='NamedLocation',
+        vocabulary_factory="isaw.facultycv.named_locations",
+        enforceVocabulary=True,
+        widget=atapi.SelectionWidget(
+            label=u'Location',
+            label_msgid='isaw.facultycv_label_Location',
+            il8n_domain='isaw.facultycv',
+            format='select',
+            force_selection=True,
+        ),
+        required=False,
+        schemata='categorization',
+    ),
+
 ))
 
 profileSchema['title'].storage = atapi.AnnotationStorage()
@@ -144,6 +160,7 @@ profileSchema['description'].storage = atapi.AnnotationStorage()
 
 profileSchema['description'].widget.visible = {"edit": "invisible"}
 profileSchema['ProfileRef'].widget.visible = {"edit": "invisible"}
+profileSchema['location'].widget.visible = {"edit": "invisible", "view": "invisible"}
 
 
 schemata.finalizeATCTSchema(
@@ -205,6 +222,26 @@ class profile(folder.ATFolder):
 
     title = atapi.ATFieldProperty('title')
     description = atapi.ATFieldProperty('description')
+
+    @property
+    def named_location(self):
+        """Return the full named location dict from the registry for this profile's NamedLocation identifier, or None."""
+        identifier = self.getNamedLocation()
+        if not identifier:
+            return None
+        record_name = "isaw.facultycv.interfaces.settings.IISAWFacultyCVSettings.named_locations"
+        items = plone_api.portal.get_registry_record(record_name) or []
+        for loc in items:
+            if loc.get("identifier") == identifier:
+                # convert lat/lng to floats
+                return {
+                    "latitude": float(loc["latitude"]),
+                    "longitude": float(loc["longitude"]),
+                    "identifier": loc["identifier"],
+                    "title": loc["title"],
+                }
+
+        return None
 
     def profile_links(self):
         links = self.getExternalURIs() or []

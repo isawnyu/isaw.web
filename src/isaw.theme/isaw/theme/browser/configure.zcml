@@ -9,8 +9,8 @@
       type="zope.publisher.interfaces.browser.IBrowserSkinType"
       name="NYU ISAW Theme"
       />
-  
-  <!-- For overriding templates, add z3c.jbot to the base.cfg to use -->    
+
+  <!-- For overriding templates, add z3c.jbot to the base.cfg to use -->
   <include package="z3c.jbot" file="meta.zcml" />
 
   <!-- Forms package for events request etc -->
@@ -19,7 +19,7 @@
   <browser:templateOverrides
       directory="template-overrides"
       layer=".interfaces.IThemeSpecific" />
-  
+
   <!-- Utils View -->
   <browser:page
      name="utils_view"
@@ -27,7 +27,7 @@
      class=".utilsview.UtilsView"
      permission="zope.Public"
      allowed_interface=".interfaces.IUtilsView"
-     /> 
+     />
 
   <!-- NYU SSO View -->
   <browser:page
@@ -210,6 +210,14 @@
     layer=".interfaces.IThemeSpecific"
     template="templates/title_view.pt"
     />
+  <browser:page
+    name="title-listing-map"
+    for="*"
+    permission="zope2.View"
+    class=".title_listing_view.TitleListingView"
+    layer=".interfaces.IThemeSpecific"
+    template="templates/title_view_map.pt"
+    />
 
     <browser:menuItem
         for="Products.ATContentTypes.interface.IATFolder"
@@ -217,6 +225,14 @@
         title="Title-Only Listing"
         action="@@title-listing"
         description="List folder contents by title only"
+        />
+
+    <browser:menuItem
+        for="Products.ATContentTypes.interface.IATFolder"
+        menu="plone_displayviews"
+        title="Title-Only Listing with geomap"
+        action="@@title-listing-map"
+        description="List folder contents by title only and Geomap"
         />
 
     <browser:menuItem
@@ -298,6 +314,24 @@
       />
 
   <browser:page
+      name="people-listing-map"
+      for="Products.ATContentTypes.interfaces.IATFolder"
+      class=".people.PeopleViewFolder"
+      template="templates/people_listing_map.pt"
+      layer=".interfaces.IThemeSpecific"
+      permission="zope2.View"
+      />
+
+  <browser:page
+      name="people-listing-json"
+      for="Products.ATContentTypes.interfaces.IATFolder"
+      class=".people.PeopleViewFolder"
+      attribute="people_json"
+      layer=".interfaces.IThemeSpecific"
+      permission="zope2.View"
+      />
+
+  <browser:page
       name="people-listing"
       for="plone.app.collection.interfaces.ICollection"
       class=".people.PeopleViewCollection"
@@ -305,6 +339,38 @@
       layer=".interfaces.IThemeSpecific"
       permission="zope2.View"
       />
+  <browser:page
+      name="people-listing-map"
+      for="plone.app.collection.interfaces.ICollection"
+      class=".people.PeopleViewCollection"
+      template="templates/people_listing_map.pt"
+      layer=".interfaces.IThemeSpecific"
+      permission="zope2.View"
+      />
+  <browser:page
+      name="people-listing-json"
+      for="plone.app.collection.interfaces.ICollection"
+      class=".people.PeopleViewCollection"
+      attribute="people_json"
+      layer=".interfaces.IThemeSpecific"
+      permission="zope2.View"
+      />
+
+    <browser:menuItem
+        for="Products.ATContentTypes.interfaces.IATFolder"
+        menu="plone_displayviews"
+        title="People Listing with Geomap"
+        action="@@people-listing-map"
+        description="List person profiles in a folder, with image and the profiles Geomap"
+        />
+
+    <browser:menuItem
+        for="plone.app.collection.interfaces.ICollection"
+        menu="plone_displayviews"
+        title="People Listing with Geomap"
+        action="@@people-listing-map"
+        description="List person profiles in a folder, with image and profiles Geomap"
+        />
 
     <browser:menuItem
         for="Products.ATContentTypes.interfaces.IATFolder"
