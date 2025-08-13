@@ -98,10 +98,11 @@
 
                 <div id="search-results-bar">
                     <span i18n:translate="batch_x_items_matching_your_criteria" i18n:domain="plone">
-                        <strong i18n:name="number" id="search-results-number"
+                        <strong i18n:name="number" id="results-count"
                                 tal:content="batch/sequence_length|string:0">234</strong>
                         items matching your search terms.
                     </span>
+
 
                     <dl class="actionMenu"
                         tal:attributes="class python:view.show_advanced_search() and 'actionMenu activated' or 'actionMenu'">
@@ -223,9 +224,10 @@
                                   </div>
 
                                   <div class="formControls">
-                                      <input class="searchPage searchButton allowMultiSubmit"
+                                      <input class="searchPage searchButton allowMultiSubmit hidden"
                                              type="submit"
                                              value="Search"
+                                             style="display:none;"
                                              i18n:attributes="value label_search;"/>
                                   </div>
 

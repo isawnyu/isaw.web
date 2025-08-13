@@ -351,3 +351,9 @@ function toggleSelect(selectbutton,id,initialState,formName){if (/MSIE [5-8]\./.
 var fid,state,base;fid=id||'ids:list';state=selectbutton.isSelected;if(state===undefined){state=Boolean(initialState)}
 selectbutton.isSelected=!state;jQuery(selectbutton).attr('src',PORTAL_URL+'/select_'+(state?'all':'none')+'_icon.png');base=formName?jQuery(document.forms[formName]):jQuery(document);base.find('input[name="'+fid+'"]:checkbox').prop('checked',!state)}
 
+/* - formsubmithelpers.js - */
+// https://isaw.jazkarta.com/portal_javascripts/formsubmithelpers.js?original=1
+function inputSubmitOnClick(event){if(jQuery(this).hasClass('submitting')&&!jQuery(this).hasClass('allowMultiSubmit'))
+return confirm(window.form_resubmit_message);else
+jQuery(this).addClass('submitting')}(function($){$(function(){$('input:submit,input:image').each(function(){if(!this.onclick)
+$(this).click(inputSubmitOnClick)})})})(jQuery);
