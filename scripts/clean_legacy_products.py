@@ -58,6 +58,7 @@ def uninstall_lecacy_products(portal):
                 'Products.WebServerAuth',
                 'WebServerAuth',
                 'collective.easytemplate',
+                'collective.easyslider',
                 'collective.embedly',
                 'collective.portlet.relateditems',
                 'collective.quickupload',
@@ -133,7 +134,6 @@ def install_postmigration_products(portal):
 def remove_legacy_items(portal):
     pg = portal.portal_catalog
     types = ('CV',
-
              # XXX profile should be retained until collective.person will be customized for ISAW
              'profile',
 
@@ -150,6 +150,12 @@ def remove_legacy_items(portal):
             except KeyError:
                 logger.error("error deserializing {}".format(i))
                 continue
+            except AttributeError:
+                logger.error("Object inexistent {} ... uncataloging".format(b.getPath()))
+                pg.uncatalogObject(b.getPath())
+                continue
+
+            logger.info("{} removing: {}".format(b.portal_type, b.getPath()))
             api.content.delete(obj=obj,  check_linkintegrity=False)
 
 
@@ -228,6 +234,36 @@ def search_clean_portlets(portal, dryrun=True):
                 total))
 
 
+def clean_easyslider_addon(context):
+
+    registry = portal.portal_registry
+    to_delete = [k for k in registry.records.keys() if 'easyslider' in k.lower()]
+
+    if not to_delete:
+        print("No easyslider registry records found.")
+    else:
+        for key in to_delete:
+            del registry.records[key]
+            print("Deleted registry key:", key)
+
+    # Remove control panel action
+    cp = portal.portal_controlpanel
+
+    actions = list(cp.listActions())
+    found = False
+
+    for index, action in enumerate(actions):
+        _id = "easyslieder"  #SIC
+        if action.id == _id :
+            print("Deleting control panel action:", action.id, "-", action.title)
+            cp.deleteActions([index])
+            found = True
+            break
+
+    if not found:
+        print("No AddThis-related control panel action found.")
+
+
 if __name__ == "__main__":
 
     unlockDavLocks()
@@ -243,6 +279,7 @@ if __name__ == "__main__":
     search_clean_portlets(portal, dryrun=False)
 
     clean_registry_entries(portal)
+    clean_easyslider_addon(portal)
 
     transaction.commit()
 
