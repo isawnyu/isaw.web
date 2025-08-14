@@ -7,30 +7,29 @@ Also includes a viewlet which will show the "featured_item" returned by
 the method on the view.
 """
 from DateTime import DateTime
-
-from zope.component import queryUtility
-from zope.interface import implementer
-
 from Products.CMFCore.utils import getToolByName
-from plone.batching import Batch
-from plone.registry.interfaces import IRegistry
-
 from isaw.theme.browser.interfaces import IEventListingView
 from isaw.theme.browser.interfaces import IISAWSettings
 from isaw.theme.browser.tiled_view import TiledListingView
-from plone.app.event.browser.event_listing import EventListing
-from plone.app.event.base import start_end_from_mode
 from plone.app.event.base import guess_date_from
+from plone.app.event.base import start_end_from_mode
+from plone.app.textfield.value import RichTextValue
+from plone.batching import Batch
+from plone.registry.interfaces import IRegistry
+from zope.component import queryUtility
+from zope.interface import implementer
+import six
+
 
 
 @implementer(IEventListingView)
 class EventListingView(TiledListingView):
     """view class"""
     image_scale = 'blogtile'
-    image_placeholder = '<div class="blogtile_placeholder">&nbsp;</div>'
+    image_placeholder = u'<div class="blogtile_placeholder">&nbsp;</div>'
     batch_size = 12
     page = 1
-    no_results_message = '<p>There are no upcoming events.</p>'
+    no_results_message = u'<p>There are no upcoming events.</p>'
 
     def format_date(self, date):
         if date:
@@ -107,4 +106,8 @@ class EventListingView(TiledListingView):
     def get_no_results_message(self):
         registry = queryUtility(IRegistry)
         settings = registry.forInterface(IISAWSettings)
-        return getattr(settings, 'no_results_message', self.no_results_message)
+        html =  getattr(settings, 'no_results_message')
+        if isinstance(html, RichTextValue):
+            html = html.raw
+
+        return html or self.no_results_message

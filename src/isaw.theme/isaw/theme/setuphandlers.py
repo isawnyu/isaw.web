@@ -1,9 +1,12 @@
 from .browser.interfaces import IISAWSettings
 from Products.CMFCore.utils import getToolByName
+from isaw.theme.browser.interfaces import IISAWSettings
+from logging import getLogger
 from plone import api
+from plone.app.textfield.value import RichTextValue
 from plone.registry.interfaces import IRegistry
 from zope.component import getUtility
-from logging import getLogger
+import six
 
 logger = getLogger(__name__)
 
@@ -106,3 +109,25 @@ def to_plone_51(context):
      )
     logger.info('registry updated')
 
+    # convert registry isawsettings into RichValue
+
+    registry = getUtility(IRegistry)
+    settings = registry.forInterface(IISAWSettings, False)
+    fields = [
+              'column_one',
+              'column_two',
+              'disclaimer',
+              'emergency_message',
+              'footer_html',
+              'no_results_message',
+    ]
+    for key in fields:
+        value = getattr(settings, key, u'')
+        if isinstance(value, six.string_types):
+            value = RichTextValue(
+                raw=value,
+                mimeType='text/html',
+                outputMimeType='text/x-html-safe',
+            )
+            setattr(settings, key, value)
+            logger.info('converted {} in RichTextValue'.format(key))

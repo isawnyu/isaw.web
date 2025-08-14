@@ -45,18 +45,19 @@ class SiteFooter(ViewletBase):
             else:
                 username = userid
 
-            actions_html += '<p><img src="++theme++isaw.theme/images/user.png" /> <em>{}</em></p>'.format(
+            actions_html += u'<p><img src="++theme++isaw.theme/images/user.png" /> <em>{}</em></p>'.format(
                 username)
 
         registry = getUtility(IRegistry)
         settings = registry.forInterface(IISAWSettings, False)
         html = getattr(settings, 'footer_html', u'') or u''
-        html = html.replace('<ul id="personal-tools-links"></ul>', actions_html)
+
+        html = html.raw.replace('<ul id="personal-tools-links"></ul>', actions_html) or u''
 
         self.actions_html = actions_html
-        self.column_one = getattr(settings, 'column_one', u'')
-        self.column_two = getattr(settings, 'column_two', u'')
-        self.disclaimer = getattr(settings, 'disclaimer', u'')
+        self.column_one = getattr(settings, 'column_one', u'').raw
+        self.column_two = getattr(settings, 'column_two', u'').raw
+        self.disclaimer = getattr(settings, 'disclaimer', u'').raw
 
         return html
 

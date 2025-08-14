@@ -1,10 +1,10 @@
-from plone.registry.interfaces import IRegistry
-from zope.component import getUtility
-
+# -*- coding: utf-8 -*-
+from ..interfaces import IISAWSettings
 from Products.Five.browser.pagetemplatefile import ViewPageTemplateFile
 from plone.app.layout.viewlets.common import ViewletBase
-
-from ..interfaces import IISAWSettings
+from plone.app.textfield.value import RichTextValue
+from plone.registry.interfaces import IRegistry
+from zope.component import getUtility
 
 
 class EmergencyMessage(ViewletBase):
@@ -17,4 +17,7 @@ class EmergencyMessage(ViewletBase):
         closed = self.request.cookies.get("isaw-emergency-read", None)
         if not message or closed:
             message = u''
+        if isinstance(message, RichTextValue):
+            message = message.raw
+
         return message.strip()
