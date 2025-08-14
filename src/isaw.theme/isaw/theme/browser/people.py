@@ -70,7 +70,9 @@ class PeopleViewFolder(PeopleView):
         query['portal_type'] = 'profile'
         folder_path = '/'.join(self.context.getPhysicalPath())
         query['path'] = {'query': folder_path, 'depth': depth}
-
+        query['sort_on'] = 'getObjPositionInParent'
+        query['sort_order'] = 'ascending'
+        portal_catalog
         return portal_catalog(**query)
 
 
