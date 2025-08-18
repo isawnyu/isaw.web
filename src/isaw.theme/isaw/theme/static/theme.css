@@ -1191,10 +1191,21 @@ h2.CVSectionTitle:before {
     list-style: none inside !important;
     padding-left: 2em !important;
     text-indent: -2em !important;
+    margin-top: 0;
+}
+
+.PublicationInfo ul li {    
+    margin-bottom: 0.25em;
+    line-height: 1.5em;
+    display: list-item;
 }
 
 .PublicationLinks {
     margin-bottom: 0.25em;
+}
+.PublicationLinks .label {
+    font-weight: bold;
+    display: inline;
 }
 
 .PublicationCard {
@@ -1723,8 +1734,14 @@ div.leaflet-control-geosearch.leaflet-control {
     text-decoration: none;
 }
 
+a.AccessButton.button{
+    text-transform: lowercase;
+    padding: 8px 12px;
+}
+
 .PublicationLinks a.AccessButton.button {
     margin-bottom: 3px;
+
 }
 
 .template-folder_leadimage_view .tileItem {
