@@ -2010,7 +2010,7 @@ li.portletItem a.tile {
 }
 
 /*fix usercontrolpanel table*/
-body.userrole-manager div#portal-column-content {
-    width:70%;
-    overflow:scroll;
+body.template-usergroup-userprefs div#portal-column-content {
+    width: 70%;
+    overflow: scroll;
 }
