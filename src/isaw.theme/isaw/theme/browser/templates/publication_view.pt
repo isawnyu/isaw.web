@@ -13,10 +13,12 @@
   <metal:core fill-slot="content-core">
 	<tal:defines define="image_view context/@@images;
                        image_preview image_view/image/large|nothing;
+                       image_preview python:image_view.scale('image',width=600, height=728);
                        images view/images">
     <div id="publication-content">
-    <div class="PublicationImage" tal:condition="python:image_preview or images">
-       <span tal:content="structure image_preview" />
+    <div class="PublicationImage" 
+         tal:condition="python:image_preview or images">
+       <span tal:content="structure image_preview/tag" />
        <br />
        <strong tal:content="context/image_caption"></strong>
        <div tal:condition="images">
