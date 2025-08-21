@@ -437,4 +437,15 @@
       import_steps="plone.app.registry"
       />
 
+
+  <genericsetup:upgradeStep
+      sortkey="12"
+      source="50"
+      destination="51"
+      title="Loads new content type Banner"
+      description="loads new conten type banner, installing the collective.banner"
+      profile="isaw.policy:default"
+      handler=".setuphandlers.upgrade_to_51"
+      />
+
 </configure>

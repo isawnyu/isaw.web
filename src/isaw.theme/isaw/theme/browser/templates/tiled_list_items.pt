@@ -1,7 +1,9 @@
 <tal:block tal:define="items view/listings">
  <tal:listings tal:repeat="item items">
   <li tal:define="item_url item/getURL;
-                  image_tag python:view.get_image(item);
+                  scales item/@@images
+                  image_thumb python:scales.scale('image', width=170, height=130);
+                  image_tag image_thumb/tag;
                   title item/Title;
                   exerpt item/Description">
     <a href="#" tal:attributes="href item_url">
