@@ -1206,7 +1206,7 @@ h2.CVSectionTitle:before {
     margin-top: 0;
 }
 
-.PublicationInfo ul li {    
+.PublicationInfo ul li {
     margin-bottom: 0.25em;
     line-height: 1.5em;
     display: list-item;
@@ -2043,4 +2043,68 @@ li.portletItem a.tile {
 body.template-usergroup-userprefs div#portal-column-content {
     width: 70%;
     overflow: scroll;
+}
+
+#portal-slider {
+
+    .portal-banner {
+
+        .bannerText {
+            position: absolute;
+            display: flex;
+            flex-direction: column;
+            gap: .35rem;
+            z-index: 2;
+            top: 40%;
+            width: 50vw;
+            max-width: 50em;
+            padding: 40px 20px 20px;
+            border: none;
+            background: rgba(57, 48, 46, 0);
+            opacity: 0;
+            transition: background-color 1s ease-in-out;
+
+            .bannerTitle {
+                font-size: 24px;
+            }
+
+            .bannerBody > p {
+                color: #fff !important;
+                font-size: 20px;
+            }
+
+            .bannerLink > a {
+                color: #fff !important;
+                font-size: 20px;
+                font-style: italic;
+                text-decoration: none;
+
+                &:hover {
+                    color: #FFB00F !important;
+                    border-bottom: 1px dashed;
+                }
+
+            }
+        }
+    }
+
+    li[class*="_on"] {
+        &:hover {
+            .bannerText {
+                background-color: rgba(57, 48, 46, .8);
+                opacity: 1;
+            }
+        }
+        .bannerText {
+            background: rgba(57, 48, 46, 0.8);
+            opacity: 1;
+
+            &:hover,
+            &:focus-within {
+                background-color: rgba(57, 48, 46, 1);
+                opacity: 1;
+            }
+        }
+
+    }
 }
