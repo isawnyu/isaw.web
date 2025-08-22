@@ -22,6 +22,7 @@
  <property name="klass">isaw.policy.banner.ISAWBanner</property>
  <property name="behaviors">
   <element value="collective.behavior.banner"/>
+  <element value="plone.namefromfilename"/>
  </property>
  <property name="schema"></property>
  <property
