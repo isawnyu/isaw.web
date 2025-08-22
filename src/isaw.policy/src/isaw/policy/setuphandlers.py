@@ -373,5 +373,11 @@ def setup_saml2(context):
 
 def upgrade_to_51(context):
     setup = api.portal.get_tool('portal_setup')
+    qi = getToolByName(context, 'portal_quickinstaller')
+
     setup.runImportStepFromProfile(PROFILE_ID, 'typeinfo')
     setup.runImportStepFromProfile(PROFILE_ID, 'workflow')
+
+    product = 'collective.behavior.banner'
+    if not qi.isProductInstalled(product):
+        qi.installProduct(product)
