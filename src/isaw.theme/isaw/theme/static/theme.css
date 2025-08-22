@@ -2062,3 +2062,63 @@ body.template-usergroup-userprefs div#portal-column-content {
     background-color: rgba(57, 48, 46, 0.8);
     transition: all 0.75s ease-in-out;
 }
+#portal-slider .bannerTitle {
+    margin-bottom: 1em;
+}
+
+#portal-slider .bannerTitle, #portal-slider .bannerDescription {
+    font-size: 20px;
+    letter-spacing: .1px;
+    line-height: 166%;
+    text-transform: none;
+}
+
+
+#portal-slider ul.rslides_tabs.rslides1_tabs {
+    text-align: center;
+    position: relative;
+    top: -35px;
+    line-height: 35px;
+    list-style-type: none;
+    z-index: 99;
+}
+
+#portal-slider ul.rslides_tabs.rslides1_tabs li {
+    display: inline;
+    color: #494949;
+    text-decoration: none;
+    padding: 4px 8px;
+    background: transparent url(++resource++greynote.jpg) repeat-x;
+    border: 1px solid #b8b8b8;
+    font: bold 12px "Lucida Grande", Lucida, Verdana, sans-serif;
+}
+#portal-slider ul.rslides_tabs li a {
+    text-decoration: none;
+    color: inherit;
+}
+
+#portal-slider ul.rslides_tabs li.rslides_here {
+    background: #494949;
+    border: 1px solid black;
+    color: white;
+}
+
+#portal-slider a.rslides_nav   {
+    color: #494949;
+    text-decoration: none;
+    padding: 4px 8px;
+    background: transparent url(++resource++greynote.jpg) repeat-x;
+    border: 1px solid #b8b8b8;
+    font: bold 12px "Lucida Grande", Lucida, Verdana, sans-serif;
+    z-index: 100;
+    position:relative;
+    margin-top:-25px;
+    }
+
+#portal-slider a.rslides_nav.prev {
+    float: left;
+}
+
+#portal-slider a.rslides_nav.next {
+    float: right;
+}
