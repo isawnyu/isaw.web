@@ -1,0 +1,35 @@
+Steps for upgrading existing site:
+
+* bootstrap buildout with python 2.7.18
+* run isaw.web buildout from clean-at-deps branch
+* Make copy of Data.fs
+* start site
+* install and use collective.revisionmanager from plone controlpanel to clean all histories
+  - set purgepolicy to 1
+  - populate stats
+  - clear all revisions
+    - list histories -> click delete orphans
+    - list histories with a big number as b_size /@@histories?b_start:int=1&b_size=5000 and Purge
+* stop the site
+* start zeoserver
+* run bin/client1 run scripts/migrateAT.py (  2>&1|tee migrateAT_log.txt )
+* run bin/client1 run clean_legacy_products.py  ( 2>&1|tee clean_legacy_products_log.txt )
+
+* start the site
+  - do a catalog clear and rebuild from ZMI
+* run bin/zeopack -D 0
+
+* stop zeoserver
+
+Setup isaw on plone51
+
+* bootstrap another buildout with python 2.7.18
+* run isaw.web buildout from plone51 branch
+* copy/move Data.fs and blobstorage from previous step in local var/
+* start site
+* run upgrade plone upgrade steps
+* from ZMI portal_setup/manage tab delete all invalid import steps
+* from ZMI portal_catalog delete image metadata
+* run product upgrade steps
+* enable cache purging
+* enable content rules
