@@ -36,7 +36,8 @@
                     </tal:iframe>
                 </div>
 
-                <div class="bannerText">
+                <div class="bannerText"
+                     tal:condition="python:'banner_title' in banner or 'banner_description' in banner ">
 
                     <div class="bannerTitle"
                          tal:attributes="style string:color:${fontcolor}"
@@ -88,7 +89,9 @@ $(document).ready(function() {
   $(function() {
     $("#portal-slider .items").responsiveSlides({
         speed: 700,
-        timeout: 6000
+        timeout: 6000,
+        pager: true,
+        nav: true
     });
   });
 

@@ -1206,7 +1206,7 @@ h2.CVSectionTitle:before {
     margin-top: 0;
 }
 
-.PublicationInfo ul li {    
+.PublicationInfo ul li {
     margin-bottom: 0.25em;
     line-height: 1.5em;
     display: list-item;
@@ -2043,4 +2043,22 @@ li.portletItem a.tile {
 body.template-usergroup-userprefs div#portal-column-content {
     width: 70%;
     overflow: scroll;
+}
+
+
+
+/* Collective Banner customizations*/
+#portal-slider .bannerText {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    background: rgba(221,221,221,0.3);
+    top: 50%;
+    width: 80vw;
+    max-width: 50em;
+    padding: 40px 20px 20px;
+    border: none;
+    display: table;
+    background-color: rgba(57, 48, 46, 0.8);
+    transition: all 0.75s ease-in-out;
 }
