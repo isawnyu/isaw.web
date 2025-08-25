@@ -5,7 +5,7 @@ from urlparse import urlparse
 from zope.interface import implements
 
 from plone import api as plone_api
-from plone.dexterity import Container
+from plone.dexterity.content import Container
 from Products.Archetypes import atapi
 from Products.ATContentTypes.content import folder
 from Products.ATContentTypes.content import schemata

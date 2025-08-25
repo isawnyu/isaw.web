@@ -64,4 +64,13 @@
       import_steps="plone.app.registry controlpanel"
       />
 
+  <genericsetup:upgradeDepends
+      source="3"
+      destination="4"
+      title="Add Dexterity-based Profile content type"
+      description=""
+      profile="isaw.facultycv:default"
+      import_steps="typeinfo workflow"
+      />
+
 </configure>
