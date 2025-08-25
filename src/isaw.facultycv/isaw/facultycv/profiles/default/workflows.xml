@@ -3,8 +3,8 @@
  <property
     name="title">Contains workflow definitions for isaw.facultycv</property>
  <bindings>
-  <!-- Bind nothing for there content types -->
-  <type type_id="profile"/>
+  <!-- Bind nothing for these content types -->
+  <type type_id="Profile" />
  </bindings>
 </object>
 
