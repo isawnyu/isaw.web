@@ -35,6 +35,8 @@ class TitleListingView(BrowserView):
             self.request['b_size'] = b_size
             query['b_start'] = b_start
             query['b_size'] = b_size
+            query['sort_on'] = 'getObjPositionInParent'
+            query['sort_order'] = 'ascending'
             items = self.context.getFolderContents(contentFilter=query,
                                                    batch=True, b_size=b_size)
         elif self.context.portal_type == 'Topic':
