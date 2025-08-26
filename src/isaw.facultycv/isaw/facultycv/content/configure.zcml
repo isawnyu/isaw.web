@@ -19,13 +19,8 @@
   </class>
 
   <subscriber
-    for="..interfaces.Iprofile
-    Products.Archetypes.interfaces.IObjectInitializedEvent"
-    handler=".actions.initial_setup" />
-
-  <subscriber
-      for="..interfaces.Iprofile
-           Products.Archetypes.interfaces.IObjectEditedEvent"
+      for="..interfaces.profile.IProfile
+           zope.lifecycleevent.interfaces.IObjectModifiedEvent"
       handler=".actions.profile_updated"
       />
 

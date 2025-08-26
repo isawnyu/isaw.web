@@ -149,9 +149,10 @@ def delete_cvs():
     logger.info("Deleted %s CVs" % count)
 
 
-def upgrade_package():
+def upgrade_packages():
     portal_setup = api.portal.get_tool("portal_setup")
     portal_setup.upgradeProfile("isaw.facultycv:default")
+    portal_setup.upgradeProfile("isaw.policy:default")
 
 
 class ProfileMigrator(ATCTFolderMigrator):
@@ -173,11 +174,21 @@ class ProfileMigrator(ATCTFolderMigrator):
         migrate_simplefield(self.old, self.new, 'ExternalURIs', 'external_links')
         migrate_simplefield(self.old, self.new, 'MemberID', 'user_id')
         migrate_simplefield(self.old, self.new, 'NamedLocation', 'named_location')
+    
+    def migrate(self, unittest=0):
+        super(ProfileMigrator, self).migrate(unittest)
+        # Reindex as the very last step
+        self.new.reindexObject()
 
 
 def migrate_profiles():
     portal = api.portal.get()
     migrate(portal, ProfileMigrator)
+
+    redirection_types = portal.portal_redirection.getRedirectionAllowedForTypes()
+    if "Profile" not in redirection_types:
+        redirection_types.append("Profile")
+        portal.portal_redirection.setRedirectionAllowedForTypes(redirection_types)
 
 
 if __name__ == "__main__":
@@ -191,7 +202,7 @@ if __name__ == "__main__":
     # remove bad catalog entries:
     # - /isaw/people/faculty/isaw-faculty/alexander-jones/PMath_cover_thumb.jpeg
     delete_cvs()
-    upgrade_package()
+    upgrade_packages()
     migrate_profiles()
 
     toggleContentRules(status="enabled")

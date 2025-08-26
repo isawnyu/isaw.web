@@ -1,5 +1,6 @@
 from collective import dexteritytextindexer
 from plone.app.textfield import RichText
+from plone.autoform.directives import widget
 from plone.namedfile.field import NamedBlobImage
 from plone.supermodel import model
 from zope import schema
@@ -41,11 +42,10 @@ class IProfile(model.Schema):
         required=False,
     )
 
+    widget("titles", None, rows=3)
     dexteritytextindexer.searchable(
         "titles", "phone", "email", "address", "profile_blurb"
     )
 
-
-# xxx hide description and location
 
 Iprofile = IProfile  # for backward compatibility

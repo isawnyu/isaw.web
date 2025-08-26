@@ -266,7 +266,7 @@ class Profile(Container):
 
     def get_named_location(self):
         """Return the full named location dict from the registry for this profile's NamedLocation identifier, or None."""
-        identifier = self.getNamedLocation()
+        identifier = self.named_location
         if not identifier:
             return None
         record_name = (
@@ -315,3 +315,17 @@ class Profile(Container):
                     break
             info["text"] = text.format(user=user)
         return results
+
+    # backwards-compatible accessors for catalog metadata columns
+
+    @property
+    def Phone(self):
+        return self.phone
+    
+    @property
+    def Email(self):
+        return self.email
+    
+    @property
+    def Titles(self):
+        return self.titles

@@ -248,4 +248,12 @@
     width: 145px;
 }
 
+.portaltype-profile.template-edit #formfield-form-widgets-IDublinCore-description {
+    display: none;
+}
+
+iframe[id="form.widgets.titles_ifr"] {
+    height: 175px;
+}
+
 /* </dtml-with> */
