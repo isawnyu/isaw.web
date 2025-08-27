@@ -9,6 +9,7 @@ from plone.app.contenttypes.migration.field_migrators import (
 from plone.registry.interfaces import IRegistry
 from zope.component import getUtility
 from zope.component.hooks import setSite
+from zope.lifecycleevent import modified
 import logging
 import transaction
 
@@ -174,15 +175,20 @@ class ProfileMigrator(ATCTFolderMigrator):
         migrate_simplefield(self.old, self.new, 'ExternalURIs', 'external_links')
         migrate_simplefield(self.old, self.new, 'MemberID', 'user_id')
         migrate_simplefield(self.old, self.new, 'NamedLocation', 'named_location')
-    
+
+    def migrate_at_uuid(self):
+        super(ProfileMigrator, self).migrate_at_uuid()
+        self.old.reindexObject(idxs=['UID'])
+
     def migrate(self, unittest=0):
         super(ProfileMigrator, self).migrate(unittest)
-        # Reindex as the very last step
-        self.new.reindexObject()
+        # make sure it gets reindexed
+        modified(self.new)
 
 
 def migrate_profiles():
     portal = api.portal.get()
+
     migrate(portal, ProfileMigrator)
 
     redirection_types = portal.portal_redirection.getRedirectionAllowedForTypes()

@@ -70,7 +70,7 @@
       title="Add Dexterity-based Profile content type"
       description=""
       profile="isaw.facultycv:default"
-      import_steps="typeinfo workflow"
+      import_steps="typeinfo repositorytool workflow"
       />
 
 </configure>
