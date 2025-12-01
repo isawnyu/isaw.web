@@ -17,23 +17,22 @@
 <metal:content-core fill-slot="content-core">
     <metal:content-core define-macro="content-core">
         <div class="ProfileContent"
-             tal:define="person_email context/Email|nothing;
-                         person_url context/absolute_url;
-                         has_image python:getattr(context, 'Image', False);
-                         image_url string:${person_url}/@@images/Image/mini;
-                         email context/getEmail|nothing;
-                         phone context/getPhone|nothing;
-                         address context/getAddress|nothing">
+             tal:define="person_url context/absolute_url;
+                         has_image python:getattr(context, 'profileImage', False);
+                         image_url string:${person_url}/@@images/profileImage/mini;
+                         email context/email;
+                         phone context/phone;
+                         address context/address">
             <div class="ProfileHeader">
                 <div class="ProfileImage" tal:condition="has_image">
                     <img src="" alt="" tal:attributes="src image_url" />
                 </div>
                 <div class="ProfileInfo">
                     <h1 class="ProfileName" tal:content="context/Title">Name</h1>
-                    <div class="ProfilePronouns" tal:condition="context/getPronouns|nothing"
-                         tal:content="context/getPronouns" />
-                    <div class="ProfileTitles" tal:condition="context/getTitles|nothing"
-                         tal:content="structure context/getTitles" />
+                    <div class="ProfilePronouns" tal:condition="context/pronouns"
+                         tal:content="context/pronouns" />
+                    <div class="ProfileTitles" tal:condition="context/titles"
+                         tal:content="structure context/titles/output" />
 
                     <div class="ProfileContact" tal:condition="python:email or phone or address">
                         <a tal:condition="email" tal:attributes="href string:mailto:${email}" tal:content="string:${email}">Email</a>
@@ -42,8 +41,10 @@
                     </div>
                 </div>
             </div>
-            <ul class="ProfileLinks discreet" tal:condition="context/profile_links|nothing">
-                <li tal:repeat="link context/profile_links">
+            <ul class="ProfileLinks discreet"
+                tal:define="profile_links context/get_profile_links"
+                tal:condition="profile_links">
+                <li tal:repeat="link profile_links">
                     <a href="#"
                        tal:attributes="href link/link" tal:content="link/text">
                        Text
@@ -52,69 +53,11 @@
             </ul>
 
             <div class="ProfileBlurb"
-                 tal:define="blurb python:context.getField('Profile Blurb').get(context)"
+                 tal:define="blurb context/profileBlurb"
                  tal:condition="blurb"
-                 tal:content="structure blurb">Blurb</div>
+                 tal:content="structure blurb/output">Blurb</div>
         </div>
 
-        <div class="CVInfo" tal:define="cv nocall:context/cv|nothing"
-             tal:condition="nocall:cv">
-            <div class="EducationCV"
-                 tal:condition="cv/getEducation and Degrees">
-                 <h2 class="CVSectionTitle">Education and Degrees</h2>
-                 <div class="CVContent" tal:content="structure cv/getEducation and Degrees">Education</div>
-            </div>
-            <div class="PositionsCV"
-                 tal:condition="cv/getPositions held">
-                 <h2 class="CVSectionTitle">Positions Held</h2>
-                 <div class="Content" tal:content="structure cv/getPositions held">Positions</div>
-             </div>
-            <div class="HonorsCV"
-                 tal:condition="cv/getHonors">
-                 <h2 class="CVSectionTitle">Academic Honors and Awards</h2>
-                 <div class="Content" tal:content="structure cv/getHonors">Academic Honors and Awards</div>
-             </div>
-            <div class="OfficesCV"
-                 tal:condition="cv/getProfessional Offices and Service">
-                 <h2 class="CVSectionTitle">Professional Offices and Service</h2>
-                 <div class="Content" tal:content="structure cv/getProfessional Offices and Service">Professional Offices and Service</div>
-             </div>
-            <div class="ResearchCV"
-                 tal:condition="cv/getResearch and works in progress">
-                 <h2 class="CVSectionTitle">Research</h2>
-                 <div class="Content" tal:content="structure cv/getResearch and works in progress">Research</div>
-             </div>
-            <div class="AwardsCV"
-                 tal:condition="cv/getResearch Awards">
-                 <h2 class="CVSectionTitle">Research Awards</h2>
-                 <div class="Content" tal:content="structure cv/getResearch Awards">Research Awards</div>
-             </div>
-            <div class="CoursesCV"
-                 tal:condition="cv/getList of Courses">
-                 <h2 class="CVSectionTitle">List of Courses taught</h2>
-                 <div class="Content" tal:content="structure cv/getList of Courses">List of Courses Taught</div>
-             </div>
-            <div class="SupervisionCV"
-                 tal:condition="cv/getGraduate Supervision">
-                 <h2 class="CVSectionTitle">Graduate Supervision</h2>
-                 <div class="Content" tal:content="structure cv/getGraduate Supervision">Graduate Supervision</div>
-             </div>
-            <div class="PublicationsCV"
-                 tal:condition="cv/getPublications">
-                 <h2 class="CVSectionTitle">Publications</h2>
-                 <div class="Content" tal:content="structure cv/getPublications">Publications</div>
-             </div>
-            <div class="PapersCV"
-                 tal:condition="cv/getPapers">
-                 <h2 class="CVSectionTitle">Papers</h2>
-                 <div class="Content" tal:content="structure cv/getPapers">Papers</div>
-             </div>
-            <div class="LecturesCV"
-                 tal:condition="cv/getLectures">
-                 <h2 class="CVSectionTitle">Lectures</h2>
-                 <div class="Content" tal:content="structure cv/getLectures">Lectures</div>
-             </div>
-         </div>
     </metal:content-core>
 </metal:content-core>
 

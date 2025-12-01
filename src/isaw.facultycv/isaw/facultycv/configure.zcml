@@ -11,7 +11,6 @@
   <!-- Include the sub-packages that use their own configure.zcml files. -->
   <include package=".browser" />
   <include package=".content" />
-  <include package=".portlets" />
   <i18n:registerTranslations directory="locales" />
 
   <permission
@@ -41,7 +40,7 @@
       name="default"
       title="isaw.facultycv"
       directory="profiles/default"
-      description="isaw.FacultyCV is an educational product that allows one to create curriculum vitae for faculty members. It is along the lines of the products FacultyStaffDirectory and Products.FacultyCV"
+      description="isaw.facultycv is an educational product that allows one to create curriculum vitae for faculty members. It is along the lines of the products FacultyStaffDirectory and Products.FacultyCV"
       provides="Products.GenericSetup.interfaces.EXTENSION"
       />
 
@@ -63,6 +62,15 @@
       description=""
       profile="isaw.facultycv:default"
       import_steps="plone.app.registry controlpanel"
+      />
+
+  <genericsetup:upgradeDepends
+      source="3"
+      destination="4"
+      title="Add Dexterity-based Profile content type"
+      description=""
+      profile="isaw.facultycv:default"
+      import_steps="typeinfo repositorytool workflow"
       />
 
 </configure>

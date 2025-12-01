@@ -9,7 +9,10 @@
 <object name="portal_types" meta_type="Plone Types Tool">
   <!-- -*- extra stuff goes here -*- -->
   <object name="profile"
-    meta_type="Factory-based Type Information with dynamic views" />
+    meta_type="Factory-based Type Information with dynamic views"
+    remove="true" />
   <object name="CV"
-    meta_type="Factory-based Type Information with dynamic views" />
+    meta_type="Factory-based Type Information with dynamic views"
+    remove="true" />
+  <object name="Profile" meta_type="Dexterity FTI" />
 </object>

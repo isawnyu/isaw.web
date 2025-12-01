@@ -1,7 +1,6 @@
-"""Common configuration constants
-"""
+"""Common configuration constants"""
 
-PROJECTNAME = 'isaw.facultycv'
+PROJECTNAME = "isaw.facultycv"
 
 ADD_PERMISSIONS = {
     # -*- extra stuff goes here -*-
