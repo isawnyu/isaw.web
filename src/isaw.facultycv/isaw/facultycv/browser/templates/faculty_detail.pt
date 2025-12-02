@@ -53,7 +53,7 @@
             </ul>
 
             <div class="ProfileBlurb"
-                 tal:define="blurb context/profileBlurb"
+                 tal:define="blurb context/profileBlurb|nothing"
                  tal:condition="blurb"
                  tal:content="structure blurb/output">Blurb</div>
         </div>
