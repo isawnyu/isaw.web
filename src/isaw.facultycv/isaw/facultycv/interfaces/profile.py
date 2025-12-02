@@ -21,7 +21,7 @@ class IProfile(model.Schema):
     phone = schema.TextLine(title=_("Phone"), required=False)
     email = schema.TextLine(title=_("Email"), required=False)
     address = schema.TextLine(title=_("Address Information"), required=False)
-    profile_blurb = RichText(title=_("Profile Blurb"), required=False)
+    profileBlurb = RichText(title=_("Profile Blurb"), required=False)
     external_links = schema.List(
         title=_("External URIs (e.g. VIAF, Facebook, GitHub, etc.)"),
         required=False,
@@ -44,7 +44,7 @@ class IProfile(model.Schema):
 
     widget("titles", None, rows=3)
     dexteritytextindexer.searchable(
-        "titles", "phone", "email", "address", "profile_blurb"
+        "titles", "phone", "email", "address", "profileBlurb"
     )
 
 
