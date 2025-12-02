@@ -36,43 +36,50 @@
                     </tal:iframe>
                 </div>
 
-                <div class="bannerText"
-                     tal:define="
-                     banner_title banner/banner_title|nothing;
-                     banner_desc banner/banner_description|nothing;
-                     banner_link banner/banner_link|nothing;
-                     banner_text banner/banner_text|nothing;
-                     "
-                     tal:condition="python:banner_title or banner_desc or  banner_link or  banner_text">
+                <div class="bannerText">
 
                     <div class="bannerTitle"
                          tal:attributes="style string:color:${fontcolor}"
-                         tal:condition="banner_title">
+                         tal:condition="python:'banner_title' in banner">
                         <span tal:replace="banner/banner_title">Title</span>
                     </div>
 
                     <div class="bannerDescription"
                          tal:attributes="style string:color:${fontcolor}"
-                         tal:condition="banner_desc">
-                        <span tal:replace="banner_desc" />
+                         tal:condition="python:'banner_description' in banner">
+                        <tal:def tal:define="banner_desc banner/banner_description;">
+                            <span tal:replace="banner_desc" />
+                        </tal:def>
                     </div>
 
                     <div class="bannerLink"
                          tal:attributes="style string:color:${fontcolor}"
-                         tal:condition="python:banner_link and 'banner_linktext' in banner">
+                         tal:condition="python:'banner_link' in  banner and 'banner_linktext' in banner and 'banner_title' not in banner">
 
-                        <a href="" title="" tal:attributes="href banner_link; title banner/banner_linktext"
+                        <a href="" title="" tal:attributes="href banner/banner_link; title banner/banner_linktext"
                                             tal:content="banner/banner_linktext">
                             Link
                         </a>
 
                     </div>
+
                     <div class="bannerBody"
                        tal:attributes="style string:color:${fontcolor}"
-                       tal:condition="banner_text">
+                       tal:condition="python:'banner_text' in banner">
                        <span tal:replace="structure banner/banner_text">
                              Text
                        </span>
+                    </div>
+
+                    <div class="bannerLink"
+                         tal:attributes="style string:color:${fontcolor}"
+                         tal:condition="python:'banner_link' in  banner and 'banner_linktext' in banner and 'banner_title' in banner">
+
+                        <a href="" title="" tal:attributes="href banner/banner_link; title banner/banner_linktext"
+                                            tal:content="banner/banner_linktext">
+                            Link
+                        </a>
+
                     </div>
 
                  </div>
@@ -98,9 +105,6 @@ $(document).ready(function() {
         nextText: '<img id="prev-bt" src="++resource++nextII.gif" title="" alt="previous_picture_alt">'
     });
   });
-
-
-
 
 
 });
