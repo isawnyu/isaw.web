@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
 <metadata>
-  <version>50</version>
+  <version>51</version>
   <dependencies>
     <dependency>profile-isaw.theme:default</dependency>
     <dependency>profile-isaw.exhibitions:default</dependency>
@@ -17,5 +17,6 @@
     <dependency>profile-Products.PloneKeywordManager:default</dependency>
 
     <dependency>profile-Products.RedirectionTool:default</dependency>
+    <dependency>profile-collective.behavior.banner:default</dependency>
   </dependencies>
 </metadata>

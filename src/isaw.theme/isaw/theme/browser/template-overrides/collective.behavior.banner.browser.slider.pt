@@ -95,13 +95,17 @@
 
 <script type="application/javascript">
 $(document).ready(function() {
-
   $(function() {
     $("#portal-slider .items").responsiveSlides({
         speed: 700,
-        timeout: 6000
+        timeout: 6000,
+        pager: true,
+        nav: true,
+        prevText: '<img id="prev-bt" src="++resource++prevII.gif" title="" alt="previous_picture_alt">',
+        nextText: '<img id="prev-bt" src="++resource++nextII.gif" title="" alt="previous_picture_alt">'
     });
   });
+
 
 });
 </script>

@@ -2045,66 +2045,78 @@ body.template-usergroup-userprefs div#portal-column-content {
     overflow: scroll;
 }
 
-#portal-slider {
+/* Collective Banner customizations*/
+#portal-slider .bannerText {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    background: rgba(221,221,221,0.3);
+    top: 50%;
+    width: 80vw;
+    max-width: 50em;
+    padding: 40px 20px 20px;
+    border: none;
+    display: table;
+    background-color: rgba(57, 48, 46, 0.8);
+    transition: all 0.75s ease-in-out;
+}
+#portal-slider .bannerTitle {
+    margin-bottom: 1em;
+}
 
-    .portal-banner {
+#portal-slider .bannerTitle, #portal-slider .bannerDescription {
+    font-size: 20px;
+    letter-spacing: .1px;
+    line-height: 166%;
+    text-transform: none;
+}
 
-        .bannerText {
-            position: absolute;
-            display: flex;
-            flex-direction: column;
-            gap: .35rem;
-            z-index: 2;
-            top: 40%;
-            width: 50vw;
-            max-width: 50em;
-            padding: 40px 20px 20px;
-            border: none;
-            background: rgba(57, 48, 46, 0);
-            opacity: 0;
-            transition: background-color 1s ease-in-out;
 
-            .bannerTitle {
-                font-size: 24px;
-            }
+#portal-slider ul.rslides_tabs.rslides1_tabs {
+    text-align: center;
+    position: relative;
+    top: -35px;
+    line-height: 35px;
+    list-style-type: none;
+    z-index: 99;
+}
 
-            .bannerBody > p {
-                color: #fff !important;
-                font-size: 20px;
-            }
+#portal-slider ul.rslides_tabs.rslides1_tabs li {
+    display: inline;
+    color: #494949;
+    text-decoration: none;
+    padding: 4px 8px;
+    background: transparent url(++resource++greynote.jpg) repeat-x;
+    border: 1px solid #b8b8b8;
+    font: bold 12px "Lucida Grande", Lucida, Verdana, sans-serif;
+}
+#portal-slider ul.rslides_tabs li a {
+    text-decoration: none;
+    color: inherit;
+}
 
-            .bannerLink > a {
-                color: #fff !important;
-                font-size: 20px;
-                font-style: italic;
-                text-decoration: none;
+#portal-slider ul.rslides_tabs li.rslides_here {
+    background: #494949;
+    border: 1px solid black;
+    color: white;
+}
 
-                &:hover {
-                    color: #FFB00F !important;
-                    border-bottom: 1px dashed;
-                }
-
-            }
-        }
+#portal-slider a.rslides_nav   {
+    color: #494949;
+    text-decoration: none;
+    padding: 4px 8px;
+    background: transparent url(++resource++greynote.jpg) repeat-x;
+    border: 1px solid #b8b8b8;
+    font: bold 12px "Lucida Grande", Lucida, Verdana, sans-serif;
+    z-index: 100;
+    position:relative;
+    margin-top:-25px;
     }
 
-    li[class*="_on"] {
-        &:hover {
-            .bannerText {
-                background-color: rgba(57, 48, 46, .8);
-                opacity: 1;
-            }
-        }
-        .bannerText {
-            background: rgba(57, 48, 46, 0.8);
-            opacity: 1;
+#portal-slider a.rslides_nav.prev {
+    float: left;
+}
 
-            &:hover,
-            &:focus-within {
-                background-color: rgba(57, 48, 46, 1);
-                opacity: 1;
-            }
-        }
-
-    }
+#portal-slider a.rslides_nav.next {
+    float: right;
 }

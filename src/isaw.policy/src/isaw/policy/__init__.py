@@ -34,7 +34,7 @@ class Registry(Persistent):
     """dummy"""
 
 
-class Dummy(broken.Broken):
+class Dummy(object):
     """dummy"""
 
     def __init__(self, id):
