@@ -1,18 +1,11 @@
 Steps for upgrading existing site:
 
 * bootstrap buildout with python 2.7.18
-* run isaw.web buildout from clean-at-deps branch
-* Make copy of Data.fs
-* start site
-* install and use collective.revisionmanager from plone controlpanel to clean all histories
-  - set purgepolicy to 1
-  - populate stats
-  - clear all revisions
-    - list histories -> click delete orphans
-    - list histories with a big number as b_size /@@histories?b_start:int=1&b_size=5000 and Purge
-* stop the site
+* run isaw.web buildout from migration branch
+* Make a copy of Data.fs
 * start zeoserver
 * run bin/client1 run scripts/migrateAT.py (  2>&1|tee migrateAT_log.txt )
+* do a catalog clean and rebuild
 * run bin/client1 run clean_legacy_products.py  ( 2>&1|tee clean_legacy_products_log.txt )
 
 * start the site

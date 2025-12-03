@@ -317,8 +317,6 @@ def restore_json_references(portal):
                     '/'.join(portal.getPhysicalPath())))
 
 
-
-
 def migrate_default_types():
     patch_ATEvent()
     unlockDavLocks()
@@ -579,6 +577,11 @@ def install_postmigration_products(portal):
         if not pqi.isProductInstalled(prod):
             pqi.installProduct(prod)
 
+def clear_cmfeditions(site):
+    site.portal_historiesstorage._shadowStorage._storage.clear()
+    site.portal_historiesstorage.zvc_repo._histories.clear()
+
+
 
 if __name__ == "__main__":
 
@@ -593,6 +596,8 @@ if __name__ == "__main__":
 
     patch_transform()
     fix_timezones(portal)
+
+    clear_cmfeditions(portal)
 
     migrate_default_types()
 

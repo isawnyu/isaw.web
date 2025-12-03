@@ -134,9 +134,6 @@ def install_postmigration_products(portal):
 def remove_legacy_items(portal):
     pg = portal.portal_catalog
     types = ('CV',
-             # XXX profile should be retained until collective.person will be customized for ISAW
-             'profile',
-
              'TemplatedDocument',
 
              'isaw.bibitems.bibitem',
