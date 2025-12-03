@@ -140,7 +140,8 @@ def remove_legacy_items(portal):
              'TemplatedDocument',
 
              'isaw.bibitems.bibitem',
-             'isaw.policy.location'
+             'isaw.policy.location',
+
              )
     for t in types:
         brains = pg(portal_type=t)
@@ -157,6 +158,57 @@ def remove_legacy_items(portal):
 
             logger.info("{} removing: {}".format(b.portal_type, b.getPath()))
             api.content.delete(obj=obj,  check_linkintegrity=False)
+
+    portal_types = portal.portal_types
+    types_to_remove =(
+        'PressClip',
+        'PressContact',
+        'PressRelease',
+        'PressRoom')
+
+    for t in types_to_remove:
+        if t in portal_types.objectIds():
+            portal_types.manage_delObjects([t])
+            logger.info("Type '{}' removed from portal_types".format(t))
+
+
+def stale_skin_removal(portal):
+
+    portal_skins = portal.portal_skins
+
+    views_to_remove = [
+    'pressroom_content',
+    'pressroom_images',
+    'pressroom_scripts',
+    'pressroom_styles',
+    ]
+
+    for skin_name in portal_skins.getSkinSelections():
+        path = portal_skins.getSkinPath(skin_name)
+        path_list = [p.strip() for p in path.split(',')]
+
+
+        new_path_list = [p for p in path_list if p not in views_to_remove]
+
+        if new_path_list != path_list:
+            portal_skins.addSkinSelection(skin_name, ','.join(new_path_list))
+            logger.info("Skin '{}' updated: {}".format(skin_name, new_path_list))
+
+    directory_views = portal_skins.objectIds()
+
+
+    dv_to_remove = [
+        'pressroom_content',
+        'pressroom_content_2.5',
+        'pressroom_images',
+        'pressroom_scripts',
+        'pressroom_styles',]
+
+    # Elimina tutte le directory view
+    for dv in dv_to_remove:
+        if dv in directory_views:
+            portal_skins.manage_delObjects([dv])
+            logger.info("Removed Directory View: {}".format(dv))
 
 
 
@@ -266,9 +318,11 @@ def clean_easyslider_addon(context):
 
 if __name__ == "__main__":
 
+
     unlockDavLocks()
     toggleCachePurging(status='disabled')
 
+    stale_skin_removal(portal)
     remove_legacy_items(portal)
     clean_old_behaviors(portal)
 
