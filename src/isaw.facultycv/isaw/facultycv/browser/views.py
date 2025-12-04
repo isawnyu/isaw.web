@@ -6,10 +6,6 @@ from Products.CMFCore.utils import getToolByName
 import ho.pisa as pisa
 
 
-class CvView(BrowserView):
-    pass
-
-
 class ProfileView(BrowserView):
     pass
 

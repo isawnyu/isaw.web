@@ -94,7 +94,6 @@
   <record field="purgedContentTypes" interface="plone.app.caching.interfaces.IPloneCacheSettings" name="plone.app.caching.interfaces.IPloneCacheSettings.purgedContentTypes">
     <value>
       <element>ATBlob</element>
-      <element>CV</element>
       <element>Conference</element>
       <element>Event</element>
       <element>Exhibition</element>
