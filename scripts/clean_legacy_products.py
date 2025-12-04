@@ -64,7 +64,6 @@ def uninstall_lecacy_products(portal):
                 'collective.quickupload',
                 'isaw.bibitems',
                 'wildcard.foldercontents',
-                'isaw.facultycv',
                 'Marshall',
                 ]
 
