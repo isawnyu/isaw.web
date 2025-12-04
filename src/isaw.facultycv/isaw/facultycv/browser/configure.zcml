@@ -21,14 +21,6 @@
 
   <browser:page
     for="*"
-    name="profile_view"
-    permission="zope2.View"
-    class=".views.CvView"
-    template="templates/faculty_cv.pt"
-	/>
-
-  <browser:page
-    for="*"
     name="faculty_detail"
     permission="zope2.View"
     class=".views.ProfileView"
