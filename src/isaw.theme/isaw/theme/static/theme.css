@@ -996,6 +996,10 @@ body[class*="isaw-home"][class*="section"][class*="template-document_view"] #edi
     display: block;
 }
 
+.ProfileContent {
+    clear: both;
+}
+
 .ProfileHeader {
     overflow: hidden;
     margin-bottom: 1.5em;

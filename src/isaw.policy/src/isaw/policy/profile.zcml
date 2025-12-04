@@ -430,13 +430,21 @@
 
   <genericsetup:upgradeDepends
       source="40"
+      destination="41"
+      title="Rename profile to Profile"
+      description=""
+      profile="isaw.policy:default"
+      import_steps="plone.app.registry tinymce_settings workflow placeful_workflow"
+      />
+
+  <genericsetup:upgradeDepends
+      source="41"
       destination="50"
       title="Generic Plone51 post upgrade"
       description=""
       profile="isaw.policy:upgrade51"
       import_steps="plone.app.registry"
       />
-
 
   <genericsetup:upgradeStep
       sortkey="12"

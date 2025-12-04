@@ -12,14 +12,6 @@ Install
 =======
 Please see INSTALL.txt located in the docs sub directory.
 
-
-Recommended Usage
-=================
-1. Create a folder where you would like to collect all of your CV information.
-   Title it eg: People, Resume, Faculty CV or some such
-2. Restrict that Folder exclusively to the CV content type.
-3. Start adding CV's!
-
 Design
 ======
 Please see DESIGN.txt located in the docs sub directory.

@@ -15,11 +15,11 @@ python:request.RESPONSE.setHeader('Content-Type',
     </foaf:PersonalProfileDocument>
     <foaf:Person rdf:ID="me">
         <foaf:name tal:content="string:${context/Title}"/>
-        <foaf:mbox tal:attributes="rdf:resource string:mailto:${context/Email}"/>
-        <foaf:phone tal:attributes="rdf:resource string:${context/Phone}"/>
+        <foaf:mbox tal:attributes="rdf:resource string:mailto:${context/email}"/>
+        <foaf:phone tal:attributes="rdf:resource string:${context/phone}"/>
         <foaf:page tal:attributes="rdf:resource string:${context/absolute_url}"/>
-        <foaf:depiction tal:condition="context/Image | nothing" tal:attributes="rdf:resource string:${context/Image/absolute_url}"/>
-        <tal:links repeat="link context/getExternalURIs"><foaf:primaryTopicOf tal:define="link python:link and link.split('|')[0]"
+        <foaf:depiction tal:condition="context/profileImage | nothing" tal:attributes="rdf:resource string:${context/absolute_url}/@@images/profileImage"/>
+        <tal:links repeat="link context/external_links"><foaf:primaryTopicOf tal:define="link python:link and link.split('|')[0]"
                                                                               tal:condition="link"
                                                                               tal:attributes="rdf:resource link" /></tal:links>
         <sy:updatePeriod>weekly</sy:updatePeriod>

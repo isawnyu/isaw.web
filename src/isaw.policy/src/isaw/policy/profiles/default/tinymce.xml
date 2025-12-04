@@ -2,20 +2,17 @@
 <object>
  <resourcetypes>
    <linkable>
-     <element value="CV"/>
      <element value="isaw.exhibitions.object"/>
-     <element value="profile"/>
+     <element value="Profile"/>
    </linkable>
    <containsanchors>
-     <element value="CV"/>
      <element value="isaw.exhibitions.object"/>
-     <element value="profile"/>
+     <element value="Profile"/>
    </containsanchors>
    <allow_captioned_images value="True"/>
    <containsobjects>
-     <element value="CV"/>
      <element value="isaw.exhibitions.object"/>
-     <element value="profile"/>
+     <element value="Profile"/>
    </containsobjects>
    <customplugins>
      <element value="plonebrowser"/>

@@ -12,7 +12,7 @@
 <metal:content-core fill-slot="content-core">
     <metal:content-core define-macro="content-core">
         
-        <div id="people" tal:define="people python:context.getFolderContents(contentFilter={'portal_type': 'profile'})">
+        <div id="people" tal:define="people python:context.getFolderContents(contentFilter={'portal_type': 'Profile'})">
           <tal:faculty>
         
             <div class="facultyListing" tal:repeat="faculty people">

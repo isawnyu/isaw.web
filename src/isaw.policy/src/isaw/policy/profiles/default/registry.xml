@@ -104,7 +104,7 @@
       <element>News Item</element>
       <element>Performance</element>
       <element>Plone Site</element>
-      <!--<element>profile</element>-->
+      <element>Profile</element>
       <element>Seminar</element>
       <element>Sponsored</element>
     </value>

@@ -11,7 +11,7 @@
   <type default_chain="true" type_id="Folder"/>
   <type default_chain="true" type_id="Link"/>
   <type default_chain="true" type_id="News Item"/>
-  <!-- <type default_chain="true" type_id="profile"/> -->
+  <type default_chain="true" type_id="Profile"/>
   <type default_chain="true" type_id="File"/>
  </bindings>
 </object>
