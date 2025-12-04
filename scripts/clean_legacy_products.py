@@ -64,7 +64,6 @@ def uninstall_lecacy_products(portal):
                 'collective.quickupload',
                 'isaw.bibitems',
                 'wildcard.foldercontents',
-                'isaw.facultycv',
                 'Marshall',
                 ]
 
@@ -134,8 +133,6 @@ def install_postmigration_products(portal):
 def remove_legacy_items(portal):
     pg = portal.portal_catalog
     types = ('CV',
-             # XXX profile should be retained until collective.person will be customized for ISAW
-             'profile',
 
              'TemplatedDocument',
 

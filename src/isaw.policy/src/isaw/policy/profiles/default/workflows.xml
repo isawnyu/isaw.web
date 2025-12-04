@@ -21,9 +21,6 @@
  <bound-workflow workflow_id="one_state_workflow"/>
 </type>
 <type type_id="Plone Site"/>
-<type type_id="profile">
- <bound-workflow workflow_id="isaw_intranet_workflow"/>
-</type>
 <type type_id="Profile">
  <bound-workflow workflow_id="isaw_intranet_workflow"/>
 </type>

@@ -41,7 +41,6 @@ newSecurityManager(None, user.__of__(app.acl_users))
 setSite(portal)
 
 NASTY = ('_ATContentTypes__',
-         '_isaw_facultycv__',
          '_collective_easytemplate_',
          '_Add_')
 

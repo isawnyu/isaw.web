@@ -42,7 +42,7 @@ setup(name='isaw.policy',
       install_requires=[
           'setuptools',
           # -*- Extra requirements: -*-
-          #'isaw.facultycv',
+          'isaw.facultycv',
           'isaw.theme',
           'isaw.exhibitions',
           #'isaw.bibitems',

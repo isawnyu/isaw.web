@@ -58,8 +58,8 @@
     />
 
 
-    <!--<class class="Products.ATContentTypes.interface.folder.IATFolder">-->
-        <!--<allow interface="..interfaces.folderview.IFolderView" />-->
-    <!--</class>-->
+    <class class="plone.app.contenttypes.content.Folder">
+        <allow interface="..interfaces.folderview.IFolderView" />
+    </class>
 
 </configure>
