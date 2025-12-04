@@ -22,8 +22,8 @@ class Assignment(base.Assignment):
 
 class Renderer(base.Renderer):
 
-    def update(self, ):
-        self.has_image = getattr(self.context, 'image', None) is not None
+    #def update(self, ):
+        #self.has_image = getattr(self.context, 'image', None) is not None
 
     @property
     def available(self):

@@ -2095,7 +2095,7 @@ body.template-usergroup-userprefs div#portal-column-content {
     color: inherit;
 }
 
-#portal-slider ul.rslides_tabs li.rslides_here {
+#portal-slider ul.rlides_tabs li.rslides_here {
     background: #494949;
     border: 1px solid black;
     color: white;
@@ -2119,4 +2119,10 @@ body.template-usergroup-userprefs div#portal-column-content {
 
 #portal-slider a.rslides_nav.next {
     float: right;
+}
+
+#content .leadImage.newsImageContainer {
+    /*remove standard leadimage viewlet for news because it's rendered as*/
+    /*portlet*/
+    display:none;
 }
