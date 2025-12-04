@@ -5,27 +5,9 @@
 
   <!-- configure your content components here -->
 
-  <class class=".profile.profile">
-    <require
-        permission="zope2.View"
-        interface="..interfaces.Iprofile"
-        />
-  </class>
-  <class class=".cv.CV">
-    <require
-        permission="zope2.View"
-        interface="..interfaces.ICV"
-        />
-  </class>
-
   <subscriber
-    for="..interfaces.Iprofile
-    Products.Archetypes.interfaces.IObjectInitializedEvent"
-    handler=".actions.initial_setup" />
-
-  <subscriber
-      for="..interfaces.Iprofile
-           Products.Archetypes.interfaces.IObjectEditedEvent"
+      for="..interfaces.profile.IProfile
+           zope.lifecycleevent.interfaces.IObjectModifiedEvent"
       handler=".actions.profile_updated"
       />
 

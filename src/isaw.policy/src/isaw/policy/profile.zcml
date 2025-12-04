@@ -419,4 +419,13 @@
       import_steps="propertiestool"
       />
 
+  <genericsetup:upgradeDepends
+      source="40"
+      destination="41"
+      title="Rename profile to Profile"
+      description=""
+      profile="isaw.policy:default"
+      import_steps="plone.app.registry tinymce_settings workflow placeful_workflow"
+      />
+
 </configure>

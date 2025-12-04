@@ -21,15 +21,15 @@ class PeopleView(BrowserView):
         result = []
         for brain in brains:
             profile = brain.getObject()
-            named_location = profile.named_location or {}
+            named_location = profile.get_named_location() or {}
             data = {
                 'id': profile.getId(),
                 'name': profile.Title(),
-                'email': profile.Email or '',
-                'html_blurb': profile.Titles(),
+                'email': profile.email or '',
+                'html_blurb': profile.titles.output if profile.titles else '',
                 'url': profile.absolute_url(),
-                'has_image': getattr(profile, 'Image', False),
-                'image_url': '{}/@@images/Image/mini'.format(
+                'has_image': getattr(profile, 'profileImage', False),
+                'image_url': '{}/@@images/profileImage/mini'.format(
                     profile.absolute_url()
                 ),
                 'latitude': named_location.get('latitude'),
@@ -67,17 +67,18 @@ class PeopleViewFolder(PeopleView):
     def _query(self, depth=1):
         portal_catalog = self.context.portal_catalog
         query = {}
-        query['portal_type'] = 'profile'
+        query['portal_type'] = 'Profile'
         folder_path = '/'.join(self.context.getPhysicalPath())
         query['path'] = {'query': folder_path, 'depth': depth}
-
+        query['sort_on'] = 'getObjPositionInParent'
+        query['sort_order'] = 'ascending'
         return portal_catalog(**query)
 
 
 class PeopleViewCollection(PeopleView):
     """View class for the @@people-view on Collections"""
 
-    def _query(self):
+    def _query(self, depth=None):
         return [
-            b for b in self.context.queryCatalog() if b.portal_type == 'profile'
+            b for b in self.context.queryCatalog() if b.portal_type == 'Profile'
         ]

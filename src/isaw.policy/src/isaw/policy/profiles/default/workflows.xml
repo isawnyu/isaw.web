@@ -34,5 +34,8 @@
 <type type_id="profile">
  <bound-workflow workflow_id="isaw_intranet_workflow"/>
 </type>
+<type type_id="Profile">
+ <bound-workflow workflow_id="isaw_intranet_workflow"/>
+</type>
 </bindings>
 </object>
