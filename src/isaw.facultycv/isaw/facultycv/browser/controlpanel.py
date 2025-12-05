@@ -1,5 +1,5 @@
 from plone.app.registry.browser import controlpanel
-from collective.z3cform.datagridfield import DataGridFieldFactory
+from collective.z3cform.datagridfield.datagridfield import DataGridFieldFactory
 
 from ..interfaces.settings import IISAWFacultyCVSettings
 
