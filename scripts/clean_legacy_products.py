@@ -155,6 +155,7 @@ def remove_legacy_items(portal):
             logger.info("{} removing: {}".format(b.portal_type, b.getPath()))
             api.content.delete(obj=obj,  check_linkintegrity=False)
 
+    logger.info("Removing stale skin layers..")
     portal_types = portal.portal_types
     types_to_remove =(
         'PressClip',
@@ -166,6 +167,17 @@ def remove_legacy_items(portal):
         if t in portal_types.objectIds():
             portal_types.manage_delObjects([t])
             logger.info("Type '{}' removed from portal_types".format(t))
+
+
+    logger.info("Removing nasty objects..")
+    nasty_items = [
+        '/isaw/research/io-figures/objects/snowman/',
+    ]
+    for item_path in nasty_items:
+        obj = api.content.get(path=item_path)
+        if obj is not None:
+            api.content.delete(obj)
+            logger.info('{} removed'.format(item_path))
 
 
 def stale_skin_removal(portal):
@@ -206,6 +218,16 @@ def stale_skin_removal(portal):
             portal_skins.manage_delObjects([dv])
             logger.info("Removed Directory View: {}".format(dv))
 
+def clean_catalog(portal):
+    catalog = portal.portal_catalog
+    columns_to_remove = ['image']
+    schema = list(catalog.schema())
+    logger.info("remove columns from catalog")
+
+    for column in columns_to_remove:
+        if column in schema:
+            catalog.delColumn(column)
+            logger.info('{} column removed'.format(column))
 
 
 def search_clean_portlets(portal, dryrun=True):
@@ -309,7 +331,7 @@ def clean_easyslider_addon(context):
             break
 
     if not found:
-        print("No AddThis-related control panel action found.")
+        print("No easyslieder-related control panel action found.")
 
 
 if __name__ == "__main__":
@@ -327,6 +349,8 @@ if __name__ == "__main__":
     toggleCachePurging(status='enabled')
 
     search_clean_portlets(portal, dryrun=False)
+
+    clean_catalog(portal)
 
     clean_registry_entries(portal)
     clean_easyslider_addon(portal)

@@ -20,9 +20,8 @@ Setup isaw on plone51
 * run isaw.web buildout from plone51 branch
 * copy/move Data.fs and blobstorage from previous step in local var/
 * start site
-* run upgrade plone upgrade steps
 * from ZMI portal_setup/manage tab delete all invalid import steps
-* from ZMI portal_catalog delete image metadata
-* run product upgrade steps
+* from ZMI portal_setup run all products upgrade steps
+* run plone upgrade steps
 * enable cache purging
 * enable content rules
