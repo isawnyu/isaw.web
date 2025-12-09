@@ -268,8 +268,6 @@
       permission="zope2.View"
       />
 
-
-
   <browser:page
       name="people-listing"
       for="plone.app.contenttypes.interfaces.ICollection"
@@ -278,17 +276,19 @@
       layer=".interfaces.IThemeSpecific"
       permission="zope2.View"
       />
+
   <browser:page
       name="people-listing-map"
-      for="plone.app.collection.interfaces.ICollection"
+      for="plone.app.contenttypes.interfaces.ICollection"
       class=".people.PeopleViewCollection"
       template="templates/people_listing_map.pt"
       layer=".interfaces.IThemeSpecific"
       permission="zope2.View"
       />
+
   <browser:page
       name="people-listing-json"
-      for="plone.app.collection.interfaces.ICollection"
+      for="plone.app.contenttypes.interfaces.ICollection"
       class=".people.PeopleViewCollection"
       attribute="people_json"
       layer=".interfaces.IThemeSpecific"
@@ -296,7 +296,7 @@
       />
 
     <browser:menuItem
-        for="plone.app.collection.interfaces.ICollection"
+        for="plone.app.contenttypes.interfaces.ICollection"
         menu="plone_displayviews"
         title="People Listing with Geomap"
         action="@@people-listing-map"

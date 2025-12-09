@@ -105,23 +105,22 @@
 
   <!-- Register types that have lead images as supporting cropping -->
   <configure zcml:condition="installed plone.app.imagecropping">
-    <class class="Products.ATContentTypes.content.topic.ATTopic">
-      <implements interface="plone.app.imagecropping.at.IImageCroppingAT" />
+    <class class="plone.app.contenttypes.content.Document">
+      <implements interface="plone.app.imagecropping.dx.IImageCroppingDX" />
     </class>
 
-    <class class="plone.app.folder.folder.ATFolder">
-      <implements interface="plone.app.imagecropping.at.IImageCroppingAT" />
+    <class class="plone.app.contenttypes.content.Folder">
+      <implements interface="plone.app.imagecropping.dx.IImageCroppingDX" />
     </class>
 
-    <class class="Products.ATContentTypes.content.document.ATDocument">
-      <implements interface="plone.app.imagecropping.at.IImageCroppingAT" />
+    <class class="plone.app.contenttypes.content.Event">
+      <implements interface="plone.app.imagecropping.dx.IImageCroppingDX" />
     </class>
 
-    <class class="Products.ATContentTypes.content.event.ATEvent">
-      <implements interface="plone.app.imagecropping.at.IImageCroppingAT" />
+    <class class="plone.app.contenttypes.content.Collection">
+      <implements interface="plone.app.imagecropping.dx.IImageCroppingDX" />
     </class>
-
-  </configure>
+    </configure>
 
 
 
