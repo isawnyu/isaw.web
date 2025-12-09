@@ -471,7 +471,7 @@ span.captioned, span.captioned * {
 #portal-columns table.invisible, #content table.invisible,
 #portal-columns table.invisible thead tr th, #content table.invisible thead tr th,
 #portal-columns table.invisible tbody tr th, #content table.invisible tbody tr th,
-#portal-columns table.invisible tbody tr td, #content table.invisible tbody tr td {border: none;}
+#portal-columns table.invisible tbody tr td, #content table.invisible tbody tr td {visibility: inherit; border: none;}
 
 #portal-columns table.ploneCalendar thead tr th,  #portal-columns table.ploneCalendar tbody tr td,
 #content table.ploneCalendar thead tr th, #content table.ploneCalendar tbody tr td {padding: 13px; }
