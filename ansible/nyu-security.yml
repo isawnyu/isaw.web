@@ -1,0 +1,84 @@
+---
+
+- hosts: all
+  become: yes
+  become_method: sudo
+  gather_facts: yes
+
+  tasks:
+    - name: Upload InsightVM Files
+      ansible.builtin.copy:
+        src: files/insightvm
+        dest: /var/lib
+        owner: root
+        group: root
+        mode: "0700"
+        force: false
+      tags:
+        - insightvm
+
+    - name: Install InsightVM package
+      apt:
+        deb: /var/lib/insightvm/rapid7-insight-agent_4.0.15.31-1_arm64.deb
+        state: present
+      tags:
+        - insightvm
+
+    - name: Configure and enable agent
+      ansible.builtin.command:
+        cmd: /opt/rapid7/ir_agent/components/insight_agent/4.0.15.31/configure_agent.sh --certificate_package_installation=/var/lib/insightvm -v --attributes="ISAW" --start
+      tags:
+        - insightvm
+
+    - name: Create cortex config directory
+      ansible.builtin.file:
+        path: /etc/panw
+        state: directory
+        owner: root
+        group: root
+        mode: "0700"
+      tags:
+        - cortex
+
+    - name: Install Cortex config
+      ansible.builtin.copy:
+        src: files/cortex/cortex.conf
+        dest: /etc/panw/
+        owner: root
+        group: root
+        mode: "0700"
+      tags:
+        - cortex
+
+    - name: Check that the cytool exists
+      stat:
+        path: /opt/traps/bin/cytool
+      register: cytool_stat
+      tags:
+        - cortex
+
+    - name: Upload Cortex installer to tmp dir
+      ansible.builtin.copy:
+        src: files/cortex/cortex-8.7.0.131661.deb
+        dest: /tmp/
+        owner: root
+        group: root
+        mode: "0700"
+      when: not cytool_stat.stat.exists
+      tags:
+        - cortex
+
+    - name: Install cortex
+      ansible.builtin.apt:
+        deb: /tmp/cortex-8.7.0.131661.deb
+        state: present
+      when: not cytool_stat.stat.exists
+      tags:
+        - cortex
+
+    - name: Remove cortex installer
+      ansible.builtin.file:
+        path: /tmp/cortex-8.7.0.131661.deb
+        state: absent
+      tags:
+        - cortex

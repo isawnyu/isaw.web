@@ -4,19 +4,20 @@
     i18n_domain="isaw.facultycv">
 
   <include package="plone.app.contentmenu" />
+  <include package="plone.app.registry" />
+  <include package="plone.app.controlpanel" />
+
+  <browser:page
+      name="isaw-facultycv-settings"
+      for="Products.CMFPlone.interfaces.IPloneSiteRoot"
+      class=".controlpanel.ISAWFacultyCVControlPanel"
+      permission="plone.app.controlpanel.Overview"
+      />
 
   <browser:resourceDirectory
     name="cvimages"
     directory="icons"
     />
-
-  <browser:page
-    for="*"
-    name="profile_view"
-    permission="zope2.View"
-    class=".views.CvView"
-    template="templates/faculty_cv.pt"
-	/>
 
   <browser:page
     for="*"
@@ -57,8 +58,8 @@
     />
 
 
-    <!--<class class="Products.ATContentTypes.interface.folder.IATFolder">-->
-        <!--<allow interface="..interfaces.folderview.IFolderView" />-->
-    <!--</class>-->
+    <class class="plone.app.contenttypes.content.Folder">
+        <allow interface="..interfaces.folderview.IFolderView" />
+    </class>
 
 </configure>

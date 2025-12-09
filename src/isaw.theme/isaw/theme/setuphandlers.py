@@ -1,6 +1,19 @@
+from .browser.interfaces import IISAWSettings
 from Products.CMFCore.utils import getToolByName
+from isaw.theme.browser.interfaces import IISAWSettings
+from logging import getLogger
+from plone import api
+from plone.app.textfield.value import RichTextValue
+from plone.registry.interfaces import IRegistry
+from zope.component import getUtility
+import six
+
+logger = getLogger(__name__)
 
 #from sixfeetup.utils import helpers as sfutils
+
+
+PROFILE_ID = 'profile-isaw.theme:default'
 
 def setupVarious(context):
 
@@ -57,6 +70,64 @@ def createHomePage(context):
 def set_calendar_types(context):
     ct = getToolByName(context, 'portal_calendar')
     ct.edit_configuration(show_types=('Event',),
-        use_session=False, 
+        use_session=False,
         show_states=('published', 'external', 'internally_published'),
         firstweekday=6)
+
+
+def add_footer_registry_keys(context):
+    """Upgrade step: add footer settings keys to registry."""
+
+    registry = getUtility(IRegistry)
+
+    # Ensure the interface is registered
+    try:
+        registry.forInterface(IISAWSettings)
+    except KeyError:
+        registry.registerInterface(IISAWSettings)
+
+    # Set default values if not already present
+    defaults = {
+        'column_one': u'',
+        'column_two': u'',
+        'disclaimer': u'',
+    }
+
+    settings = registry.forInterface(IISAWSettings)
+    for key, value in defaults.items():
+        if not getattr(settings, key, None):
+            setattr(settings, key, value)
+
+def to_plone_51(context):
+    """ include steps to complete plone51 migration
+
+     - import resource registry
+    """
+    setup = api.portal.get_tool('portal_setup')
+    setup.runImportStepFromProfile(
+         PROFILE_ID, 'plone.app.registry', run_dependencies=False
+     )
+    logger.info('registry updated')
+
+    # convert registry isawsettings into RichValue
+
+    registry = getUtility(IRegistry)
+    settings = registry.forInterface(IISAWSettings, False)
+    fields = [
+              'column_one',
+              'column_two',
+              'disclaimer',
+              'emergency_message',
+              'footer_html',
+              'no_results_message',
+    ]
+    for key in fields:
+        value = getattr(settings, key, u'')
+        if isinstance(value, six.string_types):
+            value = RichTextValue(
+                raw=value,
+                mimeType='text/html',
+                outputMimeType='text/x-html-safe',
+            )
+            setattr(settings, key, value)
+            logger.info('converted {} in RichTextValue'.format(key))

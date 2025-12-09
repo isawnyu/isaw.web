@@ -27,9 +27,9 @@ import transaction
 
 
 
-portal = app.Plone
-
+portal = app.isaw
 logging.getLogger().setLevel(logging.INFO)
+
 for handler in logging.getLogger().handlers:
     handler.setLevel(logging.INFO)
 
@@ -53,16 +53,26 @@ def unlockDavLocks():
 
 
 def uninstall_lecacy_products(portal):
-    PRODUCTS = ['isaw.facultycv',
-                'isaw.bibitems',
-                'Products.Maps',
+    PRODUCTS = [
+                'Maps',
+                'Products.WebServerAuth',
+                'WebServerAuth',
                 'collective.easytemplate',
+                'collective.easyslider',
+                'collective.embedly',
+                'collective.portlet.relateditems',
+                'collective.quickupload',
+                'isaw.bibitems',
+                'wildcard.foldercontents',
+                'Marshall',
                 ]
 
     pqi = portal.portal_quickinstaller
     for PRODUCT in PRODUCTS:
         if pqi.isProductInstalled(PRODUCT):
+            logger.info('uninstalling {}'.format(PRODUCT))
             pqi.uninstallProducts([PRODUCT])
+    logger.info("All legacy products uninstalled ")
 
 
 def toggleCachePurging(status='disabled'):
@@ -74,6 +84,23 @@ def toggleCachePurging(status='disabled'):
     settings.enabled = False if status == 'disabled' else True
 
     transaction.commit()
+
+
+def clean_registry_entries(portal):
+    js_to_remove = ['++resource++plone.formwidget.geolocation/libs.js']
+    css_to_remove = ['++resource++plone.formwidget.geolocation/libs.css',
+                     '++resource++plone.formwidget.geolocation/maps.css',
+                     'PressRoom.css']
+    js_reg = portal.portal_javascripts
+    css_reg = portal.portal_css
+    for res in js_to_remove:
+        if res in js_reg.getResourceIds():
+            js_reg.manage_removeScript(id=res)
+            logger.info("{} removed from {}".format(res, js_reg))
+    for res in css_to_remove:
+        if res in css_reg.getResourceIds():
+            css_reg.manage_removeStylesheet(id=res)
+            logger.info("{} removed from {}".format(res, css_reg))
 
 
 def clean_old_behaviors(portal):
@@ -105,7 +132,13 @@ def install_postmigration_products(portal):
 
 def remove_legacy_items(portal):
     pg = portal.portal_catalog
-    types = ('CV', 'profile', 'isaw.bibitems.bibitem')
+    types = ('CV',
+
+             'TemplatedDocument',
+
+             'isaw.bibitems.bibitem',
+             'isaw.policy.location'
+             )
     for t in types:
         brains = pg(portal_type=t)
         for i, b in enumerate( brains):
@@ -114,7 +147,118 @@ def remove_legacy_items(portal):
             except KeyError:
                 logger.error("error deserializing {}".format(i))
                 continue
+            except AttributeError:
+                logger.error("Object inexistent {} ... uncataloging".format(b.getPath()))
+                pg.uncatalogObject(b.getPath())
+                continue
+
+            logger.info("{} removing: {}".format(b.portal_type, b.getPath()))
             api.content.delete(obj=obj,  check_linkintegrity=False)
+
+
+
+def search_clean_portlets(portal, dryrun=True):
+    from plone.portlets.interfaces import IPortletManager
+    from plone.portlets.interfaces import IPortletAssignmentMapping
+
+    found_log_template = """
+     {path}
+     manager: {manager}
+     id: {id}
+     uid/ref: {uid_ref}
+     action: {action}
+     ==================
+    """
+    def _clean(context,  portlet_interfaces, dryrun=True, reset=False):
+
+        path = '/'.join(context.getPhysicalPath())
+        found = 0
+        for manager_name in ["plone.leftcolumn", "plone.rightcolumn"]:
+            manager = getUtility(
+                IPortletManager, name=manager_name, context=context)
+            mapping = getMultiAdapter(
+                (context, manager), IPortletAssignmentMapping)
+            for id, assignment in mapping.items():
+                for _interface in  portlet_interfaces:
+                    if not _interface.providedBy(assignment):
+                        continue
+
+                    action = dryrun and 'Found' or 'Found and removed '
+                    data = dict(action=action,
+                                manager=manager_name,
+                                id=id,
+                                path=path,
+                                uid_ref=context.__repr__(),
+                                user=api.user.get_current().getId(),
+                                )
+                    logger.info(
+                            found_log_template.format(**data))
+                    found += 1
+                    if not dryrun:
+                        del(mapping[id])
+        return found
+
+
+    portlet_interfaces = []
+    try:
+        from collective.portlet.relateditems.relateditems import IRelatedItems
+        portlet_interfaces.append(IRelatedItems)
+    except:
+        pass
+    try:
+        from collective.quickupload.portlet.quickuploadportlet import IQuickUploadPortlet
+        portlet_interfaces.append(IQuickUploadPortlet)
+    except:
+        pass
+
+    if not portlet_interfaces:
+        logger.info("No portlet interfaces to remove found.")
+        return 0
+
+    pg = portal.portal_catalog
+    brains = pg.unrestrictedSearchResults()
+
+    total = float(len(brains))
+    found = 0
+    for i, b in enumerate(brains):
+        if i > 0 and not i % 100:
+            logger.info('...{:.2f}% completed' .format(i/total*100.0))
+        obj = b.getObject()
+        num_erased = _clean(obj, portlet_interfaces, dryrun=dryrun, )
+        found +=num_erased
+
+    logger.info('\n\n=== finish portlet cleaning. Found {} portlets '.format(
+                total))
+
+
+def clean_easyslider_addon(context):
+
+    registry = portal.portal_registry
+    to_delete = [k for k in registry.records.keys() if 'easyslider' in k.lower()]
+
+    if not to_delete:
+        print("No easyslider registry records found.")
+    else:
+        for key in to_delete:
+            del registry.records[key]
+            print("Deleted registry key:", key)
+
+    # Remove control panel action
+    cp = portal.portal_controlpanel
+
+    actions = list(cp.listActions())
+    found = False
+
+    for index, action in enumerate(actions):
+        _id = "easyslieder"  #SIC
+        if action.id == _id :
+            print("Deleting control panel action:", action.id, "-", action.title)
+            cp.deleteActions([index])
+            found = True
+            break
+
+    if not found:
+        print("No AddThis-related control panel action found.")
 
 
 if __name__ == "__main__":
@@ -126,7 +270,13 @@ if __name__ == "__main__":
     clean_old_behaviors(portal)
 
     uninstall_lecacy_products(portal)
+
     toggleCachePurging(status='enabled')
+
+    search_clean_portlets(portal, dryrun=False)
+
+    clean_registry_entries(portal)
+    clean_easyslider_addon(portal)
 
     transaction.commit()
 

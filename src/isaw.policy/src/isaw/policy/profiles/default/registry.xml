@@ -72,10 +72,10 @@
     </field>
     <value />
   </record>
-  <record field="site_rss_items" interface="Products.CMFPlone.interfaces.syndication.ISiteSyndicationSettings" name="Products.CMFPlone.interfaces.syndication.ISiteSyndicationSettings.site_rss_items">
-    <field type="plone.registry.field.Tuple">
+ <!--< <record field="site_rss_items" interface="Products.CMFPlone.interfaces.syndication.ISiteSyndicationSettings" name="Products.CMFPlone.interfaces.syndication.ISiteSyndicationSettings.site_rss_items">
+    field type="plone.registry.field.Tuple">
       <default>
-        <element>/news/aggregator</element>
+        <element></element>
       </default>
       <description>Paths to folders and collections to link to at the portal root.</description>
       <required>False</required>
@@ -87,19 +87,16 @@
     <value>
       <element>/news/aggregator</element>
     </value>
-  </record>
+  </record>-->
   <record field="cacheStopRequestVariables" interface="plone.app.caching.interfaces.IPloneCacheSettings" name="plone.app.caching.interfaces.IPloneCacheSettings.cacheStopRequestVariables">
     <value>True</value>
   </record>
   <record field="purgedContentTypes" interface="plone.app.caching.interfaces.IPloneCacheSettings" name="plone.app.caching.interfaces.IPloneCacheSettings.purgedContentTypes">
     <value>
-      <element>ATBlob</element>
-      <element>CV</element>
       <element>Conference</element>
       <element>Event</element>
       <element>Exhibition</element>
       <element>Folder</element>
-      <element>ATFolder</element>
       <element>General</element>
       <element>Lecture</element>
       <element>Link</element>
@@ -107,7 +104,7 @@
       <element>News Item</element>
       <element>Performance</element>
       <element>Plone Site</element>
-      <element>profile</element>
+      <element>Profile</element>
       <element>Seminar</element>
       <element>Sponsored</element>
     </value>
@@ -442,14 +439,15 @@
       </field>
       <value>%I:%M %p</value>
     </record>
-    <record interface="plone.app.imagecropping.browser.settings.ISettings" name="plone.app.imagecropping.browser.settings.ISettings.cropping_for">
+    <record interface="plone.app.imagecropping.browser.settings.ISettings"
+            name="plone.app.imagecropping.browser.settings.ISettings.cropping_for">
       <value>
-        <element>header</element>
-        <element>slider</element>
+        <!--<element>header</element>-->
+        <!--<element>slider</element>-->
         <element>large</element>
-        <element>blogtile</element>
+        <!--<element>blogtile</element>-->
         <element>preview</element>
-        <element>featured</element>
+        <!--<element>featured</element>-->
         <element>mini</element>
         <element>thumb</element>
         <element>tile</element>

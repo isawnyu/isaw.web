@@ -12,6 +12,15 @@
       provides="Products.GenericSetup.interfaces.EXTENSION"
       />
 
+
+  <genericsetup:registerProfile
+      name="plone51"
+      title="isaw.policy (Plone51)"
+      directory="profiles/upgrade51"
+      description="Installs the isaw.policy package  in plone51"
+      provides="Products.GenericSetup.interfaces.EXTENSION"
+      />
+
   <!-- profile importStep and upgradeStep declarations will go here -->
   <genericsetup:upgradeDepends
       sortkey="10"
@@ -417,6 +426,34 @@
       description=""
       profile="isaw.policy:default"
       import_steps="propertiestool"
+      />
+
+  <genericsetup:upgradeDepends
+      source="40"
+      destination="41"
+      title="Rename profile to Profile"
+      description=""
+      profile="isaw.policy:default"
+      import_steps="plone.app.registry tinymce_settings workflow placeful_workflow"
+      />
+
+  <genericsetup:upgradeDepends
+      source="41"
+      destination="50"
+      title="Generic Plone51 post upgrade"
+      description=""
+      profile="isaw.policy:upgrade51"
+      import_steps="plone.app.registry"
+      />
+
+  <genericsetup:upgradeStep
+      sortkey="12"
+      source="50"
+      destination="51"
+      title="Loads new content type Banner"
+      description="loads new conten type banner, installing the collective.banner"
+      profile="isaw.policy:default"
+      handler=".setuphandlers.upgrade_to_51"
       />
 
 </configure>

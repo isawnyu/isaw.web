@@ -9,6 +9,10 @@ from dm.zope.saml2.authority import SamlAuthority
 from dm.zope.saml2.entity import EntityByUrl
 from dm.zope.saml2.spsso.plugin import IntegratedSimpleSpssoPlugin
 from isaw.policy import config
+from plone import api
+
+
+PROFILE_ID = 'profile-isaw.policy:default'
 
 
 def install_addons(context):
@@ -364,3 +368,16 @@ def setup_saml2(context):
     if config.IS_PRODUCTION:
         activate_and_prioritize_spsso_auth_plugin(context)
     return True
+
+
+
+def upgrade_to_51(context):
+    setup = api.portal.get_tool('portal_setup')
+    qi = getToolByName(context, 'portal_quickinstaller')
+
+    setup.runImportStepFromProfile(PROFILE_ID, 'typeinfo')
+    setup.runImportStepFromProfile(PROFILE_ID, 'workflow')
+
+    product = 'collective.behavior.banner'
+    if not qi.isProductInstalled(product):
+        qi.installProduct(product)

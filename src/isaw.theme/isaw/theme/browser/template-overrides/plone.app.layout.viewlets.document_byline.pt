@@ -6,7 +6,7 @@
                  mtool python:context.portal_membership;
                  portal_url python:context.portal_url;
                  can_edit python:mtool.checkPermission('Modify portal content', context);
-                 profile_view nocall:context/@@member_profile;
+                 profile_view nocall:context/@@member_profile|nothing;
                  creators here/Creators|nothing;
                  contributors here/Contributors|nothing;"
      tal:condition="python: show and (is_news or can_edit)">
@@ -53,7 +53,8 @@
            title="click here"
            tal:attributes="href string:${portal_url}/search?SearchableText=${searchname};
                            title string:search site for more information about ${fullname}"
-           tal:content="fullname">Grace Hopper</a></span><span tal:condition="not:repeat/contributor/end" tal:omit-tag="">, </span>
+           tal:content="fullname">Grace Hopper</a></span><span tal:condition="not:repeat/contributor/end" tal:omit-tag="">,
+      </span>
     </tal:name>
   </tal:contributors>
 
@@ -61,7 +62,7 @@
                      created context/CreationDate;
                      date python:published or created">
                      <br tal:condition="python:creators or contributors" />
-  <span class="documentPublished"
+    <span class="documentPublished"
         tal:condition="date">
     <span tal:replace="python:view.toLocalizedTime(date,long_format=0)">
       August 16, 2001 at 23:35:59
@@ -75,12 +76,8 @@
           i18n:translate="time_expired">expired</span>
   </tal:expired>
 
-  <span class="contentHistory" id="content-history"
-        tal:condition="view/show_history">
-    |
     <a href="#"
        tal:attributes="href string:${here/absolute_url}/@@historyview"
        i18n:translate="label_history">History</a>
-  </span>
 
 </div>

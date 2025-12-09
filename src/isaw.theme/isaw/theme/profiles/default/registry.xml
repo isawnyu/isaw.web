@@ -1,3 +1,23 @@
 <registry xmlns:i18n="http://xml.zope.org/namespaces/i18n" i18n:domain="isaw.theme">
     <records interface="isaw.theme.browser.interfaces.IISAWSettings" />
+
+  <records prefix="plone.resources/isawjs"
+           interface='Products.CMFPlone.interfaces.IResourceRegistry'>
+    <value key="js">++theme++isaw.theme/js/isaw.js</value>
+    <value key="deps">jquery</value>
+  </records>
+
+  <records prefix="plone.bundles/isaw"
+           interface='Products.CMFPlone.interfaces.IBundleRegistry'>
+    <value key="resources">
+      <element>isawjs</element>
+    </value>
+    <value key="enabled">True</value>
+    <value key="jscompilation">++theme++isaw.theme/js/isaw.js</value>
+    <value key="last_compilation">2024-12-26 00:00:01</value>
+    <value key="depends">plone</value>
+    <value key="merge_with">default</value>
+ </records>
+
+
 </registry>

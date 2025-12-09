@@ -63,15 +63,10 @@
         title="Tiled Listing"
         action="@@tiled-listing"
         description="List folder contents in a 3x3 grid of tiles"
+            layer=".interfaces.IThemeSpecific"
+
         />
 
-    <browser:menuItem
-        for="plone.app.contenttypes.interfaces.ICollection"
-        menu="plone_displayviews"
-        title="Tiled Listing"
-        action="@@tiled-listing"
-        description="List folder contents in a 3x3 grid of tiles"
-        />
 
     <browser:viewlet
         name="isaw.theme.tiled_listing.featured_item"
@@ -107,6 +102,8 @@
         title="Tiled View (alt)"
         action="@@simple-tiled-listing"
         description="List folder contents in a 3x3 grid of tiles"
+            layer=".interfaces.IThemeSpecific"
+
         />
 
     <browser:menuItem
@@ -115,15 +112,8 @@
         title="Tiled View (alt)"
         action="@@simple-tiled-listing"
         description="List folder contents in a 3x3 grid of tiles"
-        />
-
-    <browser:menuItem
-        for="plone.app.contenttypes.interfaces.ICollection"
-        menu="plone_displayviews"
-        title="Tiled View (alt)"
-        action="@@simple-tiled-listing"
-        description="List folder contents in a 3x3 grid of tiles"
-        />
+           layer=".interfaces.IThemeSpecific"
+         />
 
   <browser:page
     name="simple-summary-listing"
@@ -140,7 +130,8 @@
         title="Summary View (alt)"
         action="@@simple-summary-listing"
         description="List folder contents in a simple list"
-        />
+         layer=".interfaces.IThemeSpecific"
+   />
 
     <browser:menuItem
         for="plone.app.contenttypes.interfaces.ICollection"
@@ -148,14 +139,8 @@
         title="Summary View (alt)"
         action="@@simple-summary-listing"
         description="List folder contents in a simple list"
-        />
+            layer=".interfaces.IThemeSpecific"
 
-    <browser:menuItem
-        for="plone.app.contenttypes.interfaces.ICollection"
-        menu="plone_displayviews"
-        title="Summary View (alt)"
-        action="@@simple-summary-listing"
-        description="List folder contents in a simple list"
         />
 
   <!-- Event detail view -->
@@ -185,7 +170,8 @@
         title="Event Listing"
         action="@@event-listing"
         description="List events in single column page"
-        />
+         layer=".interfaces.IThemeSpecific"
+   />
 
     <browser:menuItem
         for="plone.app.contenttypes.interfaces.ICollection"
@@ -193,15 +179,10 @@
         title="Event Listing"
         action="@@event-listing"
         description="List events in single column page"
+            layer=".interfaces.IThemeSpecific"
+
         />
 
-    <browser:menuItem
-        for="plone.app.contenttypes.interfaces.ICollection"
-        menu="plone_displayviews"
-        title="Event Listing"
-        action="@@event-listing"
-        description="List events in single column page"
-        />
 
     <browser:page
         name="event-listing-page"
@@ -221,6 +202,14 @@
     layer=".interfaces.IThemeSpecific"
     template="templates/title_view.pt"
     />
+  <browser:page
+    name="title-listing-map"
+    for="*"
+    permission="zope2.View"
+    class=".title_listing_view.TitleListingView"
+    layer=".interfaces.IThemeSpecific"
+    template="templates/title_view_map.pt"
+    />
 
     <browser:menuItem
         for="plone.app.contenttypes.interfaces.IFolder"
@@ -228,7 +217,9 @@
         title="Title-Only Listing"
         action="@@title-listing"
         description="List folder contents by title only"
-        />
+         layer=".interfaces.IThemeSpecific"
+   />
+
 
     <browser:menuItem
         for="plone.app.contenttypes.interfaces.ICollection"
@@ -236,15 +227,9 @@
         title="Title-Only Listing"
         action="@@title-listing"
         description="List folder contents by title only"
-        />
+          layer=".interfaces.IThemeSpecific"
+  />
 
-    <browser:menuItem
-        for="plone.app.contenttypes.interfaces.ICollection"
-        menu="plone_displayviews"
-        title="Title-Only Listing"
-        action="@@title-listing"
-        description="List folder contents by title only"
-        />
 
   <!-- byline viewlet available on any contentish (non-folder) AT item -->
   <browser:viewlet
@@ -266,6 +251,15 @@
       />
 
   <browser:page
+      name="search"
+      class=".search.ISAWSearch"
+      permission="zope2.View"
+      for="Products.CMFPlone.interfaces.IPloneSiteRoot"
+      template="templates/search.pt"
+      layer=".interfaces.IThemeSpecific"
+      />
+
+  <browser:page
       name="people-listing"
       for="plone.app.contenttypes.interfaces.IFolder"
       class=".people.PeopleViewFolder"
@@ -273,6 +267,8 @@
       layer=".interfaces.IThemeSpecific"
       permission="zope2.View"
       />
+
+
 
   <browser:page
       name="people-listing"
@@ -282,6 +278,30 @@
       layer=".interfaces.IThemeSpecific"
       permission="zope2.View"
       />
+  <browser:page
+      name="people-listing-map"
+      for="plone.app.collection.interfaces.ICollection"
+      class=".people.PeopleViewCollection"
+      template="templates/people_listing_map.pt"
+      layer=".interfaces.IThemeSpecific"
+      permission="zope2.View"
+      />
+  <browser:page
+      name="people-listing-json"
+      for="plone.app.collection.interfaces.ICollection"
+      class=".people.PeopleViewCollection"
+      attribute="people_json"
+      layer=".interfaces.IThemeSpecific"
+      permission="zope2.View"
+      />
+
+    <browser:menuItem
+        for="plone.app.collection.interfaces.ICollection"
+        menu="plone_displayviews"
+        title="People Listing with Geomap"
+        action="@@people-listing-map"
+        description="List person profiles in a folder, with image and profiles Geomap"
+        />
 
     <browser:menuItem
         for="plone.app.contenttypes.interfaces.IFolder"
@@ -289,7 +309,8 @@
         title="People Listing"
         action="@@people-listing"
         description="List person profiles in a folder, with image"
-        />
+          layer=".interfaces.IThemeSpecific"
+  />
 
     <browser:menuItem
         for="plone.app.contenttypes.interfaces.ICollection"
@@ -297,8 +318,20 @@
         title="People Listing"
         action="@@people-listing"
         description="List person profiles in a folder, with image"
-        />
+         layer=".interfaces.IThemeSpecific"
+   />
 
+  <configure package="plone.app.search"
+             zcml:condition="installed plone.app.search">
+    <browser:page
+        name="updated_search"
+        class="isaw.theme.browser.search.ISAWSearch"
+        permission="zope2.View"
+        for="Products.CMFCore.interfaces.IFolderish"
+        template="updated_search.pt"
+        layer="isaw.theme.browser.interfaces.IThemeSpecific"
+        />
+  </configure>
 
   <browser:page
       name="isaw-settings"
@@ -340,7 +373,8 @@
         title="Bibliographic List"
         action="@@bibliographic-list"
         description="List bibliographic entries"
-        />
+         layer=".interfaces.IThemeSpecific"
+   />
 
     <browser:menuItem
         for="plone.app.contenttypes.interfaces.ICollection"
@@ -348,15 +382,8 @@
         title="Bibliographic List"
         action="@@bibliographic-list"
         description="List bibliographic entries"
-        />
-
-    <browser:menuItem
-        for="plone.app.contenttypes.interfaces.ICollection"
-        menu="plone_displayviews"
-        title="Bibliographic List"
-        action="@@bibliographic-list"
-        description="List bibliographic entries"
-        />
+            layer=".interfaces.IThemeSpecific"
+       />
 
   <browser:viewlet
       name="emergency-message"
@@ -388,7 +415,6 @@
     name="libcollection-view"
     for="isaw.policy.interfaces.IISAWLibCollection"
     permission="zope2.View"
-    layer=".interfaces.IThemeSpecific"
     template="templates/libcollection.pt"
     />
 
@@ -417,5 +443,31 @@
                 />
         </configure>
     </configure>
+
+    <browser:viewlet
+          name="isaw-zotero"
+          for="isaw.policy.interfaces.IISAWPublication"
+          manager="plone.app.layout.viewlets.interfaces.IHtmlHead"
+          class=".viewlets.zotero.PublicationZoteroViewlet"
+          permission="zope2.View" />
+
+      <browser:page
+        name="publication-view"
+        for="isaw.policy.interfaces.IISAWPublication"
+        permission="zope2.View"
+        class=".publication.PublicationView"
+        layer=".interfaces.IThemeSpecific"
+        template="templates/publication_view.pt"
+        />
+
+
+      <browser:page
+        name="publication-images"
+        for="isaw.policy.interfaces.IISAWPublication"
+        permission="zope2.View"
+        class=".publication.PublicationImagesView"
+        layer=".interfaces.IThemeSpecific"
+        template="templates/publication_images.pt"
+        />
 
 </configure>

@@ -1,23 +1,23 @@
 <?xml version="1.0"?>
 <metadata>
-  <version>40</version>
+  <version>51</version>
   <dependencies>
     <dependency>profile-isaw.theme:default</dependency>
+    <dependency>profile-isaw.facultycv:default</dependency>
     <dependency>profile-isaw.exhibitions:default</dependency>
-    <!--<dependency>profile-webcouturier.dropdownmenu:default</dependency>-->
-    <dependency>profile-Products.WebServerAuth:default</dependency>
     <dependency>profile-plone.resource:default</dependency>
     <dependency>profile-plone.session:default</dependency>
-    <dependency>profile-collective.portlet.relateditems:default</dependency>
+
     <dependency>profile-Products.CMFPlacefulWorkflow:CMFPlacefulWorkflow</dependency>
-    <dependency>profile-collective.z3cform.datetimewidget:default</dependency>
+
     <dependency>profile-plone.app.caching:default</dependency>
-    <dependency>profile-collective.embedly:default</dependency>
+
     <dependency>profile-plone.app.iterate:plone.app.iterate</dependency>
     <dependency>profile-plone.app.imagecropping:default</dependency>
+
     <dependency>profile-Products.PloneKeywordManager:default</dependency>
-    <dependency>profile-collective.easyslider:default</dependency>
-    <!--<dependency>profile-collective.easytemplate:default</dependency>-->
+
     <dependency>profile-Products.RedirectionTool:default</dependency>
+    <dependency>profile-collective.behavior.banner:default</dependency>
   </dependencies>
 </metadata>

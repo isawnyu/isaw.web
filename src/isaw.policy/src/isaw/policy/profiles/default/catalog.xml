@@ -15,7 +15,11 @@
   <column value="Phone"/>
   <column value="Titles"/>
   <column value="abstract"/>
-  <column value="image"/>
+
+  <!--ref. https://github.com/plone/Products.CMFPlone/issues/4078-->
+  <column value="image" remove="True"/>
+  <!--plone bug-->
+
   <column value="speaker"/>
   <column value="subtitle"/>
   <column value="rsvpRequired"/>

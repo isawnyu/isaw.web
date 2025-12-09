@@ -27,19 +27,23 @@ lib64/
 parts/
 sdist/
 ansible/ansible-playbook
+ansible/files/insightvm/rapid7-insight-agent_4.0.15.31-1_arm64.deb
+ansible/files/cortex/cortex-8.7.0.131661.deb
 var/*
 *.egg-info/
 *.egg
 .installed.cfg
 .mr.developer.cfg
-src/plone.app.users
-src/isaw.bibitems
-src/plone.app.imagecropping
 src/collective.contentleadimage
+src/collective.easyslider/
+src/collective.embedly/
 src/collective.linkcheck
 src/collective.saml2
 src/dm.zope.saml2
-src/collective.embedly
+src/isaw.bibitems
+src/plone.app.imagecropping
+src/plone.app.users
+
 
 # PyInstaller
 #  Usually these files are written by a python script from a template

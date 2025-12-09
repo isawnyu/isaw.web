@@ -123,13 +123,13 @@
                     </h2>
 
                     <p class="tileBody" tal:define="item_portal_type item/portal_type">
-                        <span tal:omit-tag="" tal:condition="python: item_portal_type != 'profile' and not item_description">
+                        <span tal:omit-tag="" tal:condition="python: item_portal_type != 'Profile' and not item_description">
                             &nbsp;
                         </span>
-                        <span class="description" tal:condition="python: item_portal_type == 'profile'" tal:content="structure item/Titles">
+                        <span class="description" tal:condition="python: item_portal_type == 'Profile'" tal:content="structure item/Titles">
                             description
                         </span>
-                        <span class="description" tal:condition="python: item_portal_type != 'profile'" tal:content="item_description">
+                        <span class="description" tal:condition="python: item_portal_type != 'Profile'" tal:content="item_description">
                             description
                         </span>
                     </p>

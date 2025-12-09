@@ -11,7 +11,7 @@ from zope.component import getUtility
 
 TYPE_DEFAULT = u'article'
 TYPE_MAP = {
-    u'profile': u'profile'
+    u'Profile': u'profile'
 }
 
 
@@ -21,8 +21,8 @@ class OpenGraphTagViewlet(ViewletBase):
 
     @property
     def image_field(self):
-        if getattr(self.context, 'portal_type', None) == 'profile':
-            return 'Image'
+        if getattr(self.context, 'portal_type', None) == 'Profile':
+            return 'profileImage'
         return 'image'
 
     def update(self):

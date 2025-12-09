@@ -1,8 +1,20 @@
-from zope.interface import Interface
-from zope import schema
-from zope.viewlet.interfaces import IViewletManager
-
+# -*- coding: utf-8 -*-
+from plone.supermodel import model
 from plone.theme.interfaces import IDefaultPloneLayer
+from zope import schema
+from zope.interface import Interface
+from zope.viewlet.interfaces import IViewletManager
+from isaw.policy import MessageFactory as _
+from plone.autoform import directives
+from plone.app.z3cform.wysiwyg import WysiwygFieldWidget
+from plone.app.textfield import RichText
+from plone.registry.field import PersistentField
+from plone.app.textfield.widget import RichTextFieldWidget
+
+
+
+class RichTextFieldRegistry(PersistentField, RichText):
+    """ persistent registry textfield """
 
 
 class IThemeSpecific(IDefaultPloneLayer):
@@ -83,13 +95,51 @@ DEFAULT_FOOTER_HTML = u"""<div class="contact footer-portlet">
 </div>
 """
 
+
 class IISAWSettings(Interface):
-    emergency_message = schema.Text(title=u"Emergency Message",
+    emergency_message = RichTextFieldRegistry(title=u"Emergency Message",
             description=u"Any text here will be displayed at the top of the site. An empty field means do not display emergency message",
             required=False)
-    footer_html = schema.Text(title=u"Footer HTML",
-            description=u"The full HTML of the site footer",
+
+    no_results_message = RichTextFieldRegistry(title=u'No results message for event search',
+            default=u'<p>There are no upcoming events.</p>')
+
+    footer_html = RichTextFieldRegistry(title=u"Footer HTML (deprecated)",
+            description=u"The full HTML of the site footer (deprecated)",
             required=True,
             default=DEFAULT_FOOTER_HTML)
-    no_results_message = schema.Text(title=u'No results message for event search',
-            default=u'<p>There are no upcoming events.</p>')
+
+    column_one = RichTextFieldRegistry(
+        title=u"Column One",
+        description=u"HTML content for the first footer column.",
+        required=False,
+        missing_value=u'',
+        default=u'',
+    )
+
+    column_two = RichTextFieldRegistry(
+        title=u"Column Two",
+        description=u"HTML content for the second footer column.",
+        required=False,
+        default=u'',
+        missing_value=u'',
+    )
+
+    disclaimer = RichTextFieldRegistry(
+        title=u"Disclaimer",
+        description=u"HTML content for the footer disclaimer.",
+        required=False,
+        default=u'',
+        missing_value=u'',
+    )
+
+    model.fieldset(
+          'Footer',
+          label=_(u"Footer settings"),
+          fields=[
+            'footer_html',
+            'column_one',
+            'column_two',
+            'disclaimer',
+          ]
+      )

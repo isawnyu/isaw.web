@@ -7,9 +7,8 @@
     <link href='//fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,700,300,600,800,400&subset=latin,cyrillic-ext,greek-ext,greek,latin-ext,cyrillic' rel='stylesheet' type='text/css'>
 
     <style type="text/css">@import url("theme.css");</style>
-    <script src="js/awld/lib/requirejs/require.min.js"></script>
-    <script src="js/awld/awld.js"></script>
-	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="++theme++isaw.theme/theme.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
     <script src="js/isaw.js"></script>
 
 </head>
@@ -18,37 +17,35 @@
     <a accesskey="2" href="#content" aria-label="skip to main">Skip to main content</a>
 </aside>
 <div id="visual-portal-wrapper">
-    <script type="text/javascript">
-        awld.init();
-    </script>
-	<header id="portal-top" role="banner">
+
+    <header id="portal-top" role="banner">
         <a href="/" accesskey="1">
             <div class="identity">ISAW</div>
-		    <div id="site-title">Institute for the Study of the Ancient World at NYU</div>
-		    <div id="page-site-title">Institute for the Study of the Ancient World at NYU</div>
+            <div id="site-title">Institute for the Study of the Ancient World at NYU</div>
+            <div id="page-site-title">Institute for the Study of the Ancient World at NYU</div>
         </a>
         <button id="mobile-nav-trigger" class="dialog-trigger" role="button"
-                data-dialog-id="main-navigation" aria-label="Main Menu Toggle">Menu</button>
-		<div id="main-navigation">
+            data-dialog-id="main-navigation" aria-label="Main Menu Toggle">Menu</button>
+        <div id="main-navigation">
             <nav aria-label="Main menu" role="navigation">
-    			<ul id="primary">
-    				<li class="graduate"><a href="#">Graduate Studies</a></li>
-    				<li class="visiting"><a href="#">Visiting Scholars</a></li>
-    				<li class="exhibitions"><a href="#">Exhibitions</a></li>
-    				<li class="events"><a href="#">Events</a></li>
-    			</ul>
+                <ul id="primary">
+                    <li class="graduate"><a href="#">Graduate Studies</a></li>
+                    <li class="visiting"><a href="#">Visiting Scholars</a></li>
+                    <li class="exhibitions"><a href="#">Exhibitions</a></li>
+                    <li class="events"><a href="#">Events</a></li>
+                </ul>
             </nav>
             <nav aria-label="Topbar menu" role="navigation">
-              <span class="secondary-heading"><a href="https://www.nyu.edu">NEW YORK UNIVERSITY</a></span>
-    			<ul id="secondary">
-    				<li><a href="#">About ISAW</a></li>
-    				<li><a href="#">Our People</a></li>
-    				<li><a href="#">Library</a></li>
-    				<li><a href="#">Resources &amp; Publications</a></li>
-    				<li><a href="#">Research</a></li>
-    				<li><a href="#">News</a></li>
-    				<li id="siteaction-search"><button class="dialog-trigger" data-dialog-id="portal-searchbox">Search</button></li>
-    			</ul>
+                <span class="secondary-heading"><a href="https://www.nyu.edu">NEW YORK UNIVERSITY</a></span>
+                    <ul id="secondary">
+                        <li><a href="#">About ISAW</a></li>
+                        <li><a href="#">Our People</a></li>
+                        <li><a href="#">Library</a></li>
+                        <li><a href="#">Resources &amp; Publications</a></li>
+                        <li><a href="#">Research</a></li>
+                        <li><a href="#">News</a></li>
+                        <li id="siteaction-search"><button class="dialog-trigger" data-dialog-id="portal-searchbox">Search</button></li>
+                    </ul>
             </nav>
             <div id="portal-searchbox">
                 <form name="searchform" role="search" aria-label="site search" action="http://isaw.nyu.edu/@@search" id="searchGadget_form">
@@ -67,42 +64,42 @@
                     </div>
                 </form>
             </div>
-		</div>
-	</header><!-- /#portal-top -->
+        </div>
+    </header><!-- /#portal-top -->
 
     <div id="portal-columns" class="three">
-		<div id="viewlet-above-content">
-			<nav id="portal-breadcrumbs" role="navigation" aria-label="breadcrumbs">
-				<span id="breadcrumbs-home"><a href="http://plonedemo.com">Home</a></span> > <span><a href="http://plonedemo.com">Our People</a></span> > <span><a href="http://plonedemo.com">Faculty</a></span>
-			</nav>
-		</div>
+        <div id="viewlet-above-content">
+            <nav id="portal-breadcrumbs" role="navigation" aria-label="breadcrumbs">
+                <span id="breadcrumbs-home"><a href="http://plonedemo.com">Home</a></span> > <span><a href="http://plonedemo.com">Our People</a></span> > <span><a href="http://plonedemo.com">Faculty</a></span>
+            </nav>
+        </div>
 
-		<div id="column-contents">
+        <div id="column-contents">
 
             <aside role="complementary" id="portal-column-first">
-    			<ul id="section-navigation">
-    				<li class="expanded"><a href="#">Faculty</a>
-    					<ul class="submenu">
-    						<li><a href="#">Lorenzo d'Alfonso</a></li>
-    						<li><a href="#">Roger Bagnall</a></li>
-    						<li><a href="#">Roderick B. Campbell</a></li>
-    						<li><a href="#">Sebastian Heath</a></li>
-    						<li><a href="#">Robert G. Hoyland</a></li>
-    						<li><a href="#">Alexander Jones</a></li>
-    						<li><a href="#">Beate Pongratz-Leisten</a></li>
-    						<li><a href="#">Daniel T. Potts</a></li>
-    						<li><a href="#">Sören Stark</a></li>
-    						<li><a href="#">Lillian Lan-ying Tseng</a></li>
-    					</ul>
-    				</li>
-    				<li><a href="#">Affiliated Faculty</a></li>
-    				<li><a href="#">Staff</a></li>
-    				<li><a href="#">Visiting Scholars</a></li>
-    				<li><a href="#">Students</a></li>
-    				<li><a href="#">Alumni</a></li>
-    				<li><a href="#">Senior Fellows</a></li>
-    				<li><a href="#">Research Associates</a></li>
-    			</ul>
+                <ul id="section-navigation">
+                    <li class="expanded"><a href="#">Faculty</a>
+                        <ul class="submenu">
+                            <li><a href="#">Lorenzo d'Alfonso</a></li>
+                            <li><a href="#">Roger Bagnall</a></li>
+                            <li><a href="#">Roderick B. Campbell</a></li>
+                            <li><a href="#">Sebastian Heath</a></li>
+                            <li><a href="#">Robert G. Hoyland</a></li>
+                            <li><a href="#">Alexander Jones</a></li>
+                            <li><a href="#">Beate Pongratz-Leisten</a></li>
+                            <li><a href="#">Daniel T. Potts</a></li>
+                            <li><a href="#">Sören Stark</a></li>
+                            <li><a href="#">Lillian Lan-ying Tseng</a></li>
+                        </ul>
+                    </li>
+                    <li><a href="#">Affiliated Faculty</a></li>
+                    <li><a href="#">Staff</a></li>
+                    <li><a href="#">Visiting Scholars</a></li>
+                    <li><a href="#">Students</a></li>
+                    <li><a href="#">Alumni</a></li>
+                    <li><a href="#">Senior Fellows</a></li>
+                    <li><a href="#">Research Associates</a></li>
+                </ul>
             </aside>
 
             <div id="portal-column-content" class="cell width-3:4 position-0">
@@ -157,22 +154,22 @@
 
                             <div id="plone-document-byline" class="documentByLine">
                                 <span class="documentAuthor">
-                                  by
-                                  <a href="http://localhost:8080/Plone/author/admin">admin</a>
+                                    by
+                                    <a href="http://localhost:8080/Plone/author/admin">admin</a>
                                 </span>
 
-                               <span class="documentModified">
-                                 —
-                                 <span>
-                                   last modified
-                                 </span>
-                                 May 21, 2010 10:02 AM
-                               </span>
+                            <span class="documentModified">
+                                —
+                                <span>
+                                    last modified
+                                </span>
+                                May 21, 2010 10:02 AM
+                            </span>
 
-                               <span id="content-history" class="contentHistory">
-                                 —
-                                 <a href="http://localhost:8080/Plone/front-page/@@historyview" rel="#pb_4" class="link-overlay" style="cursor: pointer;">History</a>
-                               </span>
+                            <span id="content-history" class="contentHistory">
+                                —
+                                <a href="http://localhost:8080/Plone/front-page/@@historyview" rel="#pb_4" class="link-overlay" style="cursor: pointer;">History</a>
+                            </span>
                             </div>
 
                             <div class="documentDescription">
@@ -231,7 +228,7 @@
 
                             <table class="listing" id="someid" summary="Sortable table example">
                                 <!-- By giving a table an ID, it gets the sortable option.
-                                     Use class="nosort" to override on a table or column basis. -->
+                                    Use class="nosort" to override on a table or column basis. -->
                                 <thead>
                                     <tr>
                                         <th>Table heading</th>
@@ -403,14 +400,14 @@
                                     <tbody>
                                         <tr class="odd">
                                             <td>
-                                               <input type="checkbox" class="noborder" name="paths:list" id="#" value="#" />
+                                                <input type="checkbox" class="noborder" name="paths:list" id="#" value="#" />
                                             </td>
                                             <td><a href="#">Title</a></td>
                                             <td>with class noborder</td>
                                         </tr>
                                         <tr class="even">
                                             <td>
-                                               <input type="checkbox" class="noborder" name="paths:list" id="#" value="#" />
+                                                <input type="checkbox" class="noborder" name="paths:list" id="#" value="#" />
                                             </td>
                                             <td><a href="#">Title</a></td>
                                             <td>with class noborder</td>
@@ -427,18 +424,18 @@
                                         <label class="collapser collapsed" for="created">New items since</label>
 
                                         <div class="collapse" style="display: none;">
-                                                <div class="formHelp">
-                                                Return items added since you were last logged on, the last week, etc.
-                                                </div>
+                                            <div class="formHelp">
+                                            Return items added since you were last logged on, the last week, etc.
+                                            </div>
 
 
-                                                <select id="created" name="created:list:date">
-                                                    <option value="2010/09/06 17:50:45.971272 GMT-7">Last log-in</option>
-                                                    <option value="2010/09/05"> Yesterday </option>
-                                                    <option value="2010/08/30"> Last week </option>
-                                                    <option value="2010/08/06"> Last month </option>
-                                                    <option selected="selected" class="default_option" value="1970/02/01"> Ever </option>
-                                                </select>
+                                            <select id="created" name="created:list:date">
+                                                <option value="2010/09/06 17:50:45.971272 GMT-7">Last log-in</option>
+                                                <option value="2010/09/05"> Yesterday </option>
+                                                <option value="2010/08/30"> Last week </option>
+                                                <option value="2010/08/06"> Last month </option>
+                                                <option selected="selected" class="default_option" value="1970/02/01"> Ever </option>
+                                            </select>
 
                                         </div>
 
@@ -467,12 +464,12 @@
                 </div> <!-- /div."" (mystery div) -->
             </div> <!-- /#portal-column-content -->
             <aside id="portal-column-second" role="complementary">
-    			<dl class="portlet">
-    				<dd class="portletItem">
-    					<img src="images/test.png" alt="Image Title" />
-    					<div class="caption">The earliest attempt to reconstruct the Mechanism (Albert Rehm, 1905).Credit: Bayerische Staatsbibliothek, Rehmiana III/7. Used with permission.</div>
-    				</dd>
-    			</dl>
+                <dl class="portlet">
+                    <dd class="portletItem">
+                        <img src="images/test.png" alt="Image Title" />
+                        <div class="caption">The earliest attempt to reconstruct the Mechanism (Albert Rehm, 1905).Credit: Bayerische Staatsbibliothek, Rehmiana III/7. Used with permission.</div>
+                    </dd>
+                </dl>
             </aside><!-- /portal-column-second -->
 
         </div> <!-- /#column-contents -->
@@ -481,7 +478,7 @@
         <div class="visualClear"></div>
     </div> <!-- /#portal-columns -->
 
-	<div class="visualClear"></div>
+    <div class="visualClear"></div>
 
     <div class="footer-row">
     </div>

@@ -1,0 +1,58 @@
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en"
+      xmlns:tal="http://xml.zope.org/namespaces/tal"
+      xmlns:metal="http://xml.zope.org/namespaces/metal"
+      xmlns:i18n="http://xml.zope.org/namespaces/i18n"
+      lang="en"
+      metal:use-macro="context/main_template/macros/master"
+      i18n:domain="plone">
+
+<body>
+
+  <metal:content-core fill-slot="content-core">
+	<metal:content-core define-macro="content-core">
+    <div>
+        <!--  <p>All objects in the exhibition date to the later phases of the Temple Period, ca. 3600–2500 BCE.
+            <br /><br />
+
+            HM–NMA: Heritage Malta–National Museum of Archaeology
+            HM–GMA: Heritage Malta–Gozo Museum of Archaeology
+            <br /><br />
+
+            Several of the entries below refer to multiple objects.</p> -->
+
+    <tal:foldercontents define="
+        folderContents python:view.batch();
+	batch folderContents;">
+    <div style="-moz-column-count:2; -webkit-column-count:2; column-count:2; ">
+	<tal:highlights>
+	    <div tal:repeat="highlights batch">
+		<div style="padding:5px; display:inline-block;">
+		   <div class="tileItem visualIEFloatFix">
+
+			<img style="float: right; margin: 0.5em 1em 0em;" alt=""
+                         tal:attributes="src string:${highlights/getURL}/@@images/image/tile" />
+
+			<h5 class="tileHeadline"
+                        metal:define-macro="listitem" tal:content="highlights/Title"></h5>
+
+		    </div>
+
+		    <div style="font:10px Arial, sans-serif;">
+			<p class="tileBody">
+			    <span class="description" tal:content="structure highlights/Description" />
+			</p>
+
+			<div class="visualClear"><!-- --></div>
+		    </div>
+		</div>
+	    </div>
+	</tal:highlights>
+    </div>
+    <div metal:use-macro="context/batch_macros/macros/navigation"></div>
+  </tal:foldercontents>
+  </div>
+ 	</metal:content-core>
+  </metal:content-core>
+
+</body>
+</html>

@@ -39,7 +39,7 @@
                                          firstClass python:isFirst and 'firstDay' or '';
                                          lastClass python:isLast and 'lastDay' or ''"
                     tal:content="python:weekday[0]"
-                    al:attributes="class string: ${firstClass} ${lastClass};
+                    tal:attributes="class string: ${firstClass} ${lastClass};
                                              title python:weekday[1]">Su</th>
               </tal:data></tr>
             </thead>

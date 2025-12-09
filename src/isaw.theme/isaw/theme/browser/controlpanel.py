@@ -1,8 +1,5 @@
-from plone.app.registry.browser import controlpanel
-from plone.app.z3cform.wysiwyg import WysiwygFieldWidget
-
 from .interfaces import IISAWSettings
-
+from plone.app.registry.browser import controlpanel
 
 class ISAWSettingsEditForm(controlpanel.RegistryEditForm):
 
@@ -12,9 +9,6 @@ class ISAWSettingsEditForm(controlpanel.RegistryEditForm):
 
     def updateFields(self):
         super(ISAWSettingsEditForm, self).updateFields()
-        self.fields['emergency_message'].widgetFactory = WysiwygFieldWidget
-        self.fields['footer_html'].widgetFactory = WysiwygFieldWidget
-        self.fields['no_results_message'].widgetFactory = WysiwygFieldWidget
 
 
 class ISAWSettingsControlPanel(controlpanel.ControlPanelFormWrapper):

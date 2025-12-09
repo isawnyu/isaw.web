@@ -1,6 +1,6 @@
 <span class="annotation" tal:content="view/lefttext">next exhibit</span>
 <dl class="portlet portletFeatured"
-    il8n:domain="isaw.theme">
+    i18n:domain="isaw.theme">
 
     <dt class="portletHeader">
         <span class="portletTopLeft"></span>

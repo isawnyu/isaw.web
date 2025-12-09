@@ -31,12 +31,12 @@
           role="search"
           aria-label="site search"
           action="@@search"
-          class="searchPage enableAutoFocus"
+          class="searchPage enableAutoFocus pat-formautofocus"
           tal:define="portal context/@@plone_portal_state/portal;
                       first_call not:request/advanced_search|nothing;
                       st python:request.get('SearchableText', '');
                       DateTime python:modules['DateTime'].DateTime;
-                      navigation_root_url view/navroot_url;"> 
+                      navigation_root_url view/navroot_url;">
 
         <input type="hidden" name="advanced_search" value="False" />
         <input type="hidden" name="sort_on" value="" />
@@ -98,13 +98,14 @@
 
                 <div id="search-results-bar">
                     <span i18n:translate="batch_x_items_matching_your_criteria" i18n:domain="plone">
-                        <strong i18n:name="number" id="search-results-number"
+                        <strong i18n:name="number" id="results-count"
                                 tal:content="batch/sequence_length|string:0">234</strong>
                         items matching your search terms.
                     </span>
 
-                    <dl class="actionMenu deactivated"
-                        tal:attributes="class python:view.show_advanced_search() and 'actionMenu activated' or 'actionMenu deactivated'">
+
+                    <dl class="actionMenu"
+                        tal:attributes="class python:view.show_advanced_search() and 'actionMenu activated' or 'actionMenu'">
 
                       <dt class="actionMenuHeader">
                           <a href="#"
@@ -147,7 +148,7 @@
                                       </span>
                                       <br />
                                       <div style="float:left; margin-right: 2em;"
-                                           tal:define="typeLists python:context.createMultiColumnList(types_list, numCols=2, sort_on='self');"
+                                           tal:define="typeLists python:[types_list]"
                                            tal:attributes="style python:isRTL and 'float: right;; margin-left: 2em;;' or 'float: left;; margin-right: 2em;;';"
                                            tal:repeat="sublist typeLists">
                                           <tal:items repeat="type sublist">
@@ -223,9 +224,10 @@
                                   </div>
 
                                   <div class="formControls">
-                                      <input class="searchPage searchButton allowMultiSubmit"
+                                      <input class="searchPage searchButton allowMultiSubmit hidden"
                                              type="submit"
                                              value="Search"
+                                             style="display:none;"
                                              i18n:attributes="value label_search;"/>
                                   </div>
 
@@ -271,11 +273,14 @@
                                        tal:define="isAnon context/@@plone_portal_state/anonymous;
                                                    toLocalizedTime nocall: context/@@plone/toLocalizedTime;
                                                    site_properties context/portal_properties/site_properties;
-                                                   use_view_action site_properties/typesUseViewActionInListings|python:();">
+                                                   use_view_action site_properties/typesUseViewActionInListings|python:();
+                                                   image_scale portal/@@image_scale">
                           <dl class="searchResults">
                               <tal:results repeat="item batch">
-                                    <dt tal:attributes="class item/ContentTypeClass">
-                                      <img tal:replace="structure item/getIcon" />
+                                    <dt tal:define="hasIcon item/getIcon"
+                                        tal:attributes="class item/ContentTypeClass">
+                                      <img tal:condition="hasIcon"
+                                           tal:replace="structure python: image_scale.tag(item, 'image', scale='icon', css_class='thumb-icon')">
                                       <a href="#"
                                          tal:define="item_url item/getURL;
                                                      item_type item/PortalType"
@@ -353,7 +358,8 @@
 
         <div class="visualClear"><!-- --></div>
     </form>
-
+    <script type="text/javascript" src="${context/portal_url}/++resource++search.js">
+    </script>
   </div>
 
 </body>

@@ -319,6 +319,7 @@
       import_steps="portlets"
       />
 
+  <!-- AWLD is no longer available in basecode. leaving for history
   <genericsetup:upgradeDepends
       sortkey="10"
       source="30"
@@ -327,7 +328,7 @@
       description=""
       profile="isaw.theme:default"
       import_steps="tinymce_settings jsregistry"
-      />
+      />-->
 
   <genericsetup:upgradeDepends
       sortkey="10"
@@ -358,5 +359,22 @@
       profile="isaw.theme:default"
       import_steps="typeinfo"
       />
+
+  <genericsetup:upgradeStep
+        title="Add footer settings to registry"
+        description="Adds column_one, column_two, and disclaimer keys to the registry"
+        source="34"
+        destination="35"
+        handler=".setuphandlers.add_footer_registry_keys"
+      profile="isaw.theme:default"
+    />
+  <genericsetup:upgradeStep
+        title="Upgrade to Plone51"
+        description="Adds resource registry resources..."
+        source="35"
+        destination="36"
+        handler=".setuphandlers.to_plone_51"
+      profile="isaw.theme:default"
+    />
 
 </configure>

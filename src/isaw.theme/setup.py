@@ -26,11 +26,7 @@ setup(name='isaw.theme',
       install_requires=[
           'setuptools',
           # -*- Extra requirements: -*-
-#          'sixfeetup.utils',
-          'collective.addthis',
-          #'webcouturier.dropdownmenu',
           'plone.app.theming',
-          'collective.navigationtoggle',
           'Products.ZCatalog>=3.0.2',
       ],
       entry_points="""

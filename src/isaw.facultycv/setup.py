@@ -64,6 +64,8 @@ setup(name='isaw.facultycv',
         'Reportlab >= 2.4',
         'html5lib >= 0.90',
         'pyPdf >= 1.12',
+        'collective.z3cform.datagridfield',
+
       ],
       tests_require=tests_require,
       extras_require=dict(tests=tests_require),

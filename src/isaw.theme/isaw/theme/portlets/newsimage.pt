@@ -12,18 +12,19 @@
       tal:define="ctxt nocall:view/context">
 
     <div class="newsImageContainer"
-         tal:condition="ctxt/getImage|nothing">
-        <a href="#"
+         tal:condition="view/has_image|nothing"
+         tal:define="image_caption  python: getattr(context, 'image_caption', None)">        <a href="#"
            tal:define="here_url ctxt/@@plone_context_state/object_url;"
-           tal:attributes="href string:${here_url}/image/image_view_fullscreen"
-           id="parent-fieldname-image">
+           tal:attributes="href string:${here_url}/@@images/image/large"
+           id="parent-fieldname-image"
+           class="link-overlay">
            <img class="newsImage"
                 tal:attributes="src string:${here_url}/@@images/image/preview;
-                                alt python:ctxt.getField('image_alt').get(ctxt)" src="" alt="" />
+                                alt python:image_caption" src="" alt="" />
         </a>
-        <p class="discreet" tal:define="caption ctxt/getImageCaption|nothing"
-           tal:condition="caption">
-           <span tal:content="caption">Caption</span>
+        <p class="discreet"
+           tal:condition="image_caption">
+           <span tal:content="image_caption">Caption</span>
         </p>
     </div>
   </dd>

@@ -6,10 +6,6 @@ from Products.CMFCore.utils import getToolByName
 #from xhtml2pdf import pisa
 
 
-class CvView(BrowserView):
-    pass
-
-
 class ProfileView(BrowserView):
     pass
 
@@ -49,7 +45,7 @@ class PeopleView(BrowserView):
         self.portal_catalog = getToolByName(context, 'portal_catalog')
 
     def getFacultyList(self, limit=10):
-        return self.portal_catalog(portal_type='profile',
+        return self.portal_catalog(portal_type='Profile',
                                    review_state='external')[:limit]
 
 

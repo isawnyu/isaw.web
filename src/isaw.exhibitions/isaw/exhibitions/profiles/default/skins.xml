@@ -2,16 +2,8 @@
 <object name="portal_skins" allow_any="False" cookie_persistence="False"
    default_skin="NYU ISAW Theme">
 
- <object name="isaw_exhibitions_templates"
-    meta_type="Filesystem Directory View"
-    directory="isaw.exhibitions:skins/isaw_exhibitions_templates"/>
-
- <skin-path name="ISAW Exhibitions" based-on="Plone Default">
- </skin-path>
- 
  <skin-path name="*">
- <layer name="isaw_exhibitions_templates"
-     insert-after="custom"/>
-</skin-path>
+  <layer name="isaw_exhibitions_templates" remove="True" />
+ </skin-path>
 
 </object>
