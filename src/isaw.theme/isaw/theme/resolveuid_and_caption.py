@@ -7,9 +7,25 @@ from urlparse import urlsplit
 
 from plone.outputfilters.interfaces import IFilter
 from plone.outputfilters.filters.resolveuid_and_caption import (
+    IImageCaptioningEnabler,
+    IResolveUidsEnabler,
     ResolveUIDAndCaptionFilter,
     resolveuid_re,
 )
+
+
+@implementer(IResolveUidsEnabler)
+class AlwaysResolveUidsEnabler(object):
+    @property
+    def available(self):
+        return True
+
+
+@implementer(IImageCaptioningEnabler)
+class AlwaysImageCaptioningEnabler(object):
+    @property
+    def available(self):
+        return True
 
 
 @implementer(IFilter)
@@ -52,16 +68,32 @@ class WCAGResolveUIDAndCaptionFilter(ResolveUIDAndCaptionFilter):
                 src = attributes.get('src', '')
                 image, fullimage, src, description = self.resolve_image(src)
                 attributes["src"] = src
-                # use title to get caption, if any
-                caption = attributes.get('title', '')
-                # no title attribute for images
-                if 'title' in attributes:
-                    del attributes['title']
-                # Check if the image needs to be captioned
-                if (self.captioned_images and image is not None and caption
-                    and 'captioned' in attributes.get('class', '').split(' ')):
+                # use title/data-caption/alt to get caption, if any
+                caption = attributes.get('title', '') or attributes.get('data-caption', '') or attributes.get('alt', '')
+                for key in ('title', 'data-caption'):
+                    if key in attributes:
+                        del attributes[key]
+                wants_caption = (
+                    self.captioned_images
+                    and image is not None
+                    and (caption or 'captioned' in attributes.get('class', '').split(' '))
+                )
+                if wants_caption:
+                    if not caption and fullimage is not None:
+                        if hasattr(fullimage, 'Description'):
+                            caption = fullimage.Description() or caption
+                        if not caption and hasattr(fullimage, 'Title'):
+                            caption = fullimage.Title() or caption
+                    if 'alt' not in attributes:
+                        attributes['alt'] = caption or description or ''
+                    # provide width if missing so template can size
+                    if 'width' not in attributes and image is not None:
+                        attributes['width'] = getattr(image, 'width', None) or getattr(fullimage, 'width', None) or ''
+                    # provide height if missing so consumers can honor aspect
+                    if 'height' not in attributes and image is not None:
+                        attributes['height'] = getattr(image, 'height', None) or getattr(fullimage, 'height', None) or ''
                     self.handle_captioned_image(attributes, image, fullimage,
-                                                caption)
+                                                caption or u'')
                     return True
                 if fullimage is not None:
                     # Check to see if the alt / title tags need setting
