@@ -13,6 +13,16 @@
   <include file="skins.zcml" />
   <include file="profiles.zcml" />
 
+  <!-- Enable resolveuid and caption filters -->
+  <utility
+      provides="plone.outputfilters.filters.resolveuid_and_caption.IResolveUidsEnabler"
+      component=".resolveuid_and_caption.AlwaysResolveUidsEnabler"
+      />
+  <utility
+      provides="plone.outputfilters.filters.resolveuid_and_caption.IImageCaptioningEnabler"
+      component=".resolveuid_and_caption.AlwaysImageCaptioningEnabler"
+      />
+
   <plone:static directory="static" type="theme" />
 
   <browser:page name="theme-enabled"
