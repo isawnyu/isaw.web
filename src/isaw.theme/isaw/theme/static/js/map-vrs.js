@@ -25,7 +25,7 @@
 
     /* plot alumni locations */
     var vrsIcon = L.icon({
-        iconUrl: base_url+'/++theme++isaw.theme/images/person-sharp.svg',
+        iconUrl: PORTAL_URL+'/++theme++isaw.theme/images/person-sharp.svg',
         iconSize:     [26, 26], // size of the icon
         iconAnchor:   [13, 13], // point of the icon which will correspond to marker's location
     });
