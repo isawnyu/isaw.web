@@ -279,6 +279,15 @@
 
   <browser:page
       name="people-listing-map"
+      for="plone.app.contenttypes.interfaces.IFolder"
+      class=".people.PeopleViewFolder"
+      template="templates/people_listing_map.pt"
+      layer=".interfaces.IThemeSpecific"
+      permission="zope2.View"
+      />
+
+  <browser:page
+      name="people-listing-map"
       for="plone.app.contenttypes.interfaces.ICollection"
       class=".people.PeopleViewCollection"
       template="templates/people_listing_map.pt"
@@ -290,6 +299,14 @@
       name="people-listing-json"
       for="plone.app.contenttypes.interfaces.ICollection"
       class=".people.PeopleViewCollection"
+      attribute="people_json"
+      layer=".interfaces.IThemeSpecific"
+      permission="zope2.View"
+      />
+  <browser:page
+      name="people-listing-json"
+      for="plone.app.contenttypes.interfaces.IFolder"
+      class=".people.PeopleViewFolder"
       attribute="people_json"
       layer=".interfaces.IThemeSpecific"
       permission="zope2.View"

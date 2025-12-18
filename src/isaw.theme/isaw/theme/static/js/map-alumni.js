@@ -25,7 +25,7 @@
 
     /* plot people locations */
     var alumIcon = L.icon({
-        iconUrl: base_url+'/++theme++isaw.theme/images/school-sharp.svg',
+        iconUrl: PORTAL_URL+'/++theme++isaw.theme/images/school-sharp.svg',
         iconSize:     [26, 26], // size of the icon
         iconAnchor:   [13, 13], // point of the icon which will correspond to marker's location
     });
