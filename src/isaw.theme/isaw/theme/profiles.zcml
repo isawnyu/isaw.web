@@ -377,4 +377,15 @@
       profile="isaw.theme:default"
     />
 
+  <genericsetup:upgradeDepends
+      sortkey="10"
+      source="36"
+      destination="37"
+      title="Tile listing on collection and folder. Image cropping behavior"
+      description=""
+      profile="isaw.theme:default"
+      import_steps="typeinfo"
+      />
+
+
 </configure>
