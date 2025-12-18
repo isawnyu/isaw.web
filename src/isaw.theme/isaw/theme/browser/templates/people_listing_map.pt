@@ -29,12 +29,22 @@
       <metal:block fill-slot="javascript_head_slot"
                    tal:define="navroot context/@@plone_portal_state/navigation_root_url;
                                base string:${navroot}/++theme++isaw.theme">
+          <script>
+            // Temporarily hide define to prevent AMD detection
+            window.tempDefine = window.define;
+            window.define = undefined;
+          </script>
           <script src="../dist/leaflet@1.9.4/leaflet.js"
                   tal:attributes="src string:${base}/js/leaflet@1.9.4/leaflet.js"></script>
           <script src="../dist/leaflet.markercluster@1.5.3/leaflet.markercluster.js"
                   tal:attributes="src string:${base}/js/leaflet.markercluster@1.5.3/leaflet.markercluster.js"></script>
-           <script src="../js/resetbounds.js"
+          <script src="../js/resetbounds.js"
                   tal:attributes="src string:${base}/js/resetbounds.js"></script>
+          <script>
+            // Restore define
+            window.define = window.tempDefine;
+            window.tempDefine = undefined;
+          </script>
       </metal:block>
     </tal:map_resources>
 </head>
