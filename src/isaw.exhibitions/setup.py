@@ -60,7 +60,7 @@ setup(name='isaw.exhibitions',
                         'collective.dexteritytextindexer',
                         # Enable references, versioning, and iterate
                         'plone.app.relationfield',
-                        'plone.app.referenceablebehavior',
+                        #'plone.app.referenceablebehavior',
                         'plone.app.versioningbehavior',
                         #'plone.app.stagingbehavior',
                         ],

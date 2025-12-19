@@ -10,7 +10,8 @@
 
   <five:registerPackage package="." initialize=".initialize" />
 
-  <includeDependencies package="." />
+  <!--<includeDependencies package="." />-->
+  <include package="dm.zope.saml2" />
 
   <!-- These two need to be included explicitly for some reason: -->
   <include package="Products.CMFPlacefulWorkflow" />

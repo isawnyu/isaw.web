@@ -1,14 +1,11 @@
-from cgi import escape
-from xml.sax.saxutils import quoteattr
-
 from OFS.Image import Image
-from Products.Archetypes.Field import ImageField
 from Products.PluginIndexes.UUIDIndex.UUIDIndex import UUIDIndex
-#from Products.TinyMCE.utility import TinyMCE
+from html import escape
 from plone.namedfile.scaling import ImageScale
 from plone.protect.interfaces import IDisableCSRFProtection
-from zope.interface import alsoProvides
+from xml.sax.saxutils import quoteattr
 from zope.globalrequest import getRequest
+from zope.interface import alsoProvides
 
 
 _marker = object()
@@ -64,10 +61,6 @@ def _wcag_tag(self, instance, scale=None, height=None, width=None, alt=None,
             result = '%s %s="%s"' % (result, key, value)
 
     return '%s />' % result
-
-
-def img_tag_no_title():
-    ImageField.tag = _wcag_tag
 
 
 def _wcag_ofs_tag(self, height=None, width=None, alt=None,

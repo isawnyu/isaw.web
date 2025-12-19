@@ -4,7 +4,7 @@
   <dependencies>
     <dependency>profile-plone.app.intid:default</dependency>
     <dependency>profile-plone.app.versioningbehavior:default</dependency>
-    <dependency>profile-plone.app.referenceablebehavior:default</dependency>
+    <!--<dependency>profile-plone.app.referenceablebehavior:default</dependency>-->
     <dependency>profile-plone.app.relationfield:default</dependency>
   </dependencies>
 </metadata>
