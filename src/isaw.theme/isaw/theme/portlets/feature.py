@@ -9,6 +9,7 @@ from zope import schema
 from zope.component import getMultiAdapter
 from zope.interface import implementer
 
+
 class IFeaturedPortlet(IPortletDataProvider):
 
     image = NamedBlobImage(
