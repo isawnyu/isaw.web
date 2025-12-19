@@ -10,7 +10,8 @@
 
 
     <div class="portletItem">
-        <img class="ceImage" width="150" height="150" tal:replace="structure view/image_tag" />
+        <img class="ceImage" width="150" height="150"
+             tal:replace="structure view/image_tag" />
         <!--
         <img src="http://72.5.117.144/fif=fpx/sc2/SC2272.fpx&obj=iip,1.0&wid=400&cvt=jpeg" width="150" height="150"/>
         -->

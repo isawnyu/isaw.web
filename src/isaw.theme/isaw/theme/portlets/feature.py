@@ -1,16 +1,17 @@
+from Products.CMFPlone import PloneMessageFactory as _
+from Products.Five.browser.pagetemplatefile import ViewPageTemplateFile
+from plone.app.portlets.portlets import base
+from plone.formwidget.namedfile.widget import NamedImageWidget
+from plone.namedfile.field import NamedBlobImage
+from plone.portlets.interfaces import IPortletDataProvider
+from z3c.form import field
 from zope import schema
 from zope.component import getMultiAdapter
-from zope.formlib import form
 from zope.interface import implementer
-from plone.app.portlets.portlets import base
-from plone.portlets.interfaces import IPortletDataProvider
-from Products.Five.browser.pagetemplatefile import ViewPageTemplateFile
-from Products.CMFPlone import PloneMessageFactory as _
-from plone.formwidget.namedfile.widget import NamedImageWidget
 
 class IFeaturedPortlet(IPortletDataProvider):
 
-    image = schema.Field(
+    image = NamedBlobImage(
             title=_(u'Featured Image'),
             description=_(u'A small image from the current feature'),
             required=False)
@@ -33,6 +34,7 @@ class IFeaturedPortlet(IPortletDataProvider):
 
 @implementer(IFeaturedPortlet)
 class Assignment(base.Assignment):
+    schema = IFeaturedPortlet
 
     header = u''
     image = None
@@ -85,14 +87,16 @@ class Renderer(base.Renderer):
             assignment_url = "isaw/++contextportlets++plone.rightcolumn"
             # width = self.data.image.width
             # height = self.data.image.height
-            return "<img src='%s/%s/@@image' width='150' height='150' alt='%s'/>" % \
+            return "<img src='%s/%s/image' width='150' height='150' alt='%s'/>" % \
                  (assignment_url,
                  self.data.__name__,
                  self.data.featured_description)
         return None
 
 class AddForm(base.AddForm):
-    form_fields = form.Fields(IFeaturedPortlet)
+    schema = IFeaturedPortlet
+
+    form_fields = field.Fields(IFeaturedPortlet)
     form_fields['image'].custom_widget = NamedImageWidget
     label = _(u"Add Featured Portlet")
 
@@ -102,7 +106,8 @@ class AddForm(base.AddForm):
         return Assignment(assignment_context_path=assignment_context_path, **data)
 
 class EditForm(base.EditForm):
+    schema = IFeaturedPortlet
+    form_fields = field.Fields(IFeaturedPortlet)
 
-    form_fields = form.Fields(IFeaturedPortlet)
     form_fields['image'].custom_widget = NamedImageWidget
     description = _(u"This portlet displays featured front page copy.")
