@@ -1,6 +1,0 @@
-<?xml version="1.0"?>
-<object>
-  <skin-path name="*">
-    <layer name="isaw_register" remove="True" />
-  </skin-path>
-</object>
