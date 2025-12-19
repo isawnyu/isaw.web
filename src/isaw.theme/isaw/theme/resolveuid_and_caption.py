@@ -1,9 +1,8 @@
 from Acquisition import aq_acquire, aq_parent
+from html import escape
+from urllib.parse import urljoin
+from urllib.parse import urlsplit
 from zope.interface import implementer
-
-from cgi import escape
-from urlparse import urljoin
-from urlparse import urlsplit
 
 from plone.outputfilters.interfaces import IFilter
 from plone.outputfilters.filters.resolveuid_and_caption import (

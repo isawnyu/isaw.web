@@ -1,7 +1,6 @@
 from Products.CMFCore.utils import getToolByName
 from Products.Five.browser import BrowserView
-from urlparse import urlparse
-
+from urllib.parse import urlparse
 
 class PublicationView(BrowserView):
     """view class"""

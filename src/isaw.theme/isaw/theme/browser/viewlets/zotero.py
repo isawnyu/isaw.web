@@ -1,5 +1,6 @@
 import re
-from urlparse import urlparse
+from urllib.parse import urlparse
+
 from Products.Five.browser.pagetemplatefile import ViewPageTemplateFile
 from plone.app.layout.viewlets.common import ViewletBase
 
