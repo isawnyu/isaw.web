@@ -2130,3 +2130,50 @@ body.template-usergroup-userprefs div#portal-column-content {
     /*portlet*/
     display:none;
 }
+
+.pull-right {
+    float: right !important;
+}
+
+div.portalMessage.info, .info.error, dl.portalMessage.info, .info.error {
+    background-color: #deffff;
+}
+div.portalMessage, .error, dl.portalMessage, .error {
+    background: #fceed6;
+    padding: 15px;
+    margin: 1em 0;
+    position: relative;
+    color: #525252;
+    font: 12px/16px "Interstate",sans-serif;
+    overflow: hidden;
+}
+
+div.portalMessage>div, .error>div, div.portalMessage>dt, .error>dt, dl.portalMessage>div, dl.portalMessage>dt, .error>.admonition-title {
+    width: 50px;
+    height: 35px;
+    text-indent: -10000px;
+    float: left;
+}
+
+div.portalMessage>div::before, .error>div::before, div.portalMessage>dt::before, .error>dt::before, dl.portalMessage>div::before, dl.portalMessage>dt::before, .error>.admonition-title::before {
+    content: "!";
+    background: #f1aa30;
+    border-radius: 180px;
+    color: #fff;
+    font: normal 28px/38px "Interstate Black",sans-serif;
+    height: 38px;
+    left: 15px;
+    position: absolute;
+    text-align: center;
+    top: 15px;
+    width: 38px;
+    text-indent: 0;
+}
+
+div.portalMessage.info>div::before, .info.error>div::before, div.portalMessage.info>dt::before, .info.error>dt::before, dl.portalMessage.info>div::before, .info.error>div::before, dl.portalMessage.info>dt::before, .info.error>dt::before {
+    content: "i";
+    background: #14AAD7;
+    line-height: 1.25;
+    font-family: serif;
+    font-weight: bold;
+}
