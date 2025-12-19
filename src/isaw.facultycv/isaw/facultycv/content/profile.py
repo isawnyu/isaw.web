@@ -1,7 +1,7 @@
 """Definition of the Profile content type"""
 
 import re
-from urlparse import urlparse
+from urllib.parse import urlparse
 
 from plone import api as plone_api
 from plone.dexterity.content import Container
@@ -115,11 +115,11 @@ class Profile(Container):
     @property
     def Phone(self):
         return self.phone
-    
+
     @property
     def Email(self):
         return self.email
-    
+
     @property
     def Titles(self):
         return self.titles
