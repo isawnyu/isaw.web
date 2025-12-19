@@ -382,6 +382,21 @@ span.captioned, span.captioned * {
     }
 }
 
+/* Ensure floated images always start on a new line */
+.image-left {
+    float: left;
+    clear: both;
+    margin: 0.5em 1em 0.5em 0;
+}
+.image-right {
+    float: right;
+    clear: both;
+    margin: 0.5em;
+}
+.image-inline {
+    float: none;
+}
+
 #portal-column-first {display:block; float:left; margin:0 5% 0 0; width:24%; }
 #portal-columns #portal-column-first dl dd {margin-left:0; }
 
