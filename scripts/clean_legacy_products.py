@@ -65,6 +65,7 @@ def uninstall_lecacy_products(portal):
                 'isaw.bibitems',
                 'wildcard.foldercontents',
                 'Marshall',
+                'plone.app.referenceablebehavior'
                 ]
 
     pqi = portal.portal_quickinstaller
@@ -105,7 +106,8 @@ def clean_registry_entries(portal):
 
 def clean_old_behaviors(portal):
     bh_to_remove = ['isaw.policy.map_extender.IGeolocationBehavior',
-                    'plone.app.stagingbehavior.interfaces.IStagingSupport']
+                    'plone.app.stagingbehavior.interfaces.IStagingSupport',
+                    'plone.app.referenceablebehavior']
     pt_tool = portal.portal_types
 
     for p_type in pt_tool.objectValues():
