@@ -49,8 +49,8 @@ REQUEST = site.setupCurrentSkin(app.REQUEST)
 # Basically use urllib or whatever etc etc
 # Christopher Warner
 
-print "<h2>ISAW site contents</h2>"
-print """
+print("<h2>ISAW site contents</h2>")
+print("""
         <html>
         <style type="text/css">
         <!--
@@ -59,18 +59,17 @@ print """
         -->
         </style>
         <table width=100%%>
-        """
+        """)
 for x in app.isaw.portal_catalog(path={'query': '/', 'depth': 10}):
-    print """
+    print("""
         <tr>
         <td width=10%%>%s</td>
         <td width=90%%><a href="%s">%s</a></td>
         </tr>
         <tr></tr>
-        """ % (x["Title"], x.getURL(), x.getURL())
+        """ % (x["Title"], x.getURL(), x.getURL()))
 
-print """
+print("""
         </table>
-        </html> 
-        """
-
+        </html>
+        """)

@@ -3,7 +3,7 @@ from z3c.form import form, field, button
 from plone.z3cform.layout import wrap_form
 
 class IRequestForm(interface.Interface):
-    
+
     rf_title = schema.TextLine(title=u"Title of Event",
                             required=True)
 
@@ -45,7 +45,7 @@ class IRequestForm(interface.Interface):
     rf_special_instructions = schema.TextLine(title=u"Special Instructions", required=False)
 
     # Furniture
-    
+
 
 class RequestForm(form.Form):
     fields = field.Fields(IRequestForm)
@@ -55,6 +55,6 @@ class RequestForm(form.Form):
     @button.buttonAndHandler(u'Submit')
     def handleApply(self, action):
         data, errors = self.extractData()
-        print data['title']
+        print(data['title'])
 
 RequestView = wrap_form(RequestForm)
