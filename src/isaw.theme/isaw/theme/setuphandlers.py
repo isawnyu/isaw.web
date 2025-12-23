@@ -7,6 +7,7 @@ from plone.app.textfield.value import RichTextValue
 from plone.registry.interfaces import IRegistry
 from zope.component import getUtility
 import six
+from zope.component import getMultiAdapter
 
 logger = getLogger(__name__)
 
@@ -32,10 +33,10 @@ def setupVarious(context):
     #sfutils.runUpgradeSteps(u'isaw.theme:default')
 
 def set_property(context, prop_name, value):
-   if context.hasProperty(prop_name):
-       context.manage_changeProperties(prop_name=value)
-   else:
-       context.manage_addProperty(prop_name, value, 'string')
+    if context.hasProperty(prop_name):
+        context.manage_changeProperties(prop_name=value)
+    else:
+        context.manage_addProperty(prop_name, value, 'string')
 
 def set_layout(context, layout_name):
     if context.hasProperty('default_page'):
@@ -98,6 +99,58 @@ def add_footer_registry_keys(context):
         if not getattr(settings, key, None):
             setattr(settings, key, value)
 
+def fix_events_calendar_portlet_configuration(context):
+    portal = api.portal.get()
+    from plone.app.event.portlets.portlet_calendar import ICalendarPortlet
+    from plone.portlets.interfaces import IPortletAssignmentMapping
+    from plone.portlets.interfaces import IPortletManager
+    state =  ('external', 'internally_published', 'published')
+
+    # found so far
+    paths_to_fix = ['/isaw/events/event-home',
+    '/isaw/events/community-standards-policy',
+    '/isaw/events/video-archive',
+    '/isaw/events/scribal-mind',
+    ]
+
+    def fix_for(context, assignment):
+        logger.info("fix_events_calendar_portlet_configuration in {}".format(context.getId()))
+        if not assignment.state:
+            assignment.state = state
+            logger.info("{} state...fixed".format(context))
+
+        if not isinstance(assignment.search_base_uid, unicode):
+            assignment.search_base_uid = unicode(context.aq_parent.UID())
+            logger.info("{} search_base...fixed".format(context))
+
+
+    def _clean(context,  _interface , dryrun=True, reset=False):
+        for manager_name in ["plone.leftcolumn", "plone.rightcolumn"]:
+            manager = getUtility(
+                IPortletManager, name=manager_name, context=context)
+            mapping = getMultiAdapter(
+                (context, manager), IPortletAssignmentMapping)
+            for id, assignment in mapping.items():
+                if _interface.providedBy(assignment):
+                    fix_for(context, assignment)
+
+
+    pg = portal.portal_catalog
+    brains = pg.unrestrictedSearchResults()
+
+    total = float(len(brains))
+    for i, b in enumerate(brains):
+        if i > 0 and not i % 500:
+            logger.info('...{:.2f}% completed' .format(i/total*100.0))
+        obj = b.getObject()
+        _clean(obj, ICalendarPortlet)
+
+    logger.info('\n\n=== finish portlet calendar fix. Found {} portlets '.format(
+        total))
+
+
+
+
 def to_plone_51(context):
     """ include steps to complete plone51 migration
 
@@ -131,3 +184,8 @@ def to_plone_51(context):
             )
             setattr(settings, key, value)
             logger.info('converted {} in RichTextValue'.format(key))
+
+    # disable portal tabs other than folderish
+    api.portal.set_registry_record('plone.nonfolderish_tabs', value=False)
+
+    fix_events_calendar_portlet_configuration(context)
