@@ -2,7 +2,7 @@
 <portlets>
   <assignment name="review-list" category="group" key="digital"
               manager="plone.dashboard1" type="portlets.Review" visible="True"/>
-  <assignment name="feature-portlet-1" category="context" key="/"
+  <!--<assignment name="feature-portlet-1" category="context" key="/"
               manager="plone.rightcolumn" type="isaw.theme.feature" visible="True">
     <property
         name="featured_description">Gold, Minted in Alexandria. 221-205 BCE. Gift of Martin A. Ryerson. Courtesy of the Art Institute of Chicago.</property>
@@ -11,7 +11,7 @@
     <property name="featured_lefttext">upcoming exhibition</property>
     <property
         name="featured_title">Octadrachm. Obverse: Bust of Ptolemy III.</property>
-  </assignment>
+  </assignment>-->
   <blacklist category="context" location="/" manager="plone.leftcolumn"
              status="show"/>
   <blacklist category="context" location="/" manager="plone.rightcolumn"
