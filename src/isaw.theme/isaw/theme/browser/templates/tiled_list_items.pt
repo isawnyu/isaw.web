@@ -1,18 +1,19 @@
 <tal:block tal:define="items view/listings">
  <tal:listings tal:repeat="item items">
   <li tal:define="item_url item/getURL;
-                  scales item/@@images
-                  image_thumb python:scales.scale('image', width=170, height=130);
-                  image_tag image_thumb/tag;
+                  item_obj python:item.getObject();
+                  scales item_obj/@@images;
+                  image_thumb python:scales.scale('image', scale='blogtile');
+                  image_tag image_thumb/tag|nothing;
                   title item/Title;
-                  exerpt item/Description">
+                  excerpt item/Description">
     <a href="#" tal:attributes="href item_url">
       <img src="" title="" tal:replace="structure image_tag"/>
       <h2 tal:content="item/Title">[title]</h2>
     </a>
     <div class="post-meta" tal:define="byline python:view.get_byline(item)"
          tal:condition="byline" tal:content="byline">[byline]</div>
-    <div class="post-excerpt" tal:content="exerpt">[exerpt]</div>
+    <div class="post-excerpt" tal:content="excerpt">[excerpt]</div>
     <a href="#" class="button small more" tal:attributes="href item_url">Read More</a>
   </li>
  </tal:listings>

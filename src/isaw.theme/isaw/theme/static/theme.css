@@ -4,7 +4,6 @@
     heading and menu font family: 'Noto Sans', sans-serif;
 */
 
-
 /* Noto Sans
 by Google
 Apache License, version 2.0
@@ -166,15 +165,20 @@ a:focus #site-title, #page-site-title a:focus {opacity: 0.8; border-color: blue;
 #portal-top .identity {position: absolute; top:0; left:0; background:url('_images/logo-isaw.svg') center center / contain no-repeat #fff; display:block; height:179px; text-indent:-10000px; width:47px; z-index:6}
 #portal-top #mobile-nav-trigger {display:none; }
 #portal-top #main-navigation { }
+
 #portal-top #main-navigation ul#primary {background:#fffaf5; display:block; height:78px; margin:0; padding:0; position:absolute; right:0; text-align:right; top:49px; width:100%; z-index:2; }
-#portal-top #main-navigation ul#primary li {display:inline-block; position:relative; text-align:right; vertical-align:top; width:220px; margin-right: -5px}
-#portal-top #main-navigation ul#primary li a {background:#9c8350; color:#fff; display:block; font-family: 'Noto Sans', sans-serif; font-size:15px; font-weight:800; letter-spacing:1px; line-height:72px; padding:0; text-align:center; text-decoration:none; text-transform:uppercase; border: 3px solid transparent; }
+#portal-top #main-navigation ul#primary li {display:inline-block; position:relative; text-align:right; vertical-align:top; width:220px;}
+#portal-top #main-navigation ul#primary li a {background:#9c8350; color:#fff; display:block; font-family: 'Noto Sans', sans-serif; font-size:15px; font-weight:800; letter-spacing:1px; line-height:73px; padding:1px 0 0 0; text-align:center; text-decoration:none; text-transform:uppercase; border: 3px solid transparent; }
 #portal-top #main-navigation ul#primary li a:hover,
 #portal-top #main-navigation ul#primary li a:focus {opacity: 0.9; border: 3px solid blue !important;}
-#portal-top #main-navigation ul#primary li#portaltab-graduate-studies a {background:#6d6054; border: 3px solid #6d6054; }
-#portal-top #main-navigation ul#primary li#portaltab-visiting-scholars a {background:#9d3a20; border: 3px solid #9d3a20; }
-#portal-top #main-navigation ul#primary li#portaltab-exhibitions a {background:#9e6a4a; border: 3px solid #9e6a4a; }
-#portal-top #main-navigation ul#primary li#portaltab-events a {background:#66232b; border: 3px solid #66232b; }
+#portal-top #main-navigation ul#primary li.visiting-scholars a {background:#9d3a20; border: 3px solid #9d3a20; }
+#portal-top #main-navigation ul#primary li.graduate-studies a {background:#6d6054; border: 3px solid #6d6054; }
+#portal-top #main-navigation ul#primary li.exhibitions a {background:#9e6a4a; border: 3px solid #9e6a4a; }
+#portal-top #main-navigation ul#primary li.events a {background:#66232b; border: 3px solid #66232b; }
+
+/* force displaying only 4 items */
+#portal-top #main-navigation ul#primary > li:nth-child(n+5) { display: none !important; }
+
 #portal-top #main-navigation ul#secondary {background-color: rgba(221,217,214,1); display:block; height:49px; margin:0; position:absolute; right:0; text-align:right; top:0; width:84%; z-index: 4; }
 #portal-top #main-navigation .secondary-heading {
     color: #333;
@@ -380,6 +384,21 @@ span.captioned, span.captioned * {
     span.captioned, span.captioned * {
         width: 100% !important;
     }
+}
+
+/* Ensure floated images always start on a new line */
+.image-left {
+    float: left;
+    clear: both;
+    margin: 0.5em 1em 0.5em 0;
+}
+.image-right {
+    float: right;
+    clear: both;
+    margin: 0.5em;
+}
+.image-inline {
+    float: none;
 }
 
 #portal-column-first {display:block; float:left; margin:0 5% 0 0; width:24%; }
@@ -2177,3 +2196,4 @@ div.portalMessage.info>div::before, .info.error>div::before, div.portalMessage.i
     font-family: serif;
     font-weight: bold;
 }
+

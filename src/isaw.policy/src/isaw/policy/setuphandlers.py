@@ -19,9 +19,6 @@ def install_addons(context):
     qi = getToolByName(context, 'portal_quickinstaller')
     if not qi.isProductInstalled('Products.PloneKeywordManager'):
         qi.installProduct('Products.PloneKeywordManager')
-    if not qi.isProductInstalled('Products.RedirectionTool'):
-        qi.installProduct('Products.RedirectionTool')
-
 
 def copy_generic_fields(event):
     event_object = event.getObject()
