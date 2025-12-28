@@ -4,7 +4,7 @@ from Acquisition import aq_inner
 from plone.app.layout.viewlets import ViewletBase
 from plone.memoize.instance import memoizedproperty
 from Products.CMFPlone.interfaces import IPloneSiteRoot
-from Products.CMFPlone.utils import safe_unicode
+from Products.CMFPlone.utils import safe_nativestring
 
 from zope.component import getUtility
 
@@ -111,19 +111,19 @@ class OpenGraphTagViewlet(ViewletBase):
         elif getattr(aq_base(context), 'image_caption', None) is not None:
             value = context.image_caption
         if value:
-            return safe_unicode(value)
+            return safe_nativestring(value)
 
     @property
     def description(self):
-        return self.context.Description().decode('utf8')
+        return safe_nativestring(self.context.Description())
 
     @property
     def title(self):
-        return self.context.Title().decode('utf8')
+        return safe_nativestring(self.context.Title())
 
     @property
     def sitename(self):
-        return self.portal.Title().decode('utf8')
+        return safe_nativestring(self.portal.Title())
 
     @property
     def section(self):
@@ -131,4 +131,4 @@ class OpenGraphTagViewlet(ViewletBase):
         portal_path = self.portal.getPhysicalPath()
         if len(path) > (len(portal_path) + 1):
             section = self.portal.unrestrictedTraverse(path[len(portal_path)])
-            return section.Title().decode('utf-8')
+            return safe_nativestring(section.Title())
