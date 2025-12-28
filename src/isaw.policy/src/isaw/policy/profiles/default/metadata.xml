@@ -16,8 +16,6 @@
     <dependency>profile-plone.app.imagecropping:default</dependency>
 
     <dependency>profile-Products.PloneKeywordManager:default</dependency>
-
-    <dependency>profile-Products.RedirectionTool:default</dependency>
     <dependency>profile-collective.behavior.banner:default</dependency>
   </dependencies>
 </metadata>
