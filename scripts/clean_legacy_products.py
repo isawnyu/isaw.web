@@ -55,16 +55,17 @@ def unlockDavLocks():
 def uninstall_lecacy_products(portal):
     PRODUCTS = [
                 'Maps',
+                'Marshall',
+                'Products.RedirectionTool',
                 'Products.WebServerAuth',
                 'WebServerAuth',
-                'collective.easytemplate',
                 'collective.easyslider',
+                'collective.easytemplate',
                 'collective.embedly',
                 'collective.portlet.relateditems',
                 'collective.quickupload',
                 'isaw.bibitems',
                 'wildcard.foldercontents',
-                'Marshall',
                 ]
 
     pqi = portal.portal_quickinstaller
